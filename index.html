@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VOLTRIDE — Fat X80 Pro Electric Bike</title>
+    <meta
+      name="description"
+      content="VOLTRIDE Fat X80 Pro — a fat-tire electric bike built to go further. Powerful motor, long-range battery, all-terrain ready. Ships worldwide."
+    />
+    <meta property="og:title" content="VOLTRIDE — Fat X80 Pro Electric Bike" />
+    <meta property="og:description" content="Go further. The Fat X80 Pro electric bike — power, range, all-terrain. Worldwide shipping." />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <!-- 3D model viewer (for the bike .glb you'll add to assets/models/) -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+  </head>
+  <body>
+
+    <!-- ─── HEADER ─── -->
+    <header class="header" data-header>
+      <div class="header-inner">
+        <a class="logo" href="#top" aria-label="VOLTRIDE">
+          <span class="logo-mark">⚡</span>
+          <span class="logo-text">VOLT<span>RIDE</span></span>
+        </a>
+
+        <nav class="nav" aria-label="Main">
+          <a href="#bike">The Bike</a>
+          <a href="#specs">Specs</a>
+          <a href="#features">Features</a>
+          <a href="#gallery">Gallery</a>
+        </nav>
+
+        <div class="header-right">
+          <a class="btn btn-primary btn-sm" href="#order">Order now</a>
+          <button class="btn-hamburger" type="button" data-menu-toggle aria-label="Menu">
+            <span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ─── MOBILE NAV ─── -->
+    <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
+      <a href="#bike">The Bike</a>
+      <a href="#specs">Specs</a>
+      <a href="#features">Features</a>
+      <a href="#gallery">Gallery</a>
+      <a class="btn btn-primary" href="#order">Order now</a>
+    </nav>
+
+    <main id="top">
+
+      <!-- ─────────────────────────────────────────────────────────
+           HERO  —  LEFT INTENTIONALLY CLEAN.
+           Drop your own hero photo/video here later.
+           Replace the .hero-media block with <img>, <video>, or 3D.
+      ────────────────────────────────────────────────────────── -->
+      <section class="hero">
+        <div class="hero-media" data-hero-media>
+          <!-- YOUR HERO PHOTO / VIDEO GOES HERE.
+               Example:
+               <img src="assets/images/hero.jpg" alt="Fat X80 Pro" />
+               <video src="assets/video/hero.mp4" autoplay muted loop playsinline></video>
+          -->
+        </div>
+        <div class="hero-grid-overlay" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="eyebrow">VOLTRIDE · Electric</p>
+          <h1 class="hero-title">FAT&nbsp;X80&nbsp;<span class="accent">PRO</span></h1>
+          <p class="hero-sub">The all-terrain electric bike built to go further. Power, range, and grip — wherever the road ends.</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="#order">Order now</a>
+            <a class="btn btn-ghost" href="#bike">Explore the bike</a>
+          </div>
+          <div class="hero-stats" data-reveal>
+            <!-- EDIT: replace with the real numbers from your Alibaba listing -->
+            <div class="hero-stat"><strong data-spec="power">1000<span>W</span></strong><span>Peak motor</span></div>
+            <div class="hero-stat"><strong data-spec="range">80<span>km</span></strong><span>Max range</span></div>
+            <div class="hero-stat"><strong data-spec="speed">45<span>km/h</span></strong><span>Top speed</span></div>
+          </div>
+        </div>
+        <div class="scroll-hint" aria-hidden="true"><span></span></div>
+      </section>
+
+      <!-- ─── SPEC TICKER ─── -->
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+          <span>FAT TIRES</span><span class="dot">•</span>
+          <span>LONG RANGE</span><span class="dot">•</span>
+          <span>HYDRAULIC BRAKES</span><span class="dot">•</span>
+          <span>REMOVABLE BATTERY</span><span class="dot">•</span>
+          <span>ALL-TERRAIN</span><span class="dot">•</span>
+          <span>WORLDWIDE SHIPPING</span><span class="dot">•</span>
+          <span>FAT TIRES</span><span class="dot">•</span>
+          <span>LONG RANGE</span><span class="dot">•</span>
+          <span>HYDRAULIC BRAKES</span><span class="dot">•</span>
+          <span>REMOVABLE BATTERY</span><span class="dot">•</span>
+          <span>ALL-TERRAIN</span><span class="dot">•</span>
+          <span>WORLDWIDE SHIPPING</span><span class="dot">•</span>
+        </div>
+      </div>
+
+      <!-- ─────────────────────────────────────────────────────────
+           THE BIKE  —  3D showcase. Drop your bike .glb in
+           assets/models/fat-x80.glb and it appears here.
+      ────────────────────────────────────────────────────────── -->
+      <section class="section bike" id="bike">
+        <div class="section-head" data-reveal>
+          <span class="section-label">The Bike</span>
+          <h2>Engineered to dominate every surface.</h2>
+          <p class="section-lead">Sand, snow, gravel, city — the Fat X80 Pro doesn't pick a lane. Spin it, inspect it, fall for it.</p>
+        </div>
+
+        <div class="bike-stage" data-reveal>
+          <model-viewer
+            class="bike-model"
+            src="assets/models/fat-x80.glb"
+            alt="Fat X80 Pro electric bike 3D model"
+            poster=""
+            camera-controls
+            auto-rotate
+            auto-rotate-delay="0"
+            rotation-per-second="18deg"
+            shadow-intensity="1.2"
+            exposure="1.05"
+            camera-orbit="35deg 80deg 105%"
+            interaction-prompt="none"
+          >
+            <!-- Fallback shown until you add fat-x80.glb -->
+            <div class="model-fallback" slot="poster">
+              <span class="model-fallback-icon">⚡</span>
+              <p>Your 3D bike model goes here</p>
+              <small>Drop <code>fat-x80.glb</code> in <code>assets/models/</code></small>
+            </div>
+          </model-viewer>
+          <p class="bike-hint">Drag to rotate · scroll to zoom</p>
+        </div>
+      </section>
+
+      <!-- ─── SPECS ─── -->
+      <section class="section specs" id="specs">
+        <div class="section-head" data-reveal>
+          <span class="section-label">Specifications</span>
+          <h2>The numbers behind the ride.</h2>
+          <p class="section-lead">EDIT — these are placeholder values. Replace them with the exact specs from your Alibaba listing.</p>
+        </div>
+
+        <div class="specs-grid">
+          <div class="spec-card" data-reveal><span class="spec-key">Motor</span><span class="spec-val">1000 W brushless</span></div>
+          <div class="spec-card" data-reveal><span class="spec-key">Battery</span><span class="spec-val">48 V · 20 Ah removable</span></div>
+          <div class="spec-card" data-reveal><span class="spec-key">Range</span><span class="spec-val">Up to 80 km</span></div>
+          <div class="spec-card" data-reveal><span class="spec-key">Top speed</span><span class="spec-val">45 km/h</span></div>
+          <div class="spec-card" data-reveal><span class="spec-key">Tires</span><span class="spec-val">20" × 4.0 fat tires</span></div>
+          <div class="spec-card" data-reveal><span class="spec-key">Brakes</span><span class="spec-val">Front & rear hydraulic disc</span></div>
+          <div class="spec-card" data-reveal><span class="spec-key">Gears</span><span class="spec-val">Shimano 7-speed</span></div>
+          <div class="spec-card" data-reveal><span class="spec-key">Suspension</span><span class="spec-val">Front fork + seat post</span></div>
+          <div class="spec-card" data-reveal><span class="spec-key">Charge time</span><span class="spec-val">6–8 hours</span></div>
+          <div class="spec-card" data-reveal><span class="spec-key">Max load</span><span class="spec-val">150 kg</span></div>
+          <div class="spec-card" data-reveal><span class="spec-key">Frame</span><span class="spec-val">Aluminum alloy, foldable</span></div>
+          <div class="spec-card" data-reveal><span class="spec-key">Display</span><span class="spec-val">LCD with USB charging</span></div>
+        </div>
+      </section>
+
+      <!-- ─── FEATURES ─── -->
+      <section class="section features" id="features">
+        <div class="section-head" data-reveal>
+          <span class="section-label">Why X80 Pro</span>
+          <h2>Built for riders who don't stop.</h2>
+        </div>
+        <div class="features-grid">
+          <article class="feature-card" data-reveal>
+            <span class="feature-num">01</span>
+            <h3>Go-anywhere fat tires</h3>
+            <p>4-inch all-terrain tires float over sand, soak up gravel, and grip wet roads — confidence on every surface.</p>
+          </article>
+          <article class="feature-card" data-reveal>
+            <span class="feature-num">02</span>
+            <h3>Range you can trust</h3>
+            <p>A high-capacity removable battery takes you the distance, then pops out to charge anywhere — desk, garage, office.</p>
+          </article>
+          <article class="feature-card" data-reveal>
+            <span class="feature-num">03</span>
+            <h3>Real stopping power</h3>
+            <p>Dual hydraulic disc brakes haul you down fast and predictably, fully loaded, in any weather.</p>
+          </article>
+          <article class="feature-card" data-reveal>
+            <span class="feature-num">04</span>
+            <h3>Folds for the city</h3>
+            <p>Aluminum-alloy folding frame slips into a car trunk or under a desk. Big bike energy, small footprint.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ─────────────────────────────────────────────────────────
+           GALLERY  —  empty frames for YOUR photos.
+           Replace each .gallery-item placeholder with <img>.
+      ────────────────────────────────────────────────────────── -->
+      <section class="section gallery" id="gallery">
+        <div class="section-head" data-reveal>
+          <span class="section-label">Gallery</span>
+          <h2>See it in the wild.</h2>
+          <p class="section-lead">Your photos go here — uniform grid, no clutter. Replace each frame with an image.</p>
+        </div>
+        <div class="gallery-grid">
+          <figure class="gallery-item gallery-wide" data-reveal><span class="gallery-ph">Photo 1 — hero shot</span></figure>
+          <figure class="gallery-item" data-reveal><span class="gallery-ph">Photo 2</span></figure>
+          <figure class="gallery-item" data-reveal><span class="gallery-ph">Photo 3</span></figure>
+          <figure class="gallery-item" data-reveal><span class="gallery-ph">Photo 4</span></figure>
+          <figure class="gallery-item gallery-wide" data-reveal><span class="gallery-ph">Photo 5 — detail / action</span></figure>
+        </div>
+      </section>
+
+      <!-- ─── ORDER / INQUIRY ─── -->
+      <section class="section order" id="order">
+        <div class="order-inner">
+          <div class="order-info" data-reveal>
+            <span class="section-label">Order · Pre-order</span>
+            <h2>Get your Fat&nbsp;X80&nbsp;Pro.</h2>
+            <p class="order-lead">Tell us where to ship and we'll come back with availability, total price and delivery time for your country. No payment now — this is a no-obligation order request.</p>
+            <div class="order-price">
+              <span class="order-price-label">From</span>
+              <!-- EDIT: set your selling price -->
+              <span class="order-price-val">€1,299</span>
+              <span class="order-price-note">excl. shipping · worldwide</span>
+            </div>
+            <ul class="order-trust">
+              <li>Worldwide shipping</li>
+              <li>Direct from manufacturer</li>
+              <li>Reply within 24h</li>
+            </ul>
+          </div>
+
+          <form class="order-form" data-order-form novalidate data-reveal>
+            <div class="form-row-2">
+              <div class="form-group">
+                <label>Full name *</label>
+                <input type="text" name="name" placeholder="John Rider" required autocomplete="name" />
+              </div>
+              <div class="form-group">
+                <label>Email *</label>
+                <input type="email" name="email" placeholder="you@email.com" required autocomplete="email" />
+              </div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-group">
+                <label>Country *</label>
+                <input type="text" name="country" placeholder="United States" required autocomplete="country-name" />
+              </div>
+              <div class="form-group">
+                <label>Phone / WhatsApp</label>
+                <input type="tel" name="phone" placeholder="+1 555 123 4567" autocomplete="tel" />
+              </div>
+            </div>
+            <div class="form-row-2">
+              <div class="form-group">
+                <label>Color</label>
+                <select name="color">
+                  <option value="">No preference</option>
+                  <option>Black</option>
+                  <option>Grey</option>
+                  <option>White</option>
+                  <!-- EDIT: match the colors from your listing -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Quantity</label>
+                <select name="quantity">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4+</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Message (optional)</label>
+              <textarea name="message" placeholder="Anything we should know about your order or delivery?"></textarea>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit" data-order-submit>Send order request →</button>
+            <p class="form-note">By sending you agree we may contact you about your request. No payment is taken here.</p>
+          </form>
+        </div>
+      </section>
+
+      <!-- ─── FOOTER ─── -->
+      <footer class="footer">
+        <div class="footer-inner">
+          <div class="footer-brand">
+            <a class="logo" href="#top" aria-label="VOLTRIDE">
+              <span class="logo-mark">⚡</span>
+              <span class="logo-text">VOLT<span>RIDE</span></span>
+            </a>
+            <p>The all-terrain electric bike, shipped worldwide.</p>
+          </div>
+          <div class="footer-links">
+            <span class="footer-links-title">Explore</span>
+            <a href="#bike">The Bike</a>
+            <a href="#specs">Specs</a>
+            <a href="#features">Features</a>
+            <a href="#gallery">Gallery</a>
+          </div>
+          <div class="footer-links">
+            <span class="footer-links-title">Order</span>
+            <a href="#order">Order now</a>
+            <a href="#order">Request a quote</a>
+            <a href="#order">Shipping & delivery</a>
+          </div>
+          <div class="footer-links">
+            <span class="footer-links-title">Contact</span>
+            <!-- EDIT: your contact details -->
+            <a href="mailto:cstwebexperience@gmail.com">cstwebexperience@gmail.com</a>
+            <a href="#order">Send an inquiry</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 VOLTRIDE. All rights reserved.</p>
+          <p class="footer-disclaimer">Specifications are indicative and may vary by configuration.</p>
+        </div>
+      </footer>
+
+    </main>
+
+    <!-- ─── TOAST ─── -->
+    <div class="toast" data-toast role="status"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
