@@ -13,8 +13,41 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeader();
   initMobileNav();
   initReveal();
+  initCountUp();
   initOrderForm();
 });
+
+/* ─── Animated count-up for hero stats ─── */
+function initCountUp() {
+  const els = document.querySelectorAll("[data-spec]");
+  if (!els.length) return;
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !("IntersectionObserver" in window)) return;
+
+  const run = (el) => {
+    const node = el.firstChild; // leading text node holds the number
+    const target = parseInt((node.textContent || "").replace(/\D/g, ""), 10);
+    if (!target || node.nodeType !== 3) return;
+    const dur = 1100;
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+      node.textContent = Math.round(target * eased).toLocaleString("en-US");
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach((e) => {
+      if (e.isIntersecting) { run(e.target); io.unobserve(e.target); }
+    }),
+    { threshold: 0.6 }
+  );
+  els.forEach((el) => io.observe(el));
+}
 
 /* ─── Header shrink on scroll ─── */
 function initHeader() {
