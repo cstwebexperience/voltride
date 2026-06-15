@@ -46,7 +46,7 @@ Ai zis: **cost ~4000 lei (~792 €)**, **vânzare ~10000 lei (~1980 €)**. Pe s
 2. **Baterie = marfă periculoasă.** Necesită certificat **UN38.3** și ambalare specială. Fără el, coletul e blocat în vamă. Cere documentul furnizorului din start.
 3. **Vamă + TVA la destinație.** În UE: TVA (19–27%) + posibil taxe vamale. Cineva le plătește — dacă pică pe client la livrare, primești recenzii proaste și refuzuri. Clarifică **DDP** (Delivered Duty Paid = furnizorul/tu plătești tot) vs **DDU** (plătește clientul). Pentru un magazin „premium", **DDP** e obligatoriu.
 4. **Garanție și răspundere pe un VEHICUL.** Dacă cedează frâna sau ia foc bateria, răspunderea juridică e pe vânzător (tine). În UE ai **garanție legală 2 ani** + drept de **retur 14 zile** (returul unei biciclete din China = sute de € pierdere). Asta e cel mai mare risc al modelului.
-5. **CE / omologare.** Pentru UE: marcaj **CE**, conformitate EN 15194 (e-bikes ≤25 km/h, 250W = „pedelec", fără înmatriculare). ATENȚIE: X80 Pro cu **1000W / 45 km/h NU e bicicletă legală pe drum public în UE** — e moped/L1e, cere omologare + permis + asigurare. Asta îți restrânge piața serios. Vinde-o ca „off-road / private property use" sau caută varianta limitată 250W/25km/h pentru UE.
+5. **CE / omologare — VESTE BUNĂ pentru tine.** Listarea reală (VOMO X80 Pro) e versiunea **250W / ≤25 km/h**, care în UE = „pedelec" = **bicicletă legală fără permis, fără înmatriculare, fără asigurare**. Are deja **CE, EN 15194, UL 2849, UKCA, RoHS, EMC, EN 60335, GCC** — adică se poate vinde legal în UE/UK/US fără bătăi de cap. **Ăsta e cel mai mare avantaj de marketing al tău** (l-am pus pe site ca secțiune de certificări + „street-legal" peste tot). ⚠️ Dacă te răzgândești și iei un batch deristricționat 500/750/1000W (cei „50 km/h"), PIERZI avantajul ăsta: devine moped/L1e → permis + asigurare + omologare. Recomand să rămâi pe versiunea legală 250W.
 
 ---
 
@@ -109,8 +109,10 @@ Ai zis: **cost ~4000 lei (~792 €)**, **vânzare ~10000 lei (~1980 €)**. Pe s
 | Baterie blocată în vamă | UN38.3 + furnizor cu experiență la export e-bike |
 | Chargeback la sume mari | 3-D Secure, verificare client, avans, tracking semnat |
 | Retur 14 zile (UE) | Cost de retur clar în T&C, preț cu buffer, screening clienți |
-| Răspundere/legalitate 1000W | Disclaimer off-road + asigurare; eventual variantă 250W pt UE |
+| ~~Legalitate~~ → AVANTAJ | Versiunea 250W e legală în UE/UK fără permis; folosește certificările ca argument de vânzare |
 | Termen livrare lung (maritim) | Comunici onest „7–14 / 30–45 zile", nu promiți imposibil |
+
+> Notă produs: e **VOMO X80 Pro** (Guangdong) — tu îl vinzi sub brandul **VOLTRIDE** (white-label/dropship). Cere furnizorului blind shipping fără brandul VOMO pe colet/factură.
 
 ---
 
