@@ -1,5 +1,5 @@
 /* ============================================================
-   VOLTRIDE — Fat X80 Pro
+   ZEPHRIDE — Fat X80 Pro
    ============================================================ */
 
 /* Where order requests are emailed.
@@ -126,11 +126,11 @@ function initOrderForm() {
     if (!valid) { showToast("Please fill in the required fields.", "error"); return; }
 
     const data = Object.fromEntries(new FormData(form).entries());
-    const ref = "VR-" + new Date().toISOString().slice(0, 10).replace(/-/g, "") + "-" +
+    const ref = "ZR-" + new Date().toISOString().slice(0, 10).replace(/-/g, "") + "-" +
                 Math.random().toString(36).slice(2, 6).toUpperCase();
 
     const payload = {
-      _subject: `New VOLTRIDE order request · ${ref}`,
+      _subject: `New ZEPHRIDE order request · ${ref}`,
       _template: "table",
       _captcha: "false",
       Reference: ref,
