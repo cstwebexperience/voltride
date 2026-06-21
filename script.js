@@ -42,19 +42,18 @@ function initScrub() {
   const scenes = [
     { tall: { dir: "assets/frames/mountain/", count: 48 }, wide: null },
     { tall: { dir: "assets/frames/forest/",   count: 48 }, wide: { dir: "assets/frames/forest-wide/", count: 48 } },
-    { tall: { dir: "assets/frames/city/",     count: 48 }, wide: null },
+    { tall: { dir: "assets/frames/city/",     count: 48 }, wide: { dir: "assets/frames/city-wide/",   count: 48 } },
   ];
   section.style.height = scenes.length * SCENE_VH + "vh";
 
   const TALL_ASPECT = 9 / 16, WIDE_ASPECT = 16 / 9;
-  const allHaveWide = scenes.every((s) => s.wide);
-  let useWide = false; // recomputed on resize
+  let landscape = false; // recomputed on resize; each scene uses its wide set in landscape if it has one
 
   const initSet = (set) => { if (set && !set.imgs) { set.imgs = new Array(set.count); set.loaded = 0; set.ready = false; set.requested = false; } };
   scenes.forEach((s) => { initSet(s.tall); initSet(s.wide); });
 
-  const activeSet = (s) => (useWide && s.wide ? s.wide : s.tall);
-  const frameAspect = () => (useWide ? WIDE_ASPECT : TALL_ASPECT);
+  const activeSet = (s) => (landscape && s.wide ? s.wide : s.tall);
+  const aspectOf  = (s) => (landscape && s.wide ? WIDE_ASPECT : TALL_ASPECT);
 
   const pad = (n) => String(n).padStart(3, "0");
   function loadSet(set, isFirst) {
@@ -76,8 +75,7 @@ function initScrub() {
 
   let vw = 0, vh = 0, dpr = 1, rect = { x: 0, y: 0, w: 0, h: 0 };
 
-  function computeRect() {
-    const fa = frameAspect();
+  function computeRect(fa) {
     const viewAspect = vw / vh;
     let w, h;
     if (viewAspect <= fa) { h = vh; w = vh * fa; if (w < vw) { w = vw; h = vw / fa; } }
@@ -97,11 +95,9 @@ function initScrub() {
     canvas.style.width = vw + "px";
     canvas.style.height = vh + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    useWide = allHaveWide && vw > vh;        // landscape + every wide set present
-    frameEl.classList.toggle("wide", useWide);
+    landscape = vw > vh;
     loadScene(0); loadScene(1);
-    computeRect();
-    draw();
+    draw(); // draw computes the rect per active scene aspect
   }
 
   function state() {
@@ -120,6 +116,9 @@ function initScrub() {
     const st = state();
     const s = scenes[st.si];
     const set = activeSet(s);
+    const fa = aspectOf(s);
+    computeRect(fa);
+    frameEl.classList.toggle("wide", fa === WIDE_ASPECT);
     loadScene(st.si);
     loadScene(st.si + 1);
 
@@ -134,7 +133,20 @@ function initScrub() {
               : (set.imgs[0] && set.imgs[0].complete ? set.imgs[0] : null);
     ctx.fillStyle = "#08080a";
     ctx.fillRect(0, 0, vw, vh);
-    if (img) ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h);
+    if (img) {
+      // when the frame is pillarboxed (a scene without a matching-orientation set),
+      // fill the empty space with a blurred, dimmed cover of the same frame — premium, no black bars
+      const pillar = rect.w < vw - 1 || rect.h < vh - 1;
+      if (pillar) {
+        let cw, ch;
+        if (vw / vh > fa) { cw = vw; ch = vw / fa; } else { ch = vh; cw = vh * fa; }
+        ctx.save();
+        ctx.filter = "blur(26px) brightness(0.42)";
+        ctx.drawImage(img, (vw - cw) / 2, (vh - ch) / 2, cw, ch);
+        ctx.restore();
+      }
+      ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h);
+    }
 
     // smooth bump 0→1→0 across [a,b]
     const bump = (x, a, b, rin, rout) => {
