@@ -37,8 +37,8 @@ function initScrub() {
   const annoEls   = Array.from(section.querySelectorAll("[data-anno]"));
   const fabEl     = document.querySelector(".fab");
 
-  const HOLD = 0.28;             // share of each scene spent holding the still
-  const SCENE_VH = 110;          // scroll length per scene (shorter = less scrolling)
+  const HOLD = 0.42;             // share of each scene spent holding the still (with its info shown)
+  const SCENE_VH = 110;          // scroll length per scene
 
   // Each scene has a portrait (tall, 9:16) and a landscape (wide, 16:9) frame set.
   const scenes = [
@@ -147,16 +147,17 @@ function initScrub() {
     // intro shows first (scene 0), THEN annotations — never both at once
     let introOp = 0;
     if (st.si === 0) {
-      if (st.frac < HOLD * 0.5) introOp = 1;
-      else if (st.frac < HOLD * 0.72) introOp = 1 - (st.frac - HOLD * 0.5) / (HOLD * 0.22);
+      if (st.frac < HOLD * 0.4) introOp = 1;
+      else if (st.frac < HOLD * 0.58) introOp = 1 - (st.frac - HOLD * 0.4) / (HOLD * 0.18);
     }
     introEl.style.opacity = introOp;
     introEl.style.pointerEvents = introOp > 0.5 ? "auto" : "none";
 
-    // annotation reveal window: after the intro on scene 0, during the hold elsewhere
+    // info stays visible for (almost) the whole hold, fading only as the scene transitions
+    const aEnd = HOLD + 0.05;
     const annoOn = st.si === 0
-      ? bump(st.frac, HOLD * 0.72, HOLD + 0.16, 0.22, 0.45)
-      : bump(st.frac, 0, HOLD + 0.12, 0.2, 0.42);
+      ? bump(st.frac, HOLD * 0.52, aEnd, 0.16, 0.22)
+      : bump(st.frac, 0.0, aEnd, 0.10, 0.22);
     annoEls.forEach((el, i) => {
       const active = i === st.si;   // clean captions are centered — work on mobile & desktop
       el.classList.toggle("show", active && annoOn > 0.4);
