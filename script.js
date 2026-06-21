@@ -34,53 +34,54 @@ function initScrub() {
   const flashEl   = section.querySelector("[data-scrub-flash]");
   const annoEls   = Array.from(section.querySelectorAll("[data-anno]"));
 
-  const FRAME_ASPECT = 9 / 16;   // portrait clips
   const HOLD = 0.32;             // share of each scene spent holding the still
   const SCENE_VH = 150;          // scroll length per scene
 
+  // Each scene has a portrait (tall, 9:16) set and an optional landscape (wide, 16:9) set.
+  // Desktop switches to wide ONLY once every scene has a wide set; until then it stays portrait.
   const scenes = [
-    { dir: "assets/frames/mountain/", count: 48 },
-    { dir: "assets/frames/forest/",   count: 48 },
-    { dir: "assets/frames/city/",     count: 48 },
+    { tall: { dir: "assets/frames/mountain/", count: 48 }, wide: null },
+    { tall: { dir: "assets/frames/forest/",   count: 48 }, wide: { dir: "assets/frames/forest-wide/", count: 48 } },
+    { tall: { dir: "assets/frames/city/",     count: 48 }, wide: null },
   ];
   section.style.height = scenes.length * SCENE_VH + "vh";
 
-  scenes.forEach((s) => { s.imgs = new Array(s.count); s.loaded = 0; s.ready = false; s.requested = false; });
+  const TALL_ASPECT = 9 / 16, WIDE_ASPECT = 16 / 9;
+  const allHaveWide = scenes.every((s) => s.wide);
+  let useWide = false; // recomputed on resize
+
+  const initSet = (set) => { if (set && !set.imgs) { set.imgs = new Array(set.count); set.loaded = 0; set.ready = false; set.requested = false; } };
+  scenes.forEach((s) => { initSet(s.tall); initSet(s.wide); });
+
+  const activeSet = (s) => (useWide && s.wide ? s.wide : s.tall);
+  const frameAspect = () => (useWide ? WIDE_ASPECT : TALL_ASPECT);
 
   const pad = (n) => String(n).padStart(3, "0");
-  function loadScene(si) {
-    const s = scenes[si];
-    if (!s || s.requested) return;
-    s.requested = true;
-    for (let i = 0; i < s.count; i++) {
+  function loadSet(set, isFirst) {
+    if (!set || set.requested) return;
+    set.requested = true;
+    for (let i = 0; i < set.count; i++) {
       const img = new Image();
       img.decoding = "async";
       img.onload = () => {
-        s.loaded++;
-        if (s.loaded >= s.count) {
-          s.ready = true;
-          if (si === 0 && loadingEl) loadingEl.classList.add("hidden");
-        }
-        if (si === 0 && i === 0) draw(); // paint first frame asap
+        set.loaded++;
+        if (set.loaded >= set.count) { set.ready = true; if (isFirst && loadingEl) loadingEl.classList.add("hidden"); }
+        if (isFirst && i === 0) draw();
       };
-      img.src = s.dir + pad(i + 1) + ".jpg";
-      s.imgs[i] = img;
+      img.src = set.dir + pad(i + 1) + ".jpg";
+      set.imgs[i] = img;
     }
   }
-  loadScene(0);
+  function loadScene(si) { const s = scenes[si]; if (!s) return; loadSet(activeSet(s), si === 0); }
 
   let vw = 0, vh = 0, dpr = 1, rect = { x: 0, y: 0, w: 0, h: 0 };
 
   function computeRect() {
+    const fa = frameAspect();
     const viewAspect = vw / vh;
     let w, h;
-    if (viewAspect <= FRAME_ASPECT) {        // viewport narrower → cover (crop sides)
-      h = vh; w = vh * FRAME_ASPECT;
-      if (w < vw) { w = vw; h = vw / FRAME_ASPECT; }
-    } else {                                  // wider → contain (pillarbox, no crop)
-      w = Math.min(vw, vh * FRAME_ASPECT);
-      h = w / FRAME_ASPECT;
-    }
+    if (viewAspect <= fa) { h = vh; w = vh * fa; if (w < vw) { w = vw; h = vw / fa; } }
+    else { w = Math.min(vw, vh * fa); h = w / fa; }
     rect = { x: (vw - w) / 2, y: (vh - h) / 2, w, h };
     frameEl.style.left = rect.x + "px";
     frameEl.style.top = rect.y + "px";
@@ -96,6 +97,9 @@ function initScrub() {
     canvas.style.width = vw + "px";
     canvas.style.height = vh + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    useWide = allHaveWide && vw > vh;        // landscape + every wide set present
+    frameEl.classList.toggle("wide", useWide);
+    loadScene(0); loadScene(1);
     computeRect();
     draw();
   }
@@ -115,6 +119,7 @@ function initScrub() {
   function draw() {
     const st = state();
     const s = scenes[st.si];
+    const set = activeSet(s);
     loadScene(st.si);
     loadScene(st.si + 1);
 
@@ -122,11 +127,11 @@ function initScrub() {
     let f = 0, scrubP = 0;
     if (st.frac >= HOLD) {
       scrubP = (st.frac - HOLD) / (1 - HOLD);
-      f = Math.round(scrubP * (s.count - 1));
+      f = Math.round(scrubP * (set.count - 1));
     }
 
-    const img = (s.ready && s.imgs[f] && s.imgs[f].complete) ? s.imgs[f]
-              : (s.imgs[0] && s.imgs[0].complete ? s.imgs[0] : null);
+    const img = (set.ready && set.imgs[f] && set.imgs[f].complete) ? set.imgs[f]
+              : (set.imgs[0] && set.imgs[0].complete ? set.imgs[0] : null);
     ctx.fillStyle = "#08080a";
     ctx.fillRect(0, 0, vw, vh);
     if (img) ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h);
@@ -152,7 +157,7 @@ function initScrub() {
       ? bump(st.frac, HOLD * 0.72, HOLD + 0.16, 0.22, 0.45)
       : bump(st.frac, 0, HOLD + 0.12, 0.2, 0.42);
     annoEls.forEach((el, i) => {
-      const active = i === st.si;
+      const active = !useWide && i === st.si;   // desktop-wide annotations tuned separately (TODO)
       el.classList.toggle("show", active && annoOn > 0.4);
       el.style.opacity = active ? annoOn : 0;
     });
