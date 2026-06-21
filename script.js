@@ -40,7 +40,7 @@ function initScrub() {
   // Each scene has a portrait (tall, 9:16) set and an optional landscape (wide, 16:9) set.
   // Desktop switches to wide ONLY once every scene has a wide set; until then it stays portrait.
   const scenes = [
-    { tall: { dir: "assets/frames/mountain/", count: 48 }, wide: null },
+    { tall: { dir: "assets/frames/mountain/", count: 48 }, wide: { dir: "assets/frames/mountain-wide/", count: 48 } },
     { tall: { dir: "assets/frames/forest/",   count: 48 }, wide: { dir: "assets/frames/forest-wide/", count: 48 } },
     { tall: { dir: "assets/frames/city/",     count: 48 }, wide: { dir: "assets/frames/city-wide/",   count: 48 } },
   ];
