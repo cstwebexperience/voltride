@@ -221,8 +221,39 @@ button, [role="button"] { min-height: 44px; }
 /* Frame-aligned overlay (JS positions it over the drawn image) */
 .scrub-frame { position: absolute; z-index: 3; pointer-events: none; }
 
-/* ─ Annotations (field-journal style) ─ */
-.anno { position: absolute; inset: 0; opacity: 0; transition: opacity .4s var(--ease); }
+/* ─ Scene captions (short, clean — bike data, not over the bike) ─ */
+.anno { position: absolute; inset: 0; opacity: 0; transition: opacity .45s var(--ease); }
+.scene-cap {
+  position: absolute; left: 0; right: 0; bottom: 17%;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  text-align: center; padding: 0 24px;
+  transform: translateY(16px); transition: transform .55s var(--ease);
+}
+.anno.show .scene-cap { transform: none; }
+.scene-cap::before {
+  content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: 150%; height: 360%; z-index: -1; pointer-events: none;
+  background: radial-gradient(58% 50% at 50% 50%, rgba(8,8,10,.72), transparent 74%);
+}
+.scene-cap-label {
+  font-family: var(--display); font-weight: 600; letter-spacing: -.01em;
+  font-size: clamp(1.3rem, 5.5vw, 2.1rem); color: #fff; text-shadow: 0 2px 18px rgba(0,0,0,.6);
+}
+.scene-cap-data { display: flex; align-items: stretch; }
+.scene-cap-data span {
+  display: flex; flex-direction: column; gap: 3px; padding: 0 clamp(14px, 5vw, 30px);
+  font-size: .68rem; text-transform: uppercase; letter-spacing: .12em; color: var(--accent-lt);
+  text-shadow: 0 1px 10px rgba(0,0,0,.7);
+}
+.scene-cap-data span + span { border-left: 1px solid rgba(255,255,255,.18); }
+.scene-cap-data b {
+  font-family: var(--display); font-weight: 700; font-size: clamp(1.5rem, 6vw, 2.2rem);
+  color: #fff; letter-spacing: -.02em; line-height: 1;
+}
+.scene-cap-data b i { font-style: normal; font-size: .5em; color: var(--accent); margin-left: 1px; }
+
+/* ─ (legacy) field-journal leader annotations — kept for reference ─ */
+.anno-old { position: absolute; inset: 0; opacity: 0; transition: opacity .4s var(--ease); }
 .anno-item { position: absolute; left: var(--x); top: var(--y); }
 .anno-dot {
   position: absolute; left: 0; top: 0; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px;

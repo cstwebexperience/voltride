@@ -157,7 +157,7 @@ function initScrub() {
       ? bump(st.frac, HOLD * 0.72, HOLD + 0.16, 0.22, 0.45)
       : bump(st.frac, 0, HOLD + 0.12, 0.2, 0.42);
     annoEls.forEach((el, i) => {
-      const active = !useWide && i === st.si;   // desktop-wide annotations tuned separately (TODO)
+      const active = i === st.si;   // clean captions are centered — work on mobile & desktop
       el.classList.toggle("show", active && annoOn > 0.4);
       el.style.opacity = active ? annoOn : 0;
     });
