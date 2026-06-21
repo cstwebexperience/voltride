@@ -211,8 +211,8 @@ button, [role="button"] { min-height: 44px; }
 .scrub-vignette {
   position: absolute; inset: 0; pointer-events: none; z-index: 2;
   background:
-    radial-gradient(120% 80% at 50% 12%, transparent 55%, rgba(8,8,10,.5) 100%),
-    linear-gradient(180deg, rgba(8,8,10,.45) 0%, transparent 22%, transparent 60%, rgba(8,8,10,.75) 100%);
+    radial-gradient(120% 80% at 50% 12%, transparent 60%, rgba(8,8,10,.4) 100%),
+    linear-gradient(180deg, rgba(8,8,10,.4) 0%, transparent 24%, transparent 68%, rgba(8,8,10,.6) 100%);
 }
 .scrub-flash {
   position: absolute; inset: 0; pointer-events: none; z-index: 5; opacity: 0;
@@ -345,14 +345,34 @@ button, [role="button"] { min-height: 44px; }
 .scrub-cta-price strong { font-family: var(--display); font-size: 1.5rem; }
 .scrub-cta-price span { font-size: .75rem; text-transform: uppercase; letter-spacing: .14em; color: var(--faint); }
 
+/* Electric "current pulse" scroll indicator — a charge travels down the line */
 .scrub-hint {
-  position: absolute; z-index: 4; left: 0; right: 0; bottom: 30px; text-align: center;
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  font-size: .74rem; letter-spacing: .22em; text-transform: uppercase; color: var(--muted);
+  position: absolute; z-index: 4; left: 50%; bottom: calc(26px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 11px;
   transition: opacity .4s var(--ease);
 }
-.scrub-hint span { width: 22px; height: 34px; border: 1.5px solid var(--border-h); border-radius: 100px; display: flex; justify-content: center; padding-top: 6px; }
-.scrub-hint span::before { content: ""; width: 3px; height: 7px; border-radius: 3px; background: var(--accent); animation: scroll-bob 1.6s var(--ease) infinite; }
+.scrub-hint-track {
+  position: relative; width: 1.5px; height: 50px; border-radius: 2px; overflow: hidden;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,.16) 30%, rgba(255,255,255,.16) 70%, transparent);
+}
+.scrub-hint-track::after {
+  content: ""; position: absolute; left: 50%; transform: translateX(-50%);
+  width: 1.5px; height: 45%; border-radius: 2px;
+  background: linear-gradient(to bottom, transparent, var(--accent));
+  box-shadow: 0 0 10px var(--accent), 0 0 20px var(--glow);
+  animation: hint-charge 1.9s cubic-bezier(.45,0,.55,1) infinite;
+}
+@keyframes hint-charge {
+  0%   { top: -50%; opacity: 0; }
+  25%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+.scrub-hint-label {
+  font-size: .64rem; letter-spacing: .34em; text-transform: uppercase; color: var(--muted);
+  text-shadow: 0 1px 8px rgba(0,0,0,.6);
+}
 
 .scrub-loading { position: absolute; inset: 0; z-index: 6; display: flex; align-items: center; justify-content: center; background: var(--bg); transition: opacity .5s var(--ease); }
 .scrub-loading.hidden { opacity: 0; pointer-events: none; }

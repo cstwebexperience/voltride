@@ -79,10 +79,9 @@ function initScrub() {
   let vw = 0, vh = 0, dpr = 1, rect = { x: 0, y: 0, w: 0, h: 0 };
 
   function computeRect(fa) {
-    const viewAspect = vw / vh;
-    let w, h;
-    if (viewAspect <= fa) { h = vh; w = vh * fa; if (w < vw) { w = vw; h = vw / fa; } }
-    else { w = Math.min(vw, vh * fa); h = w / fa; }
+    // ALWAYS cover the viewport — full-bleed on every device (phone + desktop), no glass edges
+    let w = vw, h = vw / fa;
+    if (h < vh) { h = vh; w = vh * fa; }
     rect = { x: (vw - w) / 2, y: (vh - h) / 2, w, h };
     frameEl.style.left = rect.x + "px";
     frameEl.style.top = rect.y + "px";
@@ -98,6 +97,7 @@ function initScrub() {
     canvas.style.width = vw + "px";
     canvas.style.height = vh + "px";
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high"; // resizing the canvas resets these
     landscape = vw > vh;
     loadScene(0); loadScene(1);
     draw(); // draw computes the rect per active scene aspect
@@ -136,20 +136,7 @@ function initScrub() {
               : (set.imgs[0] && set.imgs[0].complete ? set.imgs[0] : null);
     ctx.fillStyle = "#08080a";
     ctx.fillRect(0, 0, vw, vh);
-    if (img) {
-      // when the frame is pillarboxed (a scene without a matching-orientation set),
-      // fill the empty space with a blurred, dimmed cover of the same frame — premium, no black bars
-      const pillar = rect.w < vw - 1 || rect.h < vh - 1;
-      if (pillar) {
-        let cw, ch;
-        if (vw / vh > fa) { cw = vw; ch = vw / fa; } else { ch = vh; cw = vh * fa; }
-        ctx.save();
-        ctx.filter = "blur(26px) brightness(0.42)";
-        ctx.drawImage(img, (vw - cw) / 2, (vh - ch) / 2, cw, ch);
-        ctx.restore();
-      }
-      ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h);
-    }
+    if (img) ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h);
 
     // smooth bump 0→1→0 across [a,b]
     const bump = (x, a, b, rin, rout) => {
