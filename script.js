@@ -14,8 +14,178 @@ document.addEventListener("DOMContentLoaded", () => {
   initMobileNav();
   initReveal();
   initCountUp();
+  initScrub();
   initOrderForm();
 });
+
+/* ─── Scroll-scrub hero (canvas frame sequence + annotations) ─── */
+function initScrub() {
+  const section = document.querySelector("[data-scrub]");
+  if (!section) return;
+
+  const sticky    = section.querySelector(".scrub-sticky");
+  const canvas    = section.querySelector("[data-scrub-canvas]");
+  const ctx       = canvas.getContext("2d");
+  const frameEl   = section.querySelector("[data-scrub-frame]");
+  const introEl   = section.querySelector("[data-scrub-intro]");
+  const ctaEl     = section.querySelector("[data-scrub-cta]");
+  const hintEl    = section.querySelector("[data-scrub-hint]");
+  const loadingEl = section.querySelector("[data-scrub-loading]");
+  const flashEl   = section.querySelector("[data-scrub-flash]");
+  const annoEls   = Array.from(section.querySelectorAll("[data-anno]"));
+
+  const FRAME_ASPECT = 9 / 16;   // portrait clips
+  const HOLD = 0.32;             // share of each scene spent holding the still
+  const SCENE_VH = 150;          // scroll length per scene
+
+  const scenes = [
+    { dir: "assets/frames/mountain/", count: 48 },
+    { dir: "assets/frames/forest/",   count: 48 },
+    { dir: "assets/frames/city/",     count: 48 },
+  ];
+  section.style.height = scenes.length * SCENE_VH + "vh";
+
+  scenes.forEach((s) => { s.imgs = new Array(s.count); s.loaded = 0; s.ready = false; s.requested = false; });
+
+  const pad = (n) => String(n).padStart(3, "0");
+  function loadScene(si) {
+    const s = scenes[si];
+    if (!s || s.requested) return;
+    s.requested = true;
+    for (let i = 0; i < s.count; i++) {
+      const img = new Image();
+      img.decoding = "async";
+      img.onload = () => {
+        s.loaded++;
+        if (s.loaded >= s.count) {
+          s.ready = true;
+          if (si === 0 && loadingEl) loadingEl.classList.add("hidden");
+        }
+        if (si === 0 && i === 0) draw(); // paint first frame asap
+      };
+      img.src = s.dir + pad(i + 1) + ".jpg";
+      s.imgs[i] = img;
+    }
+  }
+  loadScene(0);
+
+  let vw = 0, vh = 0, dpr = 1, rect = { x: 0, y: 0, w: 0, h: 0 };
+
+  function computeRect() {
+    const viewAspect = vw / vh;
+    let w, h;
+    if (viewAspect <= FRAME_ASPECT) {        // viewport narrower → cover (crop sides)
+      h = vh; w = vh * FRAME_ASPECT;
+      if (w < vw) { w = vw; h = vw / FRAME_ASPECT; }
+    } else {                                  // wider → contain (pillarbox, no crop)
+      w = Math.min(vw, vh * FRAME_ASPECT);
+      h = w / FRAME_ASPECT;
+    }
+    rect = { x: (vw - w) / 2, y: (vh - h) / 2, w, h };
+    frameEl.style.left = rect.x + "px";
+    frameEl.style.top = rect.y + "px";
+    frameEl.style.width = rect.w + "px";
+    frameEl.style.height = rect.h + "px";
+  }
+
+  function resize() {
+    vw = sticky.clientWidth; vh = sticky.clientHeight;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(vw * dpr);
+    canvas.height = Math.round(vh * dpr);
+    canvas.style.width = vw + "px";
+    canvas.style.height = vh + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    computeRect();
+    draw();
+  }
+
+  function state() {
+    const r = section.getBoundingClientRect();
+    const total = r.height - vh;
+    let p = total > 0 ? -r.top / total : 0;
+    p = Math.max(0, Math.min(1, p));
+    const pos = p * scenes.length;
+    let si = Math.min(Math.floor(pos), scenes.length - 1);
+    let frac = pos - si;
+    if (si === scenes.length - 1) frac = Math.min(frac, 1);
+    return { p, si, frac };
+  }
+
+  function draw() {
+    const st = state();
+    const s = scenes[st.si];
+    loadScene(st.si);
+    loadScene(st.si + 1);
+
+    // frame index (held still during the scene's hold, then scrubs)
+    let f = 0, scrubP = 0;
+    if (st.frac >= HOLD) {
+      scrubP = (st.frac - HOLD) / (1 - HOLD);
+      f = Math.round(scrubP * (s.count - 1));
+    }
+
+    const img = (s.ready && s.imgs[f] && s.imgs[f].complete) ? s.imgs[f]
+              : (s.imgs[0] && s.imgs[0].complete ? s.imgs[0] : null);
+    ctx.fillStyle = "#08080a";
+    ctx.fillRect(0, 0, vw, vh);
+    if (img) ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h);
+
+    // smooth bump 0→1→0 across [a,b]
+    const bump = (x, a, b, rin, rout) => {
+      if (x < a || x > b) return 0;
+      const l = (x - a) / (b - a);
+      return Math.max(0, Math.min(1, Math.min(l / rin, (1 - l) / rout)));
+    };
+
+    // intro shows first (scene 0), THEN annotations — never both at once
+    let introOp = 0;
+    if (st.si === 0) {
+      if (st.frac < HOLD * 0.5) introOp = 1;
+      else if (st.frac < HOLD * 0.72) introOp = 1 - (st.frac - HOLD * 0.5) / (HOLD * 0.22);
+    }
+    introEl.style.opacity = introOp;
+    introEl.style.pointerEvents = introOp > 0.5 ? "auto" : "none";
+
+    // annotation reveal window: after the intro on scene 0, during the hold elsewhere
+    const annoOn = st.si === 0
+      ? bump(st.frac, HOLD * 0.72, HOLD + 0.16, 0.22, 0.45)
+      : bump(st.frac, 0, HOLD + 0.12, 0.2, 0.42);
+    annoEls.forEach((el, i) => {
+      const active = i === st.si;
+      el.classList.toggle("show", active && annoOn > 0.4);
+      el.style.opacity = active ? annoOn : 0;
+    });
+
+    // final CTA on last scene
+    const last = scenes.length - 1;
+    let ctaOp = st.si === last ? (st.frac - 0.55) / 0.25 : 0;
+    ctaOp = Math.max(0, Math.min(1, ctaOp));
+    ctaEl.style.opacity = ctaOp;
+    ctaEl.style.pointerEvents = ctaOp > 0.5 ? "auto" : "none";
+
+    // scroll hint (only at very top)
+    if (hintEl) hintEl.style.opacity = st.p < 0.02 ? 1 : 0;
+
+    // flash at scene boundaries
+    let flash = 0;
+    if (st.si < last && st.frac > 0.85) flash = (st.frac - 0.85) / 0.15;
+    if (st.si > 0 && st.frac < 0.15) flash = Math.max(flash, (0.15 - st.frac) / 0.15);
+    if (flashEl) flashEl.style.opacity = flash * 0.9;
+  }
+
+  let ticking = false;
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(() => { draw(); ticking = false; }); }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", resize);
+  resize();
+
+  // keep painting while first scenes decode
+  let safety = setInterval(draw, 200);
+  setTimeout(() => clearInterval(safety), 7000);
+}
 
 /* ─── Animated count-up for hero stats ─── */
 function initCountUp() {

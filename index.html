@@ -60,30 +60,79 @@
            photo/video: drop it inside [data-hero-media] and it sits
            behind the text automatically.
       ────────────────────────────────────────────────────────── -->
-      <section class="hero">
-        <div class="hero-media" data-hero-media>
-          <!-- YOUR HERO PHOTO / VIDEO GOES HERE, e.g.
-               <img src="assets/images/hero.jpg" alt="Fat X80 Pro" />
-               <video src="assets/video/hero.mp4" autoplay muted loop playsinline></video> -->
-        </div>
-        <div class="hero-grid-overlay" aria-hidden="true"></div>
+      <section class="scrub" id="hero" data-scrub>
+        <div class="scrub-sticky">
+          <canvas class="scrub-canvas" data-scrub-canvas></canvas>
+          <div class="scrub-vignette" aria-hidden="true"></div>
+          <div class="scrub-flash" data-scrub-flash aria-hidden="true"></div>
 
-        <div class="hero-content">
-          <span class="hero-badge">⚡ Free worldwide shipping</span>
-          <p class="eyebrow">Electric · All-Terrain · Street-Legal</p>
-          <h1 class="hero-title">FAT&nbsp;X80&nbsp;<span class="grad">PRO</span></h1>
-          <p class="hero-sub">Where the road ends, you keep going. A fully <strong>CE-certified</strong> fat-tire e-bike with <strong>70 Nm</strong> of hill-flattening torque and 60 km of range — and not a license, plate or insurance form in sight.</p>
-          <div class="hero-cta">
+          <!-- Overlay sized by JS to match the drawn frame, so annotations stay aligned -->
+          <div class="scrub-frame" data-scrub-frame>
+
+            <!-- Scene 0 — Mountain -->
+            <div class="anno" data-anno="0" aria-hidden="true">
+              <div class="anno-item" data-side="left" style="--x:21%; --y:80%; --len:52px;">
+                <span class="anno-dot"></span><span class="anno-line"></span>
+                <span class="anno-label"><b>250 W hub motor</b>70 Nm torque</span>
+              </div>
+              <div class="anno-item" data-side="left" style="--x:50%; --y:67%; --len:64px;">
+                <span class="anno-dot"></span><span class="anno-line"></span>
+                <span class="anno-label"><b>48 V · 15 Ah battery</b>Up to 60 km range</span>
+              </div>
+              <div class="anno-item" data-side="left" style="--x:73%; --y:83%; --len:44px;">
+                <span class="anno-dot"></span><span class="anno-line"></span>
+                <span class="anno-label"><b>20 × 4.0 fat tires</b>KENDA · all-terrain</span>
+              </div>
+            </div>
+
+            <!-- Scene 1 — Forest -->
+            <div class="anno" data-anno="1" aria-hidden="true">
+              <div class="anno-item" data-side="right" style="--x:61%; --y:59%; --len:54px;">
+                <span class="anno-dot"></span><span class="anno-line"></span>
+                <span class="anno-label"><b>Dual suspension</b>Front fork + rear</span>
+              </div>
+              <div class="anno-item" data-side="left" style="--x:27%; --y:60%; --len:58px;">
+                <span class="anno-dot"></span><span class="anno-line"></span>
+                <span class="anno-label"><b>Long dual seat</b>Ride two-up</span>
+              </div>
+              <div class="anno-item" data-side="left" style="--x:18%; --y:80%; --len:48px;">
+                <span class="anno-dot"></span><span class="anno-line"></span>
+                <span class="anno-label"><b>Shimano 7-speed</b>Hydraulic disc brakes</span>
+              </div>
+            </div>
+
+            <!-- Scene 2 — City (pending clip 3; annotations ready) -->
+            <div class="anno" data-anno="2" aria-hidden="true">
+              <div class="anno-item" data-side="left" style="--x:45%; --y:64%; --len:60px;">
+                <span class="anno-dot"></span><span class="anno-line"></span>
+                <span class="anno-label"><b>Street-legal</b>CE · EN 15194 certified</span>
+              </div>
+              <div class="anno-item" data-side="right" style="--x:64%; --y:55%; --len:50px;">
+                <span class="anno-dot"></span><span class="anno-line"></span>
+                <span class="anno-label"><b>LCD display</b>+ LED headlight</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Intro (scene 0 hold) -->
+          <div class="scrub-intro" data-scrub-intro>
+            <span class="hero-badge">⚡ Free worldwide shipping</span>
+            <p class="eyebrow">Electric · All-Terrain · Street-Legal</p>
+            <h1 class="hero-title">FAT&nbsp;X80&nbsp;<span class="grad">PRO</span></h1>
+            <p class="hero-sub">Where the road ends, you keep going.</p>
+          </div>
+
+          <!-- Final CTA (last scene) -->
+          <div class="scrub-cta" data-scrub-cta>
+            <h2>Claim yours. <span class="grad">Ride sooner.</span></h2>
+            <p class="scrub-cta-price"><span>From</span> <strong class="grad">€1,199</strong> · free worldwide shipping</p>
             <a class="btn btn-primary" href="#order">Order now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-            <a class="btn btn-ghost" href="#bike">Explore the bike</a>
           </div>
-          <div class="hero-stats">
-            <div class="hero-stat"><strong data-spec="range">60<span>km</span></strong><span>On one charge</span></div>
-            <div class="hero-stat"><strong data-spec="torque">70<span>Nm</span></strong><span>Climbing torque</span></div>
-            <div class="hero-stat"><strong data-spec="speed">25<span>km/h</span></strong><span>Street-legal</span></div>
-          </div>
+
+          <div class="scrub-hint" data-scrub-hint aria-hidden="true"><span></span>Scroll to explore</div>
+          <div class="scrub-loading" data-scrub-loading><span class="scrub-spinner"></span></div>
         </div>
-        <div class="scroll-hint" aria-hidden="true"><span></span></div>
       </section>
 
       <!-- ─── SPEC TICKER ─── -->
