@@ -35,6 +35,7 @@ function initScrub() {
   const loadingEl = section.querySelector("[data-scrub-loading]");
   const flashEl   = section.querySelector("[data-scrub-flash]");
   const annoEls   = Array.from(section.querySelectorAll("[data-anno]"));
+  const fabEl     = document.querySelector(".fab");
 
   const HOLD = 0.32;             // share of each scene spent holding the still
   const SCENE_VH = 150;          // scroll length per scene
@@ -182,6 +183,13 @@ function initScrub() {
     ctaOp = Math.max(0, Math.min(1, ctaOp));
     ctaEl.style.opacity = ctaOp;
     ctaEl.style.pointerEvents = ctaOp > 0.5 ? "auto" : "none";
+
+    // floating Order button: hidden over the intro & when the hero's own CTA is up;
+    // always visible once you've scrolled past the hero into the page content
+    if (fabEl) {
+      const pastHero = section.getBoundingClientRect().bottom < vh - 2;
+      fabEl.classList.toggle("is-hidden", !pastHero && (st.p < 0.04 || ctaOp > 0.3));
+    }
 
     // scroll hint (only at very top)
     if (hintEl) hintEl.style.opacity = st.p < 0.02 ? 1 : 0;
