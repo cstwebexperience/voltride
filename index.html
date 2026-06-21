@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Space+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -28,8 +28,7 @@
     <header class="header" data-header>
       <div class="header-inner">
         <a class="logo" href="#top" aria-label="ZEPHRIDE">
-          <span class="logo-mark">⚡</span>
-          <span class="logo-text">ZEPH<span>RIDE</span></span>
+                    <span class="logo-text">ZEPH<span>RIDE</span></span>
         </a>
         <nav class="nav" aria-label="Main">
           <a href="#bike">The Bike</a>
@@ -121,7 +120,7 @@
 
           <!-- Intro (scene 0 hold) -->
           <div class="scrub-intro" data-scrub-intro>
-            <span class="hero-badge">⚡ Free worldwide shipping</span>
+            <span class="hero-badge">Free worldwide shipping</span>
             <p class="eyebrow">Electric · All-Terrain · Street-Legal</p>
             <h1 class="hero-title">FAT&nbsp;X80&nbsp;<span class="grad">PRO</span></h1>
             <p class="hero-sub">Where the road ends, you keep going.</p>
@@ -162,28 +161,30 @@
         </div>
       </div>
 
-      <!-- ─── THE BIKE (3D) ─── -->
-      <section class="section bike" id="bike">
-        <div class="section-head" data-reveal>
-          <span class="section-label">The Bike</span>
-          <h2>It doesn't ask the road <span class="grad">for permission.</span></h2>
-          <p class="section-lead">Sand, snow, gravel, midnight city streets — all the same to the X80. Spin it. Inspect every weld. Then try to look away.</p>
-        </div>
-        <div class="bike-stage" data-reveal>
-          <model-viewer
-            class="bike-model"
-            src="assets/models/fat-x80.glb"
-            alt="Fat X80 Pro electric bike 3D model"
-            camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg"
-            shadow-intensity="1.1" exposure="1.05" camera-orbit="35deg 80deg 105%" interaction-prompt="none"
-          >
-            <div class="model-fallback" slot="poster">
-              <span class="model-fallback-icon">⚡</span>
-              <p>Your 3D bike model goes here</p>
-              <small>Drop <code>fat-x80.glb</code> in <code>assets/models/</code></small>
+      <!-- ─── 3D — EXAMINE ─── -->
+      <section class="examine" id="bike">
+        <div class="examine-grid">
+          <div class="examine-copy" data-reveal>
+            <span class="kicker">FIG.01 — FULL ASSEMBLY</span>
+            <h2 class="examine-head">Every angle.<br>No&nbsp;blind&nbsp;spots.</h2>
+            <p class="examine-sub">Grab it. Spin it. Get close enough to count the welds. The machine on screen is the exact one that lands at your door.</p>
+            <div class="examine-meta">
+              <span>Drag to orbit</span>
+              <span>Scroll / pinch to zoom</span>
             </div>
-          </model-viewer>
-          <p class="bike-hint">Drag to rotate · scroll to zoom</p>
+          </div>
+          <div class="examine-stage reveal-left" data-reveal>
+            <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
+            <model-viewer
+              class="bike-model"
+              src="assets/models/fat-x80.glb"
+              alt="ZEPHRIDE Fat X80 Pro — 3D model"
+              camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="24deg"
+              interaction-prompt="none" shadow-intensity="1" shadow-softness="1" exposure="1.1"
+              camera-orbit="-35deg 82deg 110%" loading="lazy"
+            ></model-viewer>
+            <span class="examine-build">BUILD&nbsp;No. ZR-X80&nbsp;·&nbsp;001</span>
+          </div>
         </div>
       </section>
 
@@ -359,7 +360,7 @@
     </main>
 
     <!-- ─── FLOATING ORDER CTA ─── -->
-    <a class="fab" href="#order" aria-label="Order now">⚡ Order now</a>
+    <a class="fab" href="#order" aria-label="Order now">Order now</a>
 
     <!-- ─── TOAST ─── -->
     <div class="toast" data-toast role="status"></div>

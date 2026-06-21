@@ -37,15 +37,14 @@ function initScrub() {
   const annoEls   = Array.from(section.querySelectorAll("[data-anno]"));
   const fabEl     = document.querySelector(".fab");
 
-  const HOLD = 0.32;             // share of each scene spent holding the still
-  const SCENE_VH = 150;          // scroll length per scene
+  const HOLD = 0.28;             // share of each scene spent holding the still
+  const SCENE_VH = 110;          // scroll length per scene (shorter = less scrolling)
 
-  // Each scene has a portrait (tall, 9:16) set and an optional landscape (wide, 16:9) set.
-  // Desktop switches to wide ONLY once every scene has a wide set; until then it stays portrait.
+  // Each scene has a portrait (tall, 9:16) and a landscape (wide, 16:9) frame set.
   const scenes = [
-    { tall: { dir: "assets/frames/mountain/", count: 48 }, wide: { dir: "assets/frames/mountain-wide/", count: 48 } },
-    { tall: { dir: "assets/frames/forest/",   count: 48 }, wide: { dir: "assets/frames/forest-wide/", count: 48 } },
-    { tall: { dir: "assets/frames/city/",     count: 48 }, wide: { dir: "assets/frames/city-wide/",   count: 48 } },
+    { tall: { dir: "assets/frames/mountain/", count: 60 }, wide: { dir: "assets/frames/mountain-wide/", count: 60 } },
+    { tall: { dir: "assets/frames/forest/",   count: 60 }, wide: { dir: "assets/frames/forest-wide/", count: 60 } },
+    { tall: { dir: "assets/frames/city/",     count: 60 }, wide: { dir: "assets/frames/city-wide/",   count: 60 } },
   ];
   section.style.height = scenes.length * SCENE_VH + "vh";
 
@@ -188,25 +187,23 @@ function initScrub() {
     if (flashEl) flashEl.style.opacity = flash * 0.9;
   }
 
-  let ticking = false;
-  function onScroll() {
-    if (!ticking) { ticking = true; requestAnimationFrame(() => { draw(); ticking = false; }); }
+  // SMOOTH: redraw every animation frame while the hero is on screen (no scroll-throttle gaps)
+  let rafId = null, inView = true;
+  function loop() { draw(); rafId = inView ? requestAnimationFrame(loop) : null; }
+  function startLoop() { if (rafId == null) rafId = requestAnimationFrame(loop); }
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver((es) => { inView = es[0].isIntersecting; if (inView) startLoop(); }, { rootMargin: "150px" }).observe(section);
   }
-  window.addEventListener("scroll", onScroll, { passive: true });
-  // robust across devices: window resize, phone rotation, and iOS/Android
-  // browser-chrome (address bar) show/hide which changes the viewport height
+  // robust across devices: resize, rotation, iOS/Android address-bar (visualViewport)
   let rT;
   const onResize = () => { clearTimeout(rT); rT = setTimeout(resize, 80); };
   window.addEventListener("resize", onResize);
   window.addEventListener("orientationchange", () => setTimeout(resize, 250));
   if (window.visualViewport) window.visualViewport.addEventListener("resize", onResize);
-  // re-render after smoothing context resets, and when returning to the tab
-  document.addEventListener("visibilitychange", () => { if (!document.hidden) draw(); });
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) startLoop(); });
+  window.addEventListener("scroll", startLoop, { passive: true });
   resize();
-
-  // keep painting while first scenes decode
-  let safety = setInterval(draw, 200);
-  setTimeout(() => clearInterval(safety), 7000);
+  startLoop();
 }
 
 /* ─── Animated count-up for hero stats ─── */
