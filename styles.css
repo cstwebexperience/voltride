@@ -252,8 +252,29 @@ button, [role="button"] { min-height: 44px; }
 }
 .scene-cap-data b i { font-style: normal; font-size: .5em; color: var(--accent); margin-left: 1px; }
 
-/* ─ (legacy) field-journal leader annotations — kept for reference ─ */
-.anno-old { position: absolute; inset: 0; opacity: 0; transition: opacity .4s var(--ease); }
+/* ─ Forest: leader lines on portrait, caption on desktop-wide ─ */
+.anno-lines { position: absolute; inset: 0; }
+.scrub-frame:not(.wide) .anno[data-haslines] .scene-cap { display: none; }
+.scrub-frame.wide .anno[data-haslines] .anno-lines { display: none; }
+
+/* ─ City: glass tech-panel (a 3rd, distinct way to show specs) ─ */
+.spec-panel {
+  position: absolute; left: 50%; bottom: 15%; transform: translate(-50%, 16px);
+  display: flex; flex-direction: column; gap: 9px; min-width: min(78vw, 300px);
+  padding: 16px 20px; border-radius: 16px;
+  background: rgba(10,11,15,.5); border: 1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: 0 20px 50px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08);
+  transition: transform .55s var(--ease);
+}
+.anno.show .spec-panel { transform: translate(-50%, 0); }
+.sp-title { font-family: var(--display); font-weight: 600; font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent-lt); margin-bottom: 2px; }
+.sp-row { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.sp-row span { color: var(--muted); font-size: .74rem; text-transform: uppercase; letter-spacing: .08em; }
+.sp-row b { font-family: var(--display); font-weight: 600; font-size: .95rem; color: #fff; }
+.sp-row + .sp-row { border-top: 1px solid rgba(255,255,255,.1); padding-top: 9px; }
+
+/* ─ (legacy) field-journal base kept above; .anno-item styling reused for forest lines ─ */
 .anno-item { position: absolute; left: var(--x); top: var(--y); }
 .anno-dot {
   position: absolute; left: 0; top: 0; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px;

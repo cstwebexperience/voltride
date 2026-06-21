@@ -25,7 +25,9 @@ function initScrub() {
 
   const sticky    = section.querySelector(".scrub-sticky");
   const canvas    = section.querySelector("[data-scrub-canvas]");
-  const ctx       = canvas.getContext("2d");
+  const ctx       = canvas.getContext("2d", { alpha: false });
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
   const frameEl   = section.querySelector("[data-scrub-frame]");
   const introEl   = section.querySelector("[data-scrub-intro]");
   const ctaEl     = section.querySelector("[data-scrub-cta]");
@@ -196,7 +198,15 @@ function initScrub() {
     if (!ticking) { ticking = true; requestAnimationFrame(() => { draw(); ticking = false; }); }
   }
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", resize);
+  // robust across devices: window resize, phone rotation, and iOS/Android
+  // browser-chrome (address bar) show/hide which changes the viewport height
+  let rT;
+  const onResize = () => { clearTimeout(rT); rT = setTimeout(resize, 80); };
+  window.addEventListener("resize", onResize);
+  window.addEventListener("orientationchange", () => setTimeout(resize, 250));
+  if (window.visualViewport) window.visualViewport.addEventListener("resize", onResize);
+  // re-render after smoothing context resets, and when returning to the tab
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) draw(); });
   resize();
 
   // keep painting while first scenes decode
