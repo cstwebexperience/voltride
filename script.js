@@ -29,8 +29,9 @@ function initHeroVideo() {
   const ctx       = canvas.getContext("2d", { alpha: false });
   ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
   const notes     = Array.from(section.querySelectorAll(".hv-note"));
-  const hintEl    = section.querySelector("[data-scrub-hint]");
+  const hintEl    = section.querySelector("[data-hv-hint]");
   const loadingEl = section.querySelector("[data-hv-loading]");
+  const bars      = Array.from(section.querySelectorAll(".hv-prog-bars i"));
   const fabEl     = document.querySelector(".fab");
 
   const TOTAL_VH = 440;             // scroll length for the whole clip
@@ -87,9 +88,17 @@ function initHeroVideo() {
     const s = active();
     if (!s.imgs) return;
     const p = progress();
-    const targetF = p * (s.count - 1);
-    // ease the displayed frame toward the scroll target → silky-smooth scrub
-    curF += (targetF - curF) * 0.18;
+    // Dwell (hold) on each of the 3 shots, scrub smoothly through the transition between them.
+    const B = [0.15, 0.42, 0.55, 0.82];   // scroll breakpoints: holdCity | C→M | holdMtn | M→B | holdBeach
+    let ff, noteIdx = -1;
+    if (p <= B[0])      { ff = KF[0]; noteIdx = 0; }
+    else if (p <= B[1]) { ff = KF[0] + (KF[1] - KF[0]) * (p - B[0]) / (B[1] - B[0]); }
+    else if (p <= B[2]) { ff = KF[1]; noteIdx = 1; }
+    else if (p <= B[3]) { ff = KF[1] + (KF[2] - KF[1]) * (p - B[2]) / (B[3] - B[2]); }
+    else                { ff = KF[2]; noteIdx = 2; }
+
+    const targetF = ff * (s.count - 1);
+    curF += (targetF - curF) * 0.18;              // ease → silky-smooth transition
     if (Math.abs(targetF - curF) < 0.008) curF = targetF;
     let idx = Math.round(curF); idx = Math.max(0, Math.min(s.count - 1, idx));
     const img = (s.imgs[idx] && s.imgs[idx].complete) ? s.imgs[idx]
@@ -97,13 +106,15 @@ function initHeroVideo() {
     ctx.fillStyle = "#000"; ctx.fillRect(0, 0, vw, vh);
     if (img) ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h);
 
-    // marketing notes: show the nearest shot's note, fade between
-    let best = 0, bestD = 1e9;
-    for (let i = 0; i < KF.length; i++) { const d = Math.abs(p - KF[i]); if (d < bestD) { bestD = d; best = i; } }
-    const near = bestD < 0.06;
-    notes.forEach((el, i) => el.classList.toggle("is-on", near && i === best));
+    // marketing notes: shown only while holding on a shot, hidden during transitions
+    notes.forEach((el, i) => el.classList.toggle("is-on", i === noteIdx));
 
-    if (hintEl) hintEl.style.opacity = p < 0.02 ? "1" : "0";
+    // 3-chapter progress bars fill with scroll
+    for (let i = 0; i < bars.length; i++) {
+      const f = Math.max(0, Math.min(1, (p - i / 3) / (1 / 3)));
+      bars[i].style.width = (f * 100) + "%";
+    }
+    if (hintEl) hintEl.style.opacity = p < 0.03 ? "1" : "0";
     if (fabEl) {
       const pastHero = section.getBoundingClientRect().bottom < vh - 2;
       fabEl.classList.toggle("is-hidden", !pastHero && p < 0.92);
@@ -350,7 +361,12 @@ function initCountUp() {
 function initHeader() {
   const header = document.querySelector("[data-header]");
   if (!header) return;
-  const onScroll = () => header.classList.toggle("scrolled", window.scrollY > 20);
+  const hero = document.querySelector("[data-hero]");
+  const onScroll = () => {
+    // transparent while the hero fills the screen, solid glass once scrolled past it
+    const past = hero ? hero.getBoundingClientRect().bottom <= 72 : window.scrollY > 20;
+    header.classList.toggle("scrolled", past);
+  };
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 }
