@@ -18,107 +18,111 @@ document.addEventListener("DOMContentLoaded", () => {
   initOrderForm();
 });
 
-/* ─── Hero — chaptered video: a small scroll PLAYS to the next shot (City → Mountain → Beach),
-       each shot stays alive with a tiny loop. Not a rigid scrub. ─── */
+/* ─── Hero — smooth scroll-scrub of the whole clip, drawn frame-by-frame on canvas
+       (buttery on mobile, no video-seek jank). Subtle marketing notes at the 3 shots. ─── */
 function initHeroVideo() {
   const section = document.querySelector("[data-hero]");
   if (!section) return;
 
   const sticky    = section.querySelector(".hv-sticky");
-  const video     = section.querySelector("[data-hv-video]");
-  const notes      = Array.from(section.querySelectorAll(".hv-note"));
+  const canvas    = section.querySelector("[data-hv-canvas]");
+  const ctx       = canvas.getContext("2d", { alpha: false });
+  ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
+  const notes     = Array.from(section.querySelectorAll(".hv-note"));
   const hintEl    = section.querySelector("[data-scrub-hint]");
   const loadingEl = section.querySelector("[data-hv-loading]");
   const fabEl     = document.querySelector(".fab");
 
-  const SRC_WIDE = "assets/video/hero-16x9.mp4";
-  const SRC_TALL = "assets/video/hero-9x16.mp4";
-  const CH_VH = 95;                 // scroll length per chapter
-  const KF = [0.15, 0.53, 0.75];    // keyframe positions (fraction of duration)
-  const N = KF.length;
-  const HOLD = 0.05;                // half-width of the "alive" loop (fraction)
+  const TOTAL_VH = 440;             // scroll length for the whole clip
+  const KF = [0.15, 0.53, 0.75];    // keyframe positions (for the marketing notes)
+  const sets = {
+    wide: { dir: "assets/frames/hero-wide/", count: 68, aspect: 16 / 9 },
+    tall: { dir: "assets/frames/hero-tall/", count: 66, aspect: 9 / 16 },
+  };
+  section.style.height = TOTAL_VH + "vh";
 
-  section.style.height = (N * CH_VH + 30) + "vh";
-
-  let dur = 0, isTall = null;
-
-  function pickSrc() {
-    const tall = window.innerWidth < window.innerHeight;
-    if (tall === isTall) return;
-    isTall = tall;
-    const keep = video.currentTime || 0;
-    video.src = tall ? SRC_TALL : SRC_WIDE;
-    video.load();
-    video.addEventListener("loadedmetadata", () => { dur = video.duration || 6; try { video.currentTime = keep; } catch (e) {} tryPlay(); }, { once: true });
+  const pad = (n) => String(n).padStart(3, "0");
+  function loadSet(s) {
+    if (s.imgs) return;
+    s.imgs = new Array(s.count); s.loaded = 0; s.ready = false;
+    for (let i = 0; i < s.count; i++) {
+      const im = new Image(); im.decoding = "async";
+      im.onload = () => {
+        s.loaded++;
+        if (s.loaded >= s.count) { s.ready = true; if (loadingEl) loadingEl.classList.add("hidden"); }
+        if (i === 0) draw();
+      };
+      im.src = s.dir + pad(i + 1) + ".jpg";
+      s.imgs[i] = im;
+    }
   }
 
-  const tryPlay = () => { const p = video.play(); if (p && p.catch) p.catch(() => {}); };
+  let landscape = false, vw = 0, vh = 0, dpr = 1, rect = { x: 0, y: 0, w: 0, h: 0 }, curF = 0;
+  const active = () => (landscape ? sets.wide : sets.tall);
 
-  video.muted = true; video.playsInline = true;
-  video.addEventListener("loadedmetadata", () => { dur = video.duration || 6; });
-  video.addEventListener("canplay", () => { if (loadingEl) loadingEl.classList.add("hidden"); });
-  pickSrc();
-  tryPlay();
-
+  function computeRect() {
+    const fa = active().aspect;              // always COVER the viewport
+    let w = vw, h = vw / fa;
+    if (h < vh) { h = vh; w = vh * fa; }
+    rect = { x: (vw - w) / 2, y: (vh - h) / 2, w, h };
+  }
+  function resize() {
+    vw = sticky.clientWidth; vh = sticky.clientHeight;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(vw * dpr); canvas.height = Math.round(vh * dpr);
+    canvas.style.width = vw + "px"; canvas.style.height = vh + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
+    landscape = vw > vh;
+    loadSet(active());
+    computeRect(); draw();
+  }
   function progress() {
     const r = section.getBoundingClientRect();
-    const total = r.height - sticky.clientHeight;
+    const total = r.height - vh;
     const p = total > 0 ? -r.top / total : 0;
     return Math.max(0, Math.min(1, p));
   }
+  function draw() {
+    const s = active();
+    if (!s.imgs) return;
+    const p = progress();
+    const targetF = p * (s.count - 1);
+    // ease the displayed frame toward the scroll target → silky-smooth scrub
+    curF += (targetF - curF) * 0.18;
+    if (Math.abs(targetF - curF) < 0.008) curF = targetF;
+    let idx = Math.round(curF); idx = Math.max(0, Math.min(s.count - 1, idx));
+    const img = (s.imgs[idx] && s.imgs[idx].complete) ? s.imgs[idx]
+              : (s.imgs[0] && s.imgs[0].complete ? s.imgs[0] : null);
+    ctx.fillStyle = "#000"; ctx.fillRect(0, 0, vw, vh);
+    if (img) ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h);
+
+    // marketing notes: show the nearest shot's note, fade between
+    let best = 0, bestD = 1e9;
+    for (let i = 0; i < KF.length; i++) { const d = Math.abs(p - KF[i]); if (d < bestD) { bestD = d; best = i; } }
+    const near = bestD < 0.06;
+    notes.forEach((el, i) => el.classList.toggle("is-on", near && i === best));
+
+    if (hintEl) hintEl.style.opacity = p < 0.02 ? "1" : "0";
+    if (fabEl) {
+      const pastHero = section.getBoundingClientRect().bottom < vh - 2;
+      fabEl.classList.toggle("is-hidden", !pastHero && p < 0.92);
+    }
+  }
 
   let rafId = null, inView = true;
-
-  function frame() {
-    if (dur > 0) {
-      const p = progress();
-      const target = Math.max(0, Math.min(N - 1, Math.floor(p * N)));
-      const tTime = KF[target] * dur;
-      const holdW = HOLD * dur;
-      const ct = video.currentTime;
-
-      if (ct < tTime - 0.05) {
-        // scrolled forward → PLAY toward the next shot; speed through the transition, ease in near the shot
-        video.playbackRate = (tTime - ct > 0.5) ? 2.2 : 1.1;
-        if (video.paused) tryPlay();
-      } else if (ct > tTime + holdW + 0.06) {
-        // scrolled back → ease the time backward
-        if (!video.paused) video.pause();
-        try { video.currentTime = Math.max(tTime, ct - 0.09 * (dur / 6)); } catch (e) {}
-      } else {
-        // settled on a shot → keep it alive with a tiny loop
-        video.playbackRate = 1;
-        if (video.paused) tryPlay();
-        if (ct > tTime + holdW) { try { video.currentTime = Math.max(0, tTime - holdW); } catch (e) {} }
-      }
-
-      // marketing notes: show the nearest shot's note, fade during transitions
-      let best = 0, bestD = 1e9;
-      for (let i = 0; i < N; i++) { const d = Math.abs(ct - KF[i] * dur); if (d < bestD) { bestD = d; best = i; } }
-      const near = bestD < holdW + 0.30 * (dur / 6);
-      notes.forEach((el, i) => el.classList.toggle("is-on", near && i === best));
-
-      if (hintEl) hintEl.style.opacity = p < 0.02 ? "1" : "0";
-      if (fabEl) {
-        const pastHero = section.getBoundingClientRect().bottom < sticky.clientHeight - 2;
-        fabEl.classList.toggle("is-hidden", !pastHero && p < 0.92);
-      }
-    }
-    rafId = inView ? requestAnimationFrame(frame) : null;
-  }
-  function start() { if (rafId == null) rafId = requestAnimationFrame(frame); }
-
+  function loop() { draw(); rafId = inView ? requestAnimationFrame(loop) : null; }
+  function startLoop() { if (rafId == null) rafId = requestAnimationFrame(loop); }
   if ("IntersectionObserver" in window) {
-    new IntersectionObserver((es) => {
-      inView = es[0].isIntersecting;
-      if (inView) { tryPlay(); start(); } else { video.pause(); }
-    }, { rootMargin: "200px" }).observe(section);
+    new IntersectionObserver((es) => { inView = es[0].isIntersecting; if (inView) startLoop(); }, { rootMargin: "200px" }).observe(section);
   }
-  window.addEventListener("scroll", start, { passive: true });
-  window.addEventListener("resize", pickSrc);
-  window.addEventListener("orientationchange", () => setTimeout(pickSrc, 300));
-  document.addEventListener("visibilitychange", () => { if (!document.hidden) { tryPlay(); start(); } });
-  start();
+  let rT; const onResize = () => { clearTimeout(rT); rT = setTimeout(resize, 80); };
+  window.addEventListener("scroll", startLoop, { passive: true });
+  window.addEventListener("resize", onResize);
+  window.addEventListener("orientationchange", () => setTimeout(resize, 250));
+  if (window.visualViewport) window.visualViewport.addEventListener("resize", onResize);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) startLoop(); });
+  resize(); startLoop();
 }
 
 /* ─── (legacy) Scroll-scrub hero — inert now that there is no [data-scrub] element ─── */
