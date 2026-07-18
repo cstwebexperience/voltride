@@ -59,85 +59,48 @@
            photo/video: drop it inside [data-hero-media] and it sits
            behind the text automatically.
       ────────────────────────────────────────────────────────── -->
-      <section class="scrub" id="hero" data-scrub>
-        <div class="scrub-sticky">
-          <canvas class="scrub-canvas" data-scrub-canvas></canvas>
-          <div class="scrub-vignette" aria-hidden="true"></div>
-          <div class="scrub-flash" data-scrub-flash aria-hidden="true"></div>
+      <section class="hv" id="hero" data-hero>
+        <div class="hv-sticky">
+          <video class="hv-video" data-hv-video muted playsinline autoplay preload="auto" disablepictureinpicture></video>
+          <div class="hv-scrim" aria-hidden="true"></div>
 
-          <!-- Overlay sized by JS to match the drawn frame, so annotations stay aligned -->
-          <div class="scrub-frame" data-scrub-frame>
-
-            <!-- Scene 0 — Mountain: power & range -->
-            <div class="anno" data-anno="0" aria-hidden="true">
-              <div class="scene-cap">
-                <span class="scene-cap-label">Power to go further</span>
-                <div class="scene-cap-data">
-                  <span><b>250<i>W</i></b>motor</span>
-                  <span><b>70<i>Nm</i></b>torque</span>
-                  <span><b>60<i>km</i></b>range</span>
-                </div>
-              </div>
+          <!-- subtle marketing notes — one per chapter (JS fades the active one in) -->
+          <div class="hv-notes">
+            <div class="hv-note" data-note="0" aria-hidden="true">
+              <span class="hv-note-k">In the city</span>
+              <ul>
+                <li>Street-legal — no license</li>
+                <li>Silent electric drive</li>
+                <li>Instant torque</li>
+              </ul>
             </div>
-
-            <!-- Scene 1 — Forest: field-journal leader lines (portrait) / caption (desktop) -->
-            <div class="anno" data-anno="1" data-haslines aria-hidden="true">
-              <div class="anno-lines">
-                <div class="anno-item" data-side="left" style="--x:62%; --y:50%; --len:44px;">
-                  <span class="anno-dot"></span><span class="anno-line"></span>
-                  <span class="anno-label"><b>Front suspension</b>Soaks up the trail</span>
-                </div>
-                <div class="anno-item" data-side="right" style="--x:34%; --y:63%; --len:44px;">
-                  <span class="anno-dot"></span><span class="anno-line"></span>
-                  <span class="anno-label"><b>Long dual seat</b>Ride two-up</span>
-                </div>
-                <div class="anno-item" data-side="right" style="--x:20%; --y:82%; --len:42px;">
-                  <span class="anno-dot"></span><span class="anno-line"></span>
-                  <span class="anno-label"><b>7-speed Shimano</b>Hydraulic discs</span>
-                </div>
-              </div>
-              <div class="scene-cap">
-                <span class="scene-cap-label">Built for any trail</span>
-                <div class="scene-cap-data">
-                  <span><b>Dual</b>suspension</span>
-                  <span><b>7<i>spd</i></b>Shimano</span>
-                  <span><b>20×4.0</b>fat tires</span>
-                </div>
-              </div>
+            <div class="hv-note" data-note="1" aria-hidden="true">
+              <span class="hv-note-k">Off the grid</span>
+              <ul>
+                <li>Fat all-terrain tyres</li>
+                <li>Full suspension</li>
+                <li>Climbs anything</li>
+              </ul>
             </div>
-
-            <!-- Scene 2 — City: glass tech-panel -->
-            <div class="anno" data-anno="2" aria-hidden="true">
-              <div class="spec-panel">
-                <span class="sp-title">X80 Pro · City spec</span>
-                <div class="sp-row"><span>Top speed</span><b>25 km/h</b></div>
-                <div class="sp-row"><span>Approval</span><b>CE · EN 15194</b></div>
-                <div class="sp-row"><span>Dashboard</span><b>LCD + LED light</b></div>
-              </div>
+            <div class="hv-note" data-note="2" aria-hidden="true">
+              <span class="hv-note-k">Anywhere you want</span>
+              <ul>
+                <li>Weather-sealed build</li>
+                <li>Long-range battery</li>
+                <li>Free worldwide shipping</li>
+              </ul>
             </div>
-
           </div>
 
-          <!-- Intro (scene 0 hold) -->
-          <div class="scrub-intro" data-scrub-intro>
-            <span class="hero-badge">Free worldwide shipping</span>
-            <p class="eyebrow">Electric · All-Terrain · Street-Legal</p>
-            <h1 class="hero-title">FAT&nbsp;X80&nbsp;<span class="grad">PRO</span></h1>
-            <p class="hero-sub">Where the road ends, you keep going.</p>
-          </div>
-
-          <!-- Final CTA (last scene) -->
-          <div class="scrub-cta" data-scrub-cta>
-            <h2>Claim yours. <span class="grad">Ride sooner.</span></h2>
-            <p class="scrub-cta-price"><span>From</span> <strong class="grad">€1,199</strong> · free worldwide shipping</p>
-            <a class="btn btn-primary" href="#order">Order now <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-          </div>
+          <a class="hv-cta btn btn-primary" href="#bike">Explore the bikes
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
 
           <div class="scrub-hint" data-scrub-hint aria-hidden="true">
             <span class="scrub-hint-track"></span>
             <span class="scrub-hint-label">Scroll</span>
           </div>
-          <div class="scrub-loading" data-scrub-loading><span class="scrub-spinner"></span></div>
+          <div class="scrub-loading" data-hv-loading><span class="scrub-spinner"></span></div>
         </div>
       </section>
 

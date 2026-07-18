@@ -14,11 +14,114 @@ document.addEventListener("DOMContentLoaded", () => {
   initMobileNav();
   initReveal();
   initCountUp();
-  initScrub();
+  initHeroVideo();
   initOrderForm();
 });
 
-/* ─── Scroll-scrub hero (canvas frame sequence + annotations) ─── */
+/* ─── Hero — chaptered video: a small scroll PLAYS to the next shot (City → Mountain → Beach),
+       each shot stays alive with a tiny loop. Not a rigid scrub. ─── */
+function initHeroVideo() {
+  const section = document.querySelector("[data-hero]");
+  if (!section) return;
+
+  const sticky    = section.querySelector(".hv-sticky");
+  const video     = section.querySelector("[data-hv-video]");
+  const notes      = Array.from(section.querySelectorAll(".hv-note"));
+  const hintEl    = section.querySelector("[data-scrub-hint]");
+  const loadingEl = section.querySelector("[data-hv-loading]");
+  const fabEl     = document.querySelector(".fab");
+
+  const SRC_WIDE = "assets/video/hero-16x9.mp4";
+  const SRC_TALL = "assets/video/hero-9x16.mp4";
+  const CH_VH = 95;                 // scroll length per chapter
+  const KF = [0.15, 0.53, 0.75];    // keyframe positions (fraction of duration)
+  const N = KF.length;
+  const HOLD = 0.05;                // half-width of the "alive" loop (fraction)
+
+  section.style.height = (N * CH_VH + 30) + "vh";
+
+  let dur = 0, isTall = null;
+
+  function pickSrc() {
+    const tall = window.innerWidth < window.innerHeight;
+    if (tall === isTall) return;
+    isTall = tall;
+    const keep = video.currentTime || 0;
+    video.src = tall ? SRC_TALL : SRC_WIDE;
+    video.load();
+    video.addEventListener("loadedmetadata", () => { dur = video.duration || 6; try { video.currentTime = keep; } catch (e) {} tryPlay(); }, { once: true });
+  }
+
+  const tryPlay = () => { const p = video.play(); if (p && p.catch) p.catch(() => {}); };
+
+  video.muted = true; video.playsInline = true;
+  video.addEventListener("loadedmetadata", () => { dur = video.duration || 6; });
+  video.addEventListener("canplay", () => { if (loadingEl) loadingEl.classList.add("hidden"); });
+  pickSrc();
+  tryPlay();
+
+  function progress() {
+    const r = section.getBoundingClientRect();
+    const total = r.height - sticky.clientHeight;
+    const p = total > 0 ? -r.top / total : 0;
+    return Math.max(0, Math.min(1, p));
+  }
+
+  let rafId = null, inView = true;
+
+  function frame() {
+    if (dur > 0) {
+      const p = progress();
+      const target = Math.max(0, Math.min(N - 1, Math.floor(p * N)));
+      const tTime = KF[target] * dur;
+      const holdW = HOLD * dur;
+      const ct = video.currentTime;
+
+      if (ct < tTime - 0.05) {
+        // scrolled forward → PLAY toward the next shot; speed through the transition, ease in near the shot
+        video.playbackRate = (tTime - ct > 0.5) ? 2.2 : 1.1;
+        if (video.paused) tryPlay();
+      } else if (ct > tTime + holdW + 0.06) {
+        // scrolled back → ease the time backward
+        if (!video.paused) video.pause();
+        try { video.currentTime = Math.max(tTime, ct - 0.09 * (dur / 6)); } catch (e) {}
+      } else {
+        // settled on a shot → keep it alive with a tiny loop
+        video.playbackRate = 1;
+        if (video.paused) tryPlay();
+        if (ct > tTime + holdW) { try { video.currentTime = Math.max(0, tTime - holdW); } catch (e) {} }
+      }
+
+      // marketing notes: show the nearest shot's note, fade during transitions
+      let best = 0, bestD = 1e9;
+      for (let i = 0; i < N; i++) { const d = Math.abs(ct - KF[i] * dur); if (d < bestD) { bestD = d; best = i; } }
+      const near = bestD < holdW + 0.30 * (dur / 6);
+      notes.forEach((el, i) => el.classList.toggle("is-on", near && i === best));
+
+      if (hintEl) hintEl.style.opacity = p < 0.02 ? "1" : "0";
+      if (fabEl) {
+        const pastHero = section.getBoundingClientRect().bottom < sticky.clientHeight - 2;
+        fabEl.classList.toggle("is-hidden", !pastHero && p < 0.92);
+      }
+    }
+    rafId = inView ? requestAnimationFrame(frame) : null;
+  }
+  function start() { if (rafId == null) rafId = requestAnimationFrame(frame); }
+
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver((es) => {
+      inView = es[0].isIntersecting;
+      if (inView) { tryPlay(); start(); } else { video.pause(); }
+    }, { rootMargin: "200px" }).observe(section);
+  }
+  window.addEventListener("scroll", start, { passive: true });
+  window.addEventListener("resize", pickSrc);
+  window.addEventListener("orientationchange", () => setTimeout(pickSrc, 300));
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) { tryPlay(); start(); } });
+  start();
+}
+
+/* ─── (legacy) Scroll-scrub hero — inert now that there is no [data-scrub] element ─── */
 function initScrub() {
   const section = document.querySelector("[data-scrub]");
   if (!section) return;

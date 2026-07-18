@@ -392,6 +392,39 @@ button, [role="button"] { min-height: 44px; }
 .ticker-track .dot { color: var(--accent); }
 @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
+/* ════════════════════════════════════════════════════
+   HERO — chaptered video (scroll plays City → Mountain → Beach)
+   ════════════════════════════════════════════════════ */
+.hv { position: relative; background: #000; }
+.hv-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; background: #000; }
+.hv-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hv-scrim {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,.28) 0%, transparent 20%, transparent 52%, rgba(0,0,0,.72) 100%);
+}
+
+.hv-notes { position: absolute; left: clamp(20px,4vw,54px); bottom: clamp(96px,17vh,160px); z-index: 3; }
+.hv-note {
+  position: absolute; left: 0; bottom: 0; opacity: 0; transform: translateY(14px);
+  transition: opacity .55s var(--ease), transform .55s var(--ease); pointer-events: none;
+}
+.hv-note.is-on { opacity: 1; transform: none; }
+.hv-note-k { font-family: var(--mono); font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent-lt); text-shadow: 0 1px 10px rgba(0,0,0,.75); }
+.hv-note ul { margin-top: 12px; display: flex; flex-direction: column; gap: 9px; }
+.hv-note li {
+  position: relative; padding-left: 22px; white-space: nowrap;
+  font-family: var(--display); font-weight: 500; font-size: clamp(.98rem, 2.3vw, 1.2rem);
+  color: #fff; text-shadow: 0 1px 12px rgba(0,0,0,.85);
+}
+.hv-note li::before { content: ""; position: absolute; left: 0; top: .64em; width: 13px; height: 1.5px; background: var(--accent); box-shadow: 0 0 8px var(--glow); }
+
+.hv-cta { position: absolute; right: clamp(20px,4vw,54px); bottom: clamp(96px,17vh,160px); z-index: 3; }
+
+@media (max-width: 640px) {
+  .hv-notes { left: 20px; bottom: 128px; }
+  .hv-cta { right: 20px; left: 20px; bottom: 80px; }
+}
+
 /* ─── Kicker (mono technical tag) ─── */
 .kicker { font-family: var(--mono); font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent-lt); display: inline-block; }
 
