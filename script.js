@@ -18,98 +18,117 @@ document.addEventListener("DOMContentLoaded", () => {
   initOrderForm();
 });
 
-/* ─── Hero — the REAL clip plays (60fps, exactly like the video): a small scroll plays
-       the smooth transition to the next shot (City → Mountain → Beach), then it holds. ─── */
+/* ─── Hero — award-style scroll-scrub of the WHOLE clip (City zoom → Mountain → Beach → POV ride).
+       Dense frames = smooth zooms; eased playback = the video keeps "playing" to catch the scroll. ─── */
 function initHeroVideo() {
   const section = document.querySelector("[data-hero]");
   if (!section) return;
 
   const sticky    = section.querySelector(".hv-sticky");
-  const video     = section.querySelector("[data-hv-video]");
+  const canvas    = section.querySelector("[data-hv-canvas]");
+  const ctx       = canvas.getContext("2d", { alpha: false });
+  ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
   const notes     = Array.from(section.querySelectorAll(".hv-note"));
   const loadingEl = section.querySelector("[data-hv-loading]");
   const fabEl     = document.querySelector(".fab");
 
-  const SRC_WIDE = "assets/video/hero-16x9.mp4";
-  const SRC_TALL = "assets/video/hero-9x16.mp4";
-  const CH_VH = 80;                 // scroll length per chapter (small = a light scroll plays the next transition)
-  const KF = [0.16, 0.53, 0.75];    // shot positions (fraction of duration)
-  const N = KF.length;
+  const TOTAL_VH = 470;                                   // scroll length for the whole clip
+  const NOTE_ZONES = [[0.0, 0.34], [0.55, 0.72], [0.76, 1.0]]; // City · Mountain · Beach/POV
+  const sets = {
+    wide: { dir: "assets/frames/hero-wide/", count: 149, aspect: 16 / 9 },
+    tall: { dir: "assets/frames/hero-tall/", count: 97,  aspect: 9 / 16 },
+  };
+  section.style.height = TOTAL_VH + "vh";
 
-  section.style.height = (N * CH_VH) + "vh";
-
-  let dur = 0, isTall = null, settled = 0, primed = false;
-
-  function pickSrc() {
-    const tall = window.innerWidth < window.innerHeight;
-    if (tall === isTall) return;
-    isTall = tall;
-    primed = false;
-    video.src = tall ? SRC_TALL : SRC_WIDE;
-    video.load();
+  const pad = (n) => String(n).padStart(3, "0");
+  function loadSet(s) {
+    if (s.imgs) return;
+    s.imgs = new Array(s.count); s.loaded = 0;
+    for (let i = 0; i < s.count; i++) {
+      const im = new Image(); im.decoding = "async";
+      im.onload = () => {
+        s.loaded++;
+        if (s.loaded >= Math.min(6, s.count) && loadingEl) loadingEl.classList.add("hidden");
+        if (i === 0) draw();
+      };
+      im.src = s.dir + pad(i + 1) + ".jpg";
+      s.imgs[i] = im;
+    }
   }
-  const play = () => { const q = video.play(); if (q && q.catch) q.catch(() => {}); };
 
-  video.muted = true; video.playsInline = true;
-  video.addEventListener("loadedmetadata", () => { dur = video.duration || 6; try { video.currentTime = KF[settled] * dur; } catch (e) {} });
-  video.addEventListener("loadeddata", () => {
-    dur = video.duration || 6;
-    if (!primed) { primed = true; try { video.currentTime = KF[settled] * dur; } catch (e) {} video.pause(); }
-    if (loadingEl) loadingEl.classList.add("hidden");
-  });
-  pickSrc();
+  let landscape = false, vw = 0, vh = 0, dpr = 1, rect = { x: 0, y: 0, w: 0, h: 0 }, curF = 0;
+  const active = () => (landscape ? sets.wide : sets.tall);
 
+  function computeRect() {
+    const fa = active().aspect;              // always COVER the viewport
+    let w = vw, h = vw / fa;
+    if (h < vh) { h = vh; w = vh * fa; }
+    rect = { x: (vw - w) / 2, y: (vh - h) / 2, w, h };
+  }
+  function resize() {
+    vw = sticky.clientWidth; vh = sticky.clientHeight;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(vw * dpr); canvas.height = Math.round(vh * dpr);
+    canvas.style.width = vw + "px"; canvas.style.height = vh + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
+    landscape = vw > vh;
+    loadSet(active());
+    computeRect(); draw();
+  }
   function progress() {
     const r = section.getBoundingClientRect();
-    const total = r.height - sticky.clientHeight;
+    const total = r.height - vh;
     const p = total > 0 ? -r.top / total : 0;
     return Math.max(0, Math.min(1, p));
   }
+  let lastNearest = 0;
+  function nearestLoaded(s, idx) {
+    if (s.imgs[idx] && s.imgs[idx].complete && s.imgs[idx].naturalWidth) return s.imgs[idx];
+    for (let d = 1; d < s.count; d++) {
+      const a = idx - d, b = idx + d;
+      if (a >= 0 && s.imgs[a] && s.imgs[a].complete && s.imgs[a].naturalWidth) return s.imgs[a];
+      if (b < s.count && s.imgs[b] && s.imgs[b].complete && s.imgs[b].naturalWidth) return s.imgs[b];
+    }
+    return null;
+  }
+  function draw() {
+    const s = active();
+    if (!s.imgs) return;
+    const p = progress();
+    const targetF = p * (s.count - 1);
+    // eased playback — after a scroll flick the clip keeps playing smoothly to the new spot
+    curF += (targetF - curF) * 0.14;
+    if (Math.abs(targetF - curF) < 0.01) curF = targetF;
+    let idx = Math.round(curF); idx = Math.max(0, Math.min(s.count - 1, idx));
+    const img = nearestLoaded(s, idx);
+    ctx.fillStyle = "#000"; ctx.fillRect(0, 0, vw, vh);
+    if (img) ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h);
+
+    // marketing notes: shown while dwelling on a scene, hidden through the transitions
+    let noteIdx = -1;
+    for (let i = 0; i < NOTE_ZONES.length; i++) { if (p >= NOTE_ZONES[i][0] && p <= NOTE_ZONES[i][1]) noteIdx = i; }
+    notes.forEach((el, i) => el.classList.toggle("is-on", i === noteIdx));
+
+    if (fabEl) {
+      const pastHero = section.getBoundingClientRect().bottom < vh - 2;
+      fabEl.classList.toggle("is-hidden", !pastHero && p < 0.92);
+    }
+  }
 
   let rafId = null, inView = true;
-  function frame() {
-    if (dur > 0) {
-      const p = progress();
-      const target = Math.max(0, Math.min(N - 1, Math.floor(p * N)));
-      const ct = video.currentTime;
-
-      if (target > settled) {
-        // play the real transition FORWARD toward the target shot (smooth 60fps, like the video)
-        if (video.paused) play();
-        if (ct >= KF[target] * dur - 0.02) { video.pause(); settled = target; }
-      } else if (target < settled) {
-        // scrolled back → snap to the previous shot
-        if (!video.paused) video.pause();
-        try { video.currentTime = KF[target] * dur; } catch (e) {}
-        settled = target;
-      } else {
-        // holding on the current shot — keep it parked exactly on the shot
-        if (!video.paused) video.pause();
-        if (!video.seeking && Math.abs(ct - KF[settled] * dur) > 0.25) {
-          try { video.currentTime = KF[settled] * dur; } catch (e) {}
-        }
-      }
-
-      const holding = target === settled;
-      notes.forEach((el, i) => el.classList.toggle("is-on", holding && i === settled));
-
-      if (fabEl) {
-        const pastHero = section.getBoundingClientRect().bottom < sticky.clientHeight - 2;
-        fabEl.classList.toggle("is-hidden", !pastHero && p < 0.92);
-      }
-    }
-    rafId = inView ? requestAnimationFrame(frame) : null;
-  }
-  function startLoop() { if (rafId == null) rafId = requestAnimationFrame(frame); }
-
+  function loop() { draw(); rafId = inView ? requestAnimationFrame(loop) : null; }
+  function startLoop() { if (rafId == null) rafId = requestAnimationFrame(loop); }
   if ("IntersectionObserver" in window) {
-    new IntersectionObserver((es) => { inView = es[0].isIntersecting; if (inView) startLoop(); else video.pause(); }, { rootMargin: "200px" }).observe(section);
+    new IntersectionObserver((es) => { inView = es[0].isIntersecting; if (inView) startLoop(); }, { rootMargin: "250px" }).observe(section);
   }
+  let rT; const onResize = () => { clearTimeout(rT); rT = setTimeout(resize, 80); };
   window.addEventListener("scroll", startLoop, { passive: true });
-  window.addEventListener("resize", pickSrc);
-  window.addEventListener("orientationchange", () => setTimeout(pickSrc, 300));
+  window.addEventListener("resize", onResize);
+  window.addEventListener("orientationchange", () => setTimeout(resize, 250));
+  if (window.visualViewport) window.visualViewport.addEventListener("resize", onResize);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) startLoop(); });
-  startLoop();
+  resize(); startLoop();
 }
 
 /* ─── (legacy) Scroll-scrub hero — inert now that there is no [data-scrub] element ─── */
