@@ -427,20 +427,22 @@ button, [role="button"] { min-height: 44px; }
 .hv-note-k { font-family: var(--mono); font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent-lt); text-shadow: 0 1px 10px rgba(0,0,0,.75); }
 .hv-note ul { margin-top: 12px; display: flex; flex-direction: column; gap: 9px; }
 .hv-note li {
-  position: relative; padding-left: 22px; white-space: nowrap;
+  position: relative; padding-left: 28px; white-space: nowrap;
   font-family: var(--display); font-weight: 500; font-size: clamp(.98rem, 2.3vw, 1.2rem);
   color: #fff; text-shadow: 0 1px 12px rgba(0,0,0,.85);
 }
-.hv-note li::before { content: ""; position: absolute; left: 0; top: .64em; width: 13px; height: 1.5px; background: var(--accent); box-shadow: 0 0 8px var(--glow); }
+/* field-journal "biology" marker: node dot + connector line + label */
+.hv-note li::before { content: ""; position: absolute; left: 0; top: .4em; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--accent); background: rgba(56,189,248,.28); box-shadow: 0 0 8px var(--glow); }
+.hv-note li::after  { content: ""; position: absolute; left: 10px; top: .62em; width: 12px; height: 1.5px; background: linear-gradient(90deg, var(--accent), rgba(56,189,248,.15)); }
 
 .hv-cta { position: absolute; right: clamp(20px,4vw,54px); bottom: clamp(96px,17vh,160px); z-index: 3; }
 
 @media (max-width: 640px) {
-  .hv-notes { left: 16px; bottom: 92px; }
+  .hv-notes { left: 16px; bottom: calc(46px + env(safe-area-inset-bottom)); }
   .hv-note-k { font-size: .62rem; }
-  .hv-note li { font-size: .9rem; padding-left: 18px; gap: 7px; }
-  .hv-note li::before { width: 10px; }
-  .hv-cta { right: 16px; left: 16px; bottom: calc(20px + env(safe-area-inset-bottom)); }
+  .hv-note li { font-size: .92rem; padding-left: 24px; }
+  .hv-note ul { gap: 8px; }
+  .hv-cta { display: none; }   /* misaligned over the notes on phones — the floating Order button covers it */
 }
 
 /* ─── Kicker (mono technical tag) ─── */

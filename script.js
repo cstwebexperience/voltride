@@ -32,9 +32,8 @@ function initHeroVideo() {
 
   const SRC_WIDE = "assets/video/hero-16x9.mp4";
   const SRC_TALL = "assets/video/hero-9x16.mp4";
-  const CH_VH = 78;                              // scroll length per chapter
-  const KF = [0.02, 0.29, 0.55, 0.80];           // the 4 static shots: City-front · City-side · Mountain · Beach
-  const NOTE_MAP = [0, 0, 1, 2];                 // which marketing note each shot shows (city, city, mountain, beach)
+  const CH_VH = 76;                              // scroll length per chapter
+  const KF = [0.02, 0.29, 0.55, 0.80, 0.97];     // the 5 shots: City-front · City-side · Mountain · Beach · POV ride
   const N = KF.length;
 
   section.style.height = (N * CH_VH) + "vh";
@@ -91,7 +90,7 @@ function initHeroVideo() {
       }
 
       const holding = target === settled;
-      notes.forEach((el, i) => el.classList.toggle("is-on", holding && i === NOTE_MAP[settled]));
+      notes.forEach((el, i) => el.classList.toggle("is-on", holding && i === settled));
 
       if (fabEl) {
         const pastHero = section.getBoundingClientRect().bottom < sticky.clientHeight - 2;
