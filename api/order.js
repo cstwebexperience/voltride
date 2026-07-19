@@ -6,14 +6,20 @@ export default async function handler(req, res) {
   const key = process.env.RESEND_API_KEY;
   if (!key) return res.status(500).json({ error: "Email not configured" });
 
-  const { ref, product, price, name, email, country, phone, color, quantity, message } = req.body || {};
-  if (!name || !email || !country || !product) return res.status(400).json({ error: "Missing fields" });
+  const { ref, items, total, payment, name, email, phone, country, city, address, zip } = req.body || {};
+  if (!name || !email || !country || !Array.isArray(items) || !items.length) {
+    return res.status(400).json({ error: "Missing fields" });
+  }
 
   const esc = (s) => String(s ?? "").replace(/[<>&"]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }[c]));
-  const rows = [
-    ["Reference", ref], ["Product", product], ["Price", price], ["Name", name],
-    ["Email", email], ["Country", country], ["Phone", phone], ["Color", color],
-    ["Quantity", quantity], ["Message", message],
+
+  const itemRows = items.map((i) =>
+    `<tr><td style="padding:5px 14px 5px 0">${esc(i.name)}</td><td style="padding:5px 14px 5px 0">× ${esc(i.qty)}</td><td style="padding:5px 0"><b>${esc(i.price)}</b></td></tr>`).join("");
+
+  const infoRows = [
+    ["Reference", ref], ["Total", total], ["Payment", payment],
+    ["Name", name], ["Email", email], ["Phone", phone],
+    ["Country", country], ["City", city], ["Address", address], ["Postal code", zip],
   ].map(([k, v]) => `<tr><td style="padding:6px 14px 6px 0;color:#888;font-size:13px">${k}</td><td style="padding:6px 0;font-size:14px"><b>${esc(v)}</b></td></tr>`).join("");
 
   try {
@@ -24,8 +30,13 @@ export default async function handler(req, res) {
         from: "ZEPHRIDE Orders <onboarding@resend.dev>",
         to: ["cstwebexperience@gmail.com"],
         reply_to: email,
-        subject: `New ZEPHRIDE order — ${product} · ${ref}`,
-        html: `<h2 style="font-family:sans-serif">New order request</h2><table style="font-family:sans-serif;border-collapse:collapse">${rows}</table>`,
+        subject: `New ZEPHRIDE order · ${total} · ${ref}`,
+        html: `<div style="font-family:sans-serif">
+          <h2>New order</h2>
+          <table style="border-collapse:collapse">${itemRows}</table>
+          <hr style="border:none;border-top:1px solid #ddd;margin:14px 0"/>
+          <table style="border-collapse:collapse">${infoRows}</table>
+        </div>`,
       }),
     });
     if (!r.ok) throw new Error(await r.text());

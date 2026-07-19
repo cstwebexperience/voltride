@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>ZEPHRIDE — Electric Bike</title>
+    <meta name="description" content="ZEPHRIDE fat-tire electric bike — full specs, photos and ordering. Free shipping across Europe." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="subpage">
+
+    <!-- ─── Country welcome / selector ─── -->
+    <div class="country-modal" data-country-modal aria-hidden="true">
+      <div class="country-card">
+        <div class="country-glow" aria-hidden="true"></div>
+        <span class="region-brand">ZEPH<span>RIDE</span></span>
+        <h2>Where are you riding from?</h2>
+        <p>Prices, delivery and availability are tailored to your country.</p>
+        <div class="country-grid" data-country-grid></div>
+        <p class="country-foot">Free shipping · no customs fees inside the EU</p>
+      </div>
+    </div>
+
+    <!-- ─── HEADER ─── -->
+    <header class="header scrolled" data-header>
+      <div class="header-inner">
+        <a class="logo" href="index.html" aria-label="ZEPHRIDE">
+          <span class="logo-text">ZEPH<span>RIDE</span></span>
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="index.html#bikes">The bikes</a>
+          <a href="mailto:cstwebexperience@gmail.com">Contact</a>
+        </nav>
+        <div class="header-right">
+          <button class="country-pill" type="button" data-country-pill aria-label="Change country" hidden>
+            <img data-pill-flag alt="" width="20" height="15" /><span data-pill-name></span>
+          </button>
+          <a class="cart-btn" href="cart.html" aria-label="Cart">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span class="cart-count" data-cart-count hidden>0</span>
+          </a>
+          <button class="btn-hamburger" type="button" data-menu-toggle aria-label="Menu"><span></span><span></span></button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ─── MOBILE NAV ─── -->
+    <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
+      <a href="index.html#bikes">The bikes</a>
+      <a href="cart.html">Cart</a>
+      <a href="mailto:cstwebexperience@gmail.com">Contact</a>
+      <button class="country-pill country-pill-mobile" type="button" data-country-pill-m hidden>
+        <img data-pill-flag-m alt="" width="20" height="15" /><span data-pill-name-m></span>
+      </button>
+    </nav>
+
+    <main class="pp" data-product-page>
+      <!-- rendered by product.js -->
+    </main>
+
+    <!-- ─── FOOTER ─── -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a class="logo" href="index.html" aria-label="ZEPHRIDE"><span class="logo-mark">⚡</span><span class="logo-text">ZEPH<span>RIDE</span></span></a>
+          <p>All-terrain electric bikes, shipped across Europe.</p>
+        </div>
+        <div class="footer-links">
+          <span class="footer-links-title">Explore</span>
+          <a href="index.html#bikes">The bikes</a><a href="index.html">Home</a>
+        </div>
+        <div class="footer-links">
+          <span class="footer-links-title">Contact</span>
+          <a href="mailto:cstwebexperience@gmail.com">cstwebexperience@gmail.com</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 ZEPHRIDE. All rights reserved.</p>
+        <p>Specifications are indicative and may vary by configuration.</p>
+      </div>
+    </footer>
+
+    <!-- ─── TOAST ─── -->
+    <div class="toast" data-toast role="status"></div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script src="product.js"></script>
+  </body>
+</html>

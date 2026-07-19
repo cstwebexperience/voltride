@@ -47,6 +47,10 @@
           <button class="country-pill" type="button" data-country-pill aria-label="Change country" hidden>
             <img data-pill-flag alt="" width="20" height="15" /><span data-pill-name></span>
           </button>
+          <a class="cart-btn" href="cart.html" aria-label="Cart">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span class="cart-count" data-cart-count hidden>0</span>
+          </a>
           <a class="btn btn-primary btn-sm" href="#bikes">Shop bikes</a>
           <button class="btn-hamburger" type="button" data-menu-toggle aria-label="Menu"><span></span><span></span></button>
         </div>
@@ -56,6 +60,7 @@
     <!-- ─── MOBILE NAV ─── -->
     <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
       <a href="#bikes">The bikes</a>
+      <a href="cart.html">Cart</a>
       <a href="mailto:cstwebexperience@gmail.com">Contact</a>
       <button class="country-pill country-pill-mobile" type="button" data-country-pill-m hidden>
         <img data-pill-flag-m alt="" width="20" height="15" /><span data-pill-name-m></span>
@@ -152,12 +157,6 @@
         <div class="catalog-grid" data-catalog></div>
       </section>
 
-      <!-- product detail modal -->
-      <div class="pd-modal" data-pd-modal aria-hidden="true">
-        <div class="pd-backdrop" data-pd-close></div>
-        <div class="pd-panel" data-pd-panel></div>
-      </div>
-
       <!-- ─── FOOTER ─── -->
       <footer class="footer">
         <div class="footer-inner">
@@ -188,6 +187,7 @@
     <!-- ─── TOAST ─── -->
     <div class="toast" data-toast role="status"></div>
 
+    <script src="data.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
