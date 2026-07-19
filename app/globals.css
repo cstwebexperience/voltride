@@ -191,19 +191,27 @@ ul { list-style: none; }
 .whyus-card h3 { font-family: var(--display); font-weight: 700; font-size: 1.08rem; margin: 12px 0 8px; }
 .whyus-card p { color: var(--muted); font-size: .88rem; line-height: 1.6; }
 
-/* ─── Compare table ─── */
-.compare { max-width: var(--maxw); margin: 0 auto; padding: clamp(50px, 8vw, 100px) 24px; }
-.compare-scroll { overflow-x: auto; border: 1px solid var(--border-h); border-radius: 24px; background: var(--card); scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.14) transparent; }
-.compare-table { width: 100%; min-width: 860px; border-collapse: collapse; font-size: .88rem; }
-.compare-table th, .compare-table td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
-.compare-table thead th { font-family: var(--display); font-weight: 700; font-size: 1.05rem; }
-.compare-table thead a { transition: color .2s; }
-.compare-table thead a:hover { color: var(--accent-lt); }
-.compare-table thead em { display: block; font-style: normal; font-family: var(--mono); font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-top: 4px; }
-.compare-table tbody th { font-family: var(--mono); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); font-weight: 400; white-space: nowrap; }
-.compare-table td { color: var(--muted); }
-.compare-price td b { font-family: var(--display); font-size: 1.15rem; color: var(--accent-lt); }
-.compare-cta td, .compare-cta th { border-bottom: none; }
+/* ─── Quick shop (eMAG-style product cards) ─── */
+.shop { max-width: var(--maxw); margin: 0 auto; padding: clamp(50px, 8vw, 100px) 24px; }
+.shop-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.scard { display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: transform .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease); }
+.scard:hover { transform: translateY(-5px); border-color: rgba(56,189,248,.4); box-shadow: 0 22px 50px rgba(0,0,0,.4); }
+.scard-media { position: relative; aspect-ratio: 4/3; display: block; background: #0b0d12; }
+.scard-media img { object-fit: cover; transition: transform .6s var(--ease); }
+.scard:hover .scard-media img { transform: scale(1.05); }
+.scard-media .pcard-badge { top: 10px; left: 10px; }
+.scard-body { display: flex; flex-direction: column; flex: 1; padding: 16px 16px 18px; }
+.scard-name { font-family: var(--display); font-weight: 700; font-size: 1.02rem; transition: color .2s; }
+.scard-name:hover { color: var(--accent-lt); }
+.scard-specs { margin: 10px 0 12px; display: flex; flex-direction: column; gap: 5px; }
+.scard-specs li { position: relative; padding-left: 16px; color: var(--muted); font-size: .78rem; line-height: 1.35; }
+.scard-specs li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700; font-size: .72rem; }
+.scard-stock { font-family: var(--mono); font-size: .6rem; letter-spacing: .08em; text-transform: uppercase; color: #4ade80; margin-bottom: 6px; }
+.scard-price { font-family: var(--display); font-weight: 800; font-size: 1.45rem; letter-spacing: -.02em; color: var(--accent-lt); margin-bottom: 12px; }
+.scard-actions { margin-top: auto; display: flex; flex-direction: column; gap: 9px; }
+.scard-actions .btn { height: 42px; font-size: 13px; width: 100%; }
+.scard-view { text-align: center; font-size: .8rem; font-weight: 600; color: var(--muted); transition: color .2s; }
+.scard-view:hover { color: var(--accent-lt); }
 
 /* ─── FAQ ─── */
 .faq { max-width: 780px; margin: 0 auto; padding: clamp(50px, 8vw, 100px) 24px; }
@@ -368,6 +376,13 @@ ul { list-style: none; }
 /* ─── Responsive ─── */
 @media (max-width: 1000px) {
   .whyus-grid { grid-template-columns: repeat(2, 1fr); }
+  .shop-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 760px) {
+  .shop-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 520px) {
+  .shop-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 880px) {
   .nav { display: none; }

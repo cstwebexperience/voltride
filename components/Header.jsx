@@ -35,7 +35,7 @@ export default function Header() {
           </Link>
           <nav className="nav" aria-label="Main">
             <Link href="/#bikes">The bikes</Link>
-            <Link href="/#compare">Compare</Link>
+            <Link href="/#shop">Quick shop</Link>
             <Link href="/#faq">FAQ</Link>
           </nav>
           <div className="header-right">
@@ -53,7 +53,7 @@ export default function Header() {
 
       <nav className={`mobile-nav ${menuOpen ? "open" : ""}`} aria-label="Mobile">
         <Link href="/#bikes">The bikes</Link>
-        <Link href="/#compare">Compare</Link>
+        <Link href="/#shop">Quick shop</Link>
         <Link href="/cart">Cart</Link>
         <a href="mailto:cstwebexperience@gmail.com">Contact</a>
         {country && (

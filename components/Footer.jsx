@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="footer-links">
           <span className="footer-links-title">Explore</span>
           <Link href="/#bikes">The bikes</Link>
-          <Link href="/#compare">Compare models</Link>
+          <Link href="/#shop">Quick shop</Link>
           <Link href="/#faq">FAQ</Link>
         </div>
         <div className="footer-links">

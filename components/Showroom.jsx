@@ -31,13 +31,7 @@ export default function Showroom() {
 
   return (
     <section className="showroom" ref={rootRef} id="showroom">
-      <div className="section-head" data-reveal>
-        <span className="section-label">The Line-up</span>
-        <h2>Five machines. <span className="grad">Zero compromises.</span></h2>
-        <p className="section-lead">Same all-terrain DNA — fat tyres, full suspension, street-legal 25 km/h. Pick the attitude that fits your ride.</p>
-      </div>
-
-      {PRODUCTS.map((p, i) => {
+      {PRODUCTS.slice(0, 1).map((p, i) => {
         const ad = ADS[p.id];
         return (
           <article className={`bb ${i % 2 ? "bb-flip" : ""}`} key={p.id} data-reveal>

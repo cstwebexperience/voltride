@@ -2,7 +2,7 @@ import Hero from "@/components/Hero";
 import Ticker from "@/components/Ticker";
 import Showroom from "@/components/Showroom";
 import WhyUs from "@/components/WhyUs";
-import Compare from "@/components/Compare";
+import ShopGrid from "@/components/ShopGrid";
 import Faq from "@/components/Faq";
 import FinalCta from "@/components/FinalCta";
 
@@ -13,8 +13,8 @@ export default function Home() {
       <Ticker />
       <div id="bikes" />
       <Showroom />
+      <ShopGrid />
       <WhyUs />
-      <Compare />
       <Faq />
       <FinalCta />
     </main>
