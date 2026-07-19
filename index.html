@@ -3,15 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>ZEPHRIDE — Fat X80 Pro Electric Bike</title>
+    <title>ZEPHRIDE — Fat-Tire Electric Bikes</title>
     <meta
       name="description"
-      content="ZEPHRIDE Fat X80 Pro — a CE-certified, street-legal fat-tire electric bike. 70 Nm torque, 60 km range, dual suspension, hydraulic brakes. Free worldwide shipping."
+      content="ZEPHRIDE — CE-certified, street-legal fat-tire electric bikes. Five models, full suspension, hydraulic brakes. Free shipping across Europe."
     />
-    <meta property="og:title" content="ZEPHRIDE — Fat X80 Pro Electric Bike" />
-    <meta property="og:description" content="Where the road ends, you keep going. The Fat X80 Pro — power, range, all-terrain. Free worldwide shipping." />
+    <meta property="og:title" content="ZEPHRIDE — Fat-Tire Electric Bikes" />
+    <meta property="og:description" content="Where the road ends, you keep going. Five all-terrain electric bikes. Free shipping across Europe." />
     <meta property="og:type" content="website" />
-    <link rel="dns-prefetch" href="https://formsubmit.co" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,35 +18,18 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
-    <!-- 3D model viewer (for the bike .glb you'll add to assets/models/) -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
   </head>
   <body>
 
-    <!-- ─── Region / language welcome ─── -->
-    <div class="region-modal" data-region-modal>
-      <div class="region-card">
+    <!-- ─── Country welcome / selector ─── -->
+    <div class="country-modal" data-country-modal aria-hidden="true">
+      <div class="country-card">
+        <div class="country-glow" aria-hidden="true"></div>
         <span class="region-brand">ZEPH<span>RIDE</span></span>
-        <h2>Where are we shipping to?</h2>
-        <p>We ship across Europe &amp; worldwide. Choose your region and language to get started.</p>
-        <div class="region-grid">
-          <button data-region="eu-de">Germany</button>
-          <button data-region="eu-fr">France</button>
-          <button data-region="eu-it">Italy</button>
-          <button data-region="eu-es">Spain</button>
-          <button data-region="eu-other">Other EU</button>
-          <button data-region="world">Worldwide</button>
-        </div>
-        <label class="region-lang">Language
-          <select data-lang>
-            <option value="en">English</option>
-            <option value="de">Deutsch</option>
-            <option value="fr">Français</option>
-            <option value="it">Italiano</option>
-            <option value="es">Español</option>
-            <option value="ro">Română</option>
-          </select>
-        </label>
+        <h2>Where are you riding from?</h2>
+        <p>Prices, delivery and availability are tailored to your country.</p>
+        <div class="country-grid" data-country-grid></div>
+        <p class="country-foot">Free shipping · no customs fees inside the EU</p>
       </div>
     </div>
 
@@ -55,16 +37,17 @@
     <header class="header" data-header>
       <div class="header-inner">
         <a class="logo" href="#top" aria-label="ZEPHRIDE">
-                    <span class="logo-text">ZEPH<span>RIDE</span></span>
+          <span class="logo-text">ZEPH<span>RIDE</span></span>
         </a>
         <nav class="nav" aria-label="Main">
-          <a href="#bike">The Bike</a>
-          <a href="#specs">Specs</a>
-          <a href="#features">Features</a>
-          <a href="#gallery">Gallery</a>
+          <a href="#bikes">The bikes</a>
+          <a href="mailto:cstwebexperience@gmail.com">Contact</a>
         </nav>
         <div class="header-right">
-          <a class="btn btn-primary btn-sm" href="#order">Order now</a>
+          <button class="country-pill" type="button" data-country-pill aria-label="Change country" hidden>
+            <img data-pill-flag alt="" width="20" height="15" /><span data-pill-name></span>
+          </button>
+          <a class="btn btn-primary btn-sm" href="#bikes">Shop bikes</a>
           <button class="btn-hamburger" type="button" data-menu-toggle aria-label="Menu"><span></span><span></span></button>
         </div>
       </div>
@@ -72,26 +55,22 @@
 
     <!-- ─── MOBILE NAV ─── -->
     <nav class="mobile-nav" data-mobile-nav aria-label="Mobile">
-      <a href="#bike">The Bike</a>
-      <a href="#specs">Specs</a>
-      <a href="#features">Features</a>
-      <a href="#gallery">Gallery</a>
-      <a class="btn btn-primary" href="#order">Order now</a>
+      <a href="#bikes">The bikes</a>
+      <a href="mailto:cstwebexperience@gmail.com">Contact</a>
+      <button class="country-pill country-pill-mobile" type="button" data-country-pill-m hidden>
+        <img data-pill-flag-m alt="" width="20" height="15" /><span data-pill-name-m></span>
+      </button>
+      <a class="btn btn-primary" href="#bikes">Shop bikes</a>
     </nav>
 
     <main id="top">
 
-      <!-- ─────────────────────────────────────────────────────────
-           HERO — centered, glow-driven. LEFT CLEAN for your own
-           photo/video: drop it inside [data-hero-media] and it sits
-           behind the text automatically.
-      ────────────────────────────────────────────────────────── -->
+      <!-- ─── HERO — scroll-driven video chapters ─── -->
       <section class="hv" id="hero" data-hero>
         <div class="hv-sticky">
           <video class="hv-video" data-hv-video muted playsinline preload="auto" disablepictureinpicture></video>
           <div class="hv-scrim" aria-hidden="true"></div>
 
-          <!-- subtle marketing notes — one per chapter (JS fades the active one in) -->
           <div class="hv-notes">
             <div class="hv-note" data-note="0" aria-hidden="true">
               <span class="hv-note-k">In the city</span>
@@ -122,7 +101,7 @@
               <ul>
                 <li>Weather-sealed build</li>
                 <li>Long-range battery</li>
-                <li>Free worldwide shipping</li>
+                <li>Free shipping across Europe</li>
               </ul>
             </div>
             <div class="hv-note" data-note="4" aria-hidden="true">
@@ -130,7 +109,7 @@
               <ul>
                 <li>Live LCD dashboard</li>
                 <li>Street-legal everywhere</li>
-                <li>Ships worldwide</li>
+                <li>5 models to choose from</li>
               </ul>
             </div>
           </div>
@@ -152,23 +131,23 @@
           <span>HYDRAULIC BRAKES</span><span class="dot">•</span>
           <span>DUAL SUSPENSION</span><span class="dot">•</span>
           <span>EN 15194 CERTIFIED</span><span class="dot">•</span>
-          <span>FREE WORLDWIDE SHIPPING</span><span class="dot">•</span>
+          <span>FREE EU SHIPPING</span><span class="dot">•</span>
           <span>FAT TIRES</span><span class="dot">•</span>
           <span>STREET-LEGAL</span><span class="dot">•</span>
           <span>70 NM TORQUE</span><span class="dot">•</span>
           <span>HYDRAULIC BRAKES</span><span class="dot">•</span>
           <span>DUAL SUSPENSION</span><span class="dot">•</span>
           <span>EN 15194 CERTIFIED</span><span class="dot">•</span>
-          <span>FREE WORLDWIDE SHIPPING</span><span class="dot">•</span>
+          <span>FREE EU SHIPPING</span><span class="dot">•</span>
         </div>
       </div>
 
-      <!-- ─── PRODUCT CATALOG ─── -->
+      <!-- ─── PRODUCT GRID ─── -->
       <section class="catalog" id="bikes">
         <div class="section-head" data-reveal>
           <span class="section-label">The Range</span>
           <h2>Pick your <span class="grad">machine.</span></h2>
-          <p class="section-lead">Five all-terrain electric bikes — same DNA, different attitude. Fat tyres, full suspension, street-legal. Tap any model for the full spec.</p>
+          <p class="section-lead">Five all-terrain electric bikes — same DNA, different attitude. Fat tyres, full suspension, street-legal. Tap any model for photos, full specs and ordering.</p>
         </div>
         <div class="catalog-grid" data-catalog></div>
       </section>
@@ -179,190 +158,20 @@
         <div class="pd-panel" data-pd-panel></div>
       </div>
 
-      <!-- ─── 3D — EXAMINE ─── -->
-      <section class="examine" id="bike">
-        <div class="examine-grid">
-          <div class="examine-copy" data-reveal>
-            <span class="kicker">FIG.01 — FULL ASSEMBLY</span>
-            <h2 class="examine-head">Every angle.<br>No&nbsp;blind&nbsp;spots.</h2>
-            <p class="examine-sub">Grab it. Spin it. Get close enough to count the welds. The machine on screen is the exact one that lands at your door.</p>
-            <div class="examine-meta">
-              <span>Drag to orbit</span>
-              <span>Scroll / pinch to zoom</span>
-            </div>
-          </div>
-          <div class="examine-stage reveal-left" data-reveal>
-            <model-viewer
-              class="bike-model"
-              src="assets/models/fat-x80.glb"
-              alt="ZEPHRIDE Fat X80 Pro — 3D model"
-              camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="24deg"
-              interaction-prompt="none" shadow-intensity="1" shadow-softness="1" exposure="1.1"
-              camera-orbit="-35deg 82deg 110%" loading="eager" reveal="auto"
-            ></model-viewer>
-          </div>
-        </div>
-      </section>
-
-
-      <!-- ─── SPECS ─── -->
-      <section class="section specs" id="specs">
-        <div class="section-head" data-reveal>
-          <span class="section-label">Specifications</span>
-          <h2>On paper, a spec sheet. <span class="grad">On the road, cheating.</span></h2>
-          <p class="section-lead">Every number here earns its place. No filler, no fine print — just the hardware that gets you there and back.</p>
-        </div>
-        <!-- Specs from the VOMO X80 Pro Alibaba listing (250W / EU street-legal version). -->
-        <div class="specs-grid">
-          <div class="spec-card" data-reveal><span class="spec-key">Motor</span><span class="spec-val">250 W rear hub brushless</span></div>
-          <div class="spec-card" data-reveal><span class="spec-key">Torque</span><span class="spec-val">60–70 Nm</span></div>
-          <div class="spec-card" data-reveal><span class="spec-key">Battery</span><span class="spec-val">48 V · 15 Ah Li-ion (≈518 Wh)</span></div>
-          <div class="spec-card" data-reveal><span class="spec-key">Range</span><span class="spec-val">30–60 km per charge</span></div>
-          <div class="spec-card" data-reveal><span class="spec-key">Top speed</span><span class="spec-val">25 km/h · road-legal</span></div>
-          <div class="spec-card" data-reveal><span class="spec-key">Tires</span><span class="spec-val">20" × 4.0 fat tires</span></div>
-          <div class="spec-card" data-reveal><span class="spec-key">Brakes</span><span class="spec-val">Front & rear hydraulic disc</span></div>
-          <div class="spec-card" data-reveal><span class="spec-key">Gears</span><span class="spec-val">Shimano 7-speed</span></div>
-          <div class="spec-card" data-reveal><span class="spec-key">Suspension</span><span class="spec-val">Dual — front fork + rear</span></div>
-          <div class="spec-card" data-reveal><span class="spec-key">Frame</span><span class="spec-val">Steel alloy</span></div>
-          <div class="spec-card" data-reveal><span class="spec-key">Charge time</span><span class="spec-val">From 3 hours</span></div>
-          <div class="spec-card" data-reveal><span class="spec-key">Display</span><span class="spec-val">LCD digital</span></div>
-        </div>
-      </section>
-
-      <!-- ─── CERTIFICATIONS / TRUST ─── -->
-      <section class="section certs">
-        <div class="certs-inner" data-reveal>
-          <div class="certs-text">
-            <span class="section-label">Certified &amp; road-ready</span>
-            <h2>Approved for the road <span class="grad">across the world.</span></h2>
-            <p class="section-lead" style="margin-left:0">Not a grey-market import. The X80 Pro carries the paperwork to ride legally in the EU, UK and beyond — and ships with it.</p>
-          </div>
-          <div class="certs-badges">
-            <span class="cert-badge">CE</span>
-            <span class="cert-badge">EN 15194</span>
-            <span class="cert-badge">UL 2849</span>
-            <span class="cert-badge">UKCA</span>
-            <span class="cert-badge">RoHS</span>
-            <span class="cert-badge">EMC</span>
-            <span class="cert-badge">EN 60335</span>
-            <span class="cert-badge">GCC</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- ─── FEATURES ─── -->
-      <section class="section features" id="features">
-        <div class="section-head" data-reveal>
-          <span class="section-label">Why X80 Pro</span>
-          <h2>Four reasons it <span class="grad">ruins normal bikes</span> for you.</h2>
-        </div>
-        <div class="features-grid">
-          <article class="feature-card" data-reveal>
-            <span class="feature-num">01</span>
-            <h3>Four inches of don't-care</h3>
-            <p>Sand swallows normal bikes. The X80 floats over it, soaks up gravel, then grips wet tarmac like it's bone dry. Terrain stops being a decision.</p>
-          </article>
-          <article class="feature-card" data-reveal>
-            <span class="feature-num">02</span>
-            <h3>Range anxiety, retired</h3>
-            <p>A removable battery goes the distance, then slides out to charge under your desk while you work. Show up charged. Leave charged. Repeat.</p>
-          </article>
-          <article class="feature-card" data-reveal>
-            <span class="feature-num">03</span>
-            <h3>Stops like it means it</h3>
-            <p>Dual hydraulic discs haul you down — fully loaded, soaking wet, pointed downhill — without a hint of drama. Speed you can actually trust.</p>
-          </article>
-          <article class="feature-card" data-reveal>
-            <span class="feature-num">04</span>
-            <h3>Legal the moment it lands</h3>
-            <p>250 W, 25 km/h, EN 15194 &amp; CE certified — in the eyes of the law it's just a bicycle. No license, no plates, no insurance. Unbox it and ride, anywhere.</p>
-          </article>
-        </div>
-      </section>
-
-
-      <!-- ─── GALLERY (your photos) ─── -->
-      <section class="section gallery" id="gallery">
-        <div class="section-head" data-reveal>
-          <span class="section-label">Gallery</span>
-          <h2>Less render. <span class="grad">More reality.</span></h2>
-          <p class="section-lead">This is the X80 where it belongs — out in the dirt, the snow, the city. No studio tricks.</p>
-        </div>
-        <!-- EDIT: replace each .gallery-item placeholder below with your own <img>. -->
-        <div class="gallery-grid">
-          <figure class="gallery-item gallery-wide" data-reveal><span class="gallery-ph">Photo 1 — hero shot</span></figure>
-          <figure class="gallery-item" data-reveal><span class="gallery-ph">Photo 2</span></figure>
-          <figure class="gallery-item" data-reveal><span class="gallery-ph">Photo 3</span></figure>
-          <figure class="gallery-item" data-reveal><span class="gallery-ph">Photo 4</span></figure>
-          <figure class="gallery-item gallery-wide" data-reveal><span class="gallery-ph">Photo 5 — detail / action</span></figure>
-        </div>
-      </section>
-
-      <!-- ─── ORDER / INQUIRY ─── -->
-      <section class="section order" id="order">
-        <div class="order-inner">
-          <div class="order-info" data-reveal>
-            <span class="section-label">Order · Pre-order</span>
-            <h2>Claim yours. <span class="grad">Ride sooner.</span></h2>
-            <p class="order-lead">Tell us where to ship and we'll come back within 24 hours with your price, availability and delivery time. No card now — just lock in your spot, no strings attached.</p>
-            <div class="order-price">
-              <span class="order-price-label">From</span>
-              <!-- EDIT: set your selling price -->
-              <span class="order-price-val grad">€1,199</span>
-              <span class="order-price-note">Free worldwide shipping included</span>
-            </div>
-            <ul class="order-trust">
-              <li>Free worldwide shipping — no hidden fees</li>
-              <li>Direct from the manufacturer</li>
-              <li>Real human reply within 24h</li>
-              <li>No payment until we confirm your order</li>
-            </ul>
-          </div>
-
-          <form class="order-form" data-order-form novalidate data-reveal>
-            <div class="form-row-2">
-              <div class="form-group"><label>Full name *</label><input type="text" name="name" placeholder="John Rider" required autocomplete="name" /></div>
-              <div class="form-group"><label>Email *</label><input type="email" name="email" placeholder="you@email.com" required autocomplete="email" /></div>
-            </div>
-            <div class="form-row-2">
-              <div class="form-group"><label>Country *</label><input type="text" name="country" placeholder="United States" required autocomplete="country-name" /></div>
-              <div class="form-group"><label>Phone / WhatsApp</label><input type="tel" name="phone" placeholder="+1 555 123 4567" autocomplete="tel" /></div>
-            </div>
-            <div class="form-row-2">
-              <div class="form-group"><label>Color</label>
-                <select name="color"><option value="">No preference</option><option>Black</option><option>Grey</option><option>White</option></select>
-              </div>
-              <div class="form-group"><label>Quantity</label>
-                <select name="quantity"><option>1</option><option>2</option><option>3</option><option>4+</option></select>
-              </div>
-            </div>
-            <div class="form-group"><label>Message (optional)</label><textarea name="message" placeholder="Anything we should know about your order or delivery?"></textarea></div>
-            <button class="btn btn-primary btn-block" type="submit" data-order-submit>Send order request →</button>
-            <p class="form-note">By sending you agree we may contact you about your request. No payment is taken here.</p>
-          </form>
-        </div>
-      </section>
-
       <!-- ─── FOOTER ─── -->
       <footer class="footer">
         <div class="footer-inner">
           <div class="footer-brand">
             <a class="logo" href="#top" aria-label="ZEPHRIDE"><span class="logo-mark">⚡</span><span class="logo-text">ZEPH<span>RIDE</span></span></a>
-            <p>The all-terrain electric bike, shipped worldwide.</p>
+            <p>All-terrain electric bikes, shipped across Europe.</p>
           </div>
           <div class="footer-links">
             <span class="footer-links-title">Explore</span>
-            <a href="#bike">The Bike</a><a href="#specs">Specs</a><a href="#features">Features</a><a href="#gallery">Gallery</a>
-          </div>
-          <div class="footer-links">
-            <span class="footer-links-title">Order</span>
-            <a href="#order">Order now</a><a href="#order">Request a quote</a><a href="#order">Shipping & delivery</a>
+            <a href="#bikes">The bikes</a><a href="#hero">Home</a>
           </div>
           <div class="footer-links">
             <span class="footer-links-title">Contact</span>
-            <!-- EDIT: your contact details -->
             <a href="mailto:cstwebexperience@gmail.com">cstwebexperience@gmail.com</a>
-            <a href="#order">Send an inquiry</a>
           </div>
         </div>
         <div class="footer-bottom">
@@ -373,8 +182,8 @@
 
     </main>
 
-    <!-- ─── FLOATING ORDER CTA ─── -->
-    <a class="fab" href="#order" aria-label="Order now">Order now</a>
+    <!-- ─── FLOATING CTA ─── -->
+    <a class="fab" href="#bikes" aria-label="Shop bikes">Shop bikes</a>
 
     <!-- ─── TOAST ─── -->
     <div class="toast" data-toast role="status"></div>
