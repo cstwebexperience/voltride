@@ -112,7 +112,8 @@ ul { list-style: none; }
 /* ─── HERO (chaptered video — full-bleed on EVERY device) ─── */
 .hv { position: relative; }
 .hv-sticky {
-  position: sticky; top: 0; height: 100vh; height: 100svh;
+  /* dvh tracks the iOS/Android toolbar as it collapses — no black band below the video */
+  position: sticky; top: 0; height: 100vh; height: 100dvh;
   overflow: hidden; background: #050507;
 }
 .hv-video {
