@@ -15,8 +15,122 @@ document.addEventListener("DOMContentLoaded", () => {
   initReveal();
   initCountUp();
   initHeroVideo();
+  initCatalog();
+  initRegion();
   initOrderForm();
 });
+
+/* ─── Product catalog (cards + eMAG/Alibaba-style detail) ─── */
+const PRODUCTS = [
+  {
+    id: "x80pro", name: "X80 Pro", price: 1209, badge: "Best-seller",
+    tagline: "The all-rounder that does everything.",
+    short: "250 W · 50–65 km · Find My + Alarm",
+    highlights: ["Find My anti-loss tracking", "Throttle + front rack + rear seat", "Hydraulic disc brakes"],
+    specs: { "Motor": "48 V · 250 W", "Battery": "48 V · 15 Ah", "Range": "50–65 km", "Top speed": "25 km/h · road-legal", "Brakes": "Front & rear hydraulic disc", "Tyres": "20 × 4.0 fat", "Smart": "NFC · APP · Anti-loss (Find My) · Alarm", "Extras": "Throttle, front rack, rear seat", "Weight": "43 kg net · 51 kg gross" },
+    desc: "The X80 Pro is our do-everything fat-tyre e-bike. Street-legal 250 W drive, 50–65 km of range and full smart connectivity — NFC unlock, app control, Find My anti-loss and a built-in alarm. It ships with a throttle, front rack and rear seat, so it's ready for the commute, the trail or a second rider straight out of the box."
+  },
+  {
+    id: "x90", name: "X90", price: 1209, badge: "",
+    tagline: "Same power, cleaner lines.",
+    short: "250 W · 50–65 km · Find My + Alarm",
+    highlights: ["Streamlined frame", "Find My + Alarm", "20×4.0 all-terrain"],
+    specs: { "Motor": "48 V · 250 W", "Battery": "48 V · 15 Ah", "Range": "50–65 km", "Top speed": "25 km/h · road-legal", "Brakes": "Front & rear hydraulic disc", "Tyres": "20 × 4.0 fat", "Smart": "NFC · APP · Anti-loss (Find My) · Alarm", "Extras": "Throttle, front rack, rear seat", "Weight": "43 kg net · 50 kg gross" },
+    desc: "The X90 shares the X80 Pro's drivetrain and smart features in a slightly sleeker package. 250 W, 50–65 km range, hydraulic discs and full anti-loss tracking — a clean, confident all-terrain ride for the city and beyond."
+  },
+  {
+    id: "x80ultra", name: "X80 Ultra", price: 1259, badge: "Most range",
+    tagline: "More power. More battery. TFT dash.",
+    short: "250/500 W · 60–80 km · TFT display",
+    highlights: ["Up to 500 W", "60–80 km range", "Full-colour TFT display"],
+    specs: { "Motor": "48 V · 250 / 500 W", "Battery": "48 V · 18.2 Ah", "Range": "60–80 km", "Top speed": "25 km/h · road-legal", "Display": "Full-colour TFT", "Brakes": "Front & rear hydraulic disc", "Tyres": "20 × 4.0 fat", "Smart": "TFT · NFC · APP · Anti-loss (Find My) · Alarm", "Weight": "43 kg net · 49.5 kg gross" },
+    desc: "The X80 Ultra steps everything up: a bigger 18.2 Ah battery for 60–80 km of range, up to 500 W on tap and a crisp full-colour TFT dashboard. All the smart features of the Pro, with the endurance and punch for longer, wilder rides."
+  },
+  {
+    id: "x70", name: "X70", price: 1279, badge: "Most power",
+    tagline: "Steel-framed, up to 750 W.",
+    short: "250/500/750 W · steel frame · 50–60 km",
+    highlights: ["Up to 750 W", "Heavy-duty steel frame", "Hydraulic brakes"],
+    specs: { "Motor": "48 V · 250 / 500 / 750 W", "Battery": "48 V · 15.6 Ah", "Range": "50–60 km", "Top speed": "25 km/h · road-legal", "Frame": "Reinforced steel", "Brakes": "Front & rear hydraulic disc", "Tyres": "20 × 4.0 fat", "Weight": "43 kg net · 51 kg gross" },
+    desc: "The X70 is the muscle of the range — a reinforced steel frame and a motor that scales up to 750 W. Built to haul, climb and take a beating, with hydraulic discs to rein it all in. For riders who want maximum grunt."
+  },
+  {
+    id: "x50", name: "X50", price: 1299, badge: "",
+    tagline: "Loaded with extras.",
+    short: "250 W · 50–65 km · rear seat + phone bag",
+    highlights: ["Chain cover + alarm", "Rear seat + phone bag included", "Lightest at 41 kg"],
+    specs: { "Motor": "48 V · 250 W", "Battery": "48 V · 15 Ah", "Range": "50–65 km", "Top speed": "25 km/h · road-legal", "Brakes": "Front & rear hydraulic disc", "Tyres": "20 × 4.0 fat", "Extras": "Alarm, chain cover, rear seat, phone bag", "Weight": "41 kg net · 46 kg gross" },
+    desc: "The X50 comes fully kitted — alarm, chain cover, a rear passenger seat and a phone bag all included. At 41 kg it's the lightest in the line-up, making it the friendliest daily rider without giving up the fat-tyre, full-suspension DNA."
+  },
+];
+
+function euro(n) { return "€" + n.toLocaleString("en-US"); }
+
+function initCatalog() {
+  const grid = document.querySelector("[data-catalog]");
+  const modal = document.querySelector("[data-pd-modal]");
+  if (!grid || !modal) return;
+  const panel = modal.querySelector("[data-pd-panel]");
+
+  grid.innerHTML = PRODUCTS.map((p) => `
+    <article class="pcard" data-reveal data-open="${p.id}">
+      <div class="pcard-media">
+        ${p.badge ? `<span class="pcard-badge">${p.badge}</span>` : ""}
+        <div class="pcard-ph"><span>${p.name}</span><small>photo coming soon</small></div>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-top"><h3>${p.name}</h3><span class="pcard-price">${euro(p.price)}</span></div>
+        <p class="pcard-short">${p.short}</p>
+        <button class="pcard-cta" type="button">View details →</button>
+      </div>
+    </article>`).join("");
+
+  function open(id) {
+    const p = PRODUCTS.find((x) => x.id === id);
+    if (!p) return;
+    panel.innerHTML = `
+      <button class="pd-close" type="button" data-pd-close aria-label="Close">✕</button>
+      <div class="pd-media"><div class="pcard-ph"><span>${p.name}</span><small>photo coming soon</small></div></div>
+      <div class="pd-info">
+        ${p.badge ? `<span class="kicker">${p.badge}</span>` : ""}
+        <h3 class="pd-name">${p.name}</h3>
+        <p class="pd-tagline">${p.tagline}</p>
+        <div class="pd-price">${euro(p.price)} <span>· free worldwide shipping</span></div>
+        <p class="pd-desc">${p.desc}</p>
+        <ul class="pd-high">${p.highlights.map((h) => `<li>${h}</li>`).join("")}</ul>
+        <div class="pd-specs">${Object.entries(p.specs).map(([k, v]) => `<div class="pd-row"><span>${k}</span><b>${v}</b></div>`).join("")}</div>
+        <a class="btn btn-primary btn-block" href="mailto:cstwebexperience@gmail.com?subject=${encodeURIComponent("Order — " + p.name)}&body=${encodeURIComponent("Hi, I'd like to order the " + p.name + " (" + euro(p.price) + "). My country: ")}">Order the ${p.name} →</a>
+        <p class="form-note">No payment here — we reply within 24h with availability &amp; delivery.</p>
+      </div>`;
+    modal.classList.add("open"); modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+  function close() { modal.classList.remove("open"); modal.setAttribute("aria-hidden", "true"); document.body.style.overflow = ""; }
+
+  grid.querySelectorAll("[data-open]").forEach((el) => el.addEventListener("click", () => open(el.getAttribute("data-open"))));
+  modal.addEventListener("click", (e) => { if (e.target.closest("[data-pd-close]") || e.target.classList.contains("pd-backdrop")) close(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+
+  // reveal the freshly injected cards (staggered)
+  grid.querySelectorAll("[data-reveal]").forEach((el, i) => setTimeout(() => el.classList.add("in"), 70 * i));
+}
+
+/* ─── Region + language welcome ─── */
+function initRegion() {
+  const modal = document.querySelector("[data-region-modal]");
+  if (!modal) return;
+  if (localStorage.getItem("zr_region")) { modal.remove(); return; }
+  modal.classList.add("open");
+  modal.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-region]");
+    if (!btn) return;
+    localStorage.setItem("zr_region", btn.getAttribute("data-region"));
+    const lang = modal.querySelector("[data-lang]");
+    if (lang) localStorage.setItem("zr_lang", lang.value);
+    modal.classList.remove("open");
+    setTimeout(() => modal.remove(), 400);
+  });
+}
 
 /* ─── Hero — 4 static shots, the REAL clip (full quality) auto-plays between them.
        A light scroll plays the transition to the next shot, then it holds. ─── */

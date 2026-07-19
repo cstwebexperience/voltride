@@ -644,3 +644,62 @@ button, [role="button"] { min-height: 44px; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   html { scroll-behavior: auto; }
 }
+
+/* ════════════════════════════════════════════════════
+   PRODUCT CATALOG + DETAIL + REGION MODAL
+   ════════════════════════════════════════════════════ */
+.catalog { max-width: var(--maxw); margin: 0 auto; padding: clamp(70px,11vw,130px) 24px; }
+.catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.pcard { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; transition: transform .3s var(--ease), border-color .3s var(--ease); }
+.pcard:hover { transform: translateY(-5px); border-color: rgba(56,189,248,.35); }
+.pcard-media { position: relative; aspect-ratio: 4/3; background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.01)); }
+.pcard-badge { position: absolute; top: 12px; left: 12px; z-index: 2; font-family: var(--mono); font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: #04121e; background: var(--accent); padding: 4px 10px; border-radius: 100px; }
+.pcard-ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--faint); }
+.pcard-ph span { font-family: var(--display); font-weight: 700; font-size: 1.6rem; color: var(--muted); }
+.pcard-ph small { font-family: var(--mono); font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; }
+.pcard-ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pcard-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.pcard-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.pcard-top h3 { font-family: var(--display); font-weight: 600; font-size: 1.3rem; }
+.pcard-price { font-family: var(--display); font-weight: 700; font-size: 1.15rem; color: var(--accent-lt); white-space: nowrap; }
+.pcard-short { color: var(--muted); font-size: .9rem; }
+.pcard-cta { margin-top: auto; align-self: flex-start; background: none; border: none; color: var(--accent); font-family: var(--display); font-weight: 600; font-size: .9rem; cursor: pointer; padding: 4px 0; }
+
+.pd-modal { position: fixed; inset: 0; z-index: 500; display: none; align-items: center; justify-content: center; padding: 20px; }
+.pd-modal.open { display: flex; }
+.pd-backdrop { position: absolute; inset: 0; background: rgba(4,6,10,.8); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.pd-panel { position: relative; z-index: 1; width: min(640px, 100%); max-height: 90vh; overflow: auto; background: var(--bg-2); border: 1px solid var(--border-h); border-radius: 22px; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+.pd-close { position: absolute; top: 14px; right: 14px; z-index: 3; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border-h); background: rgba(10,11,15,.6); color: var(--text); cursor: pointer; font-size: 1rem; }
+.pd-media { position: relative; aspect-ratio: 16/10; background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.01)); border-bottom: 1px solid var(--border); }
+.pd-info { padding: 28px 30px 30px; }
+.pd-name { font-family: var(--display); font-weight: 700; font-size: 2rem; margin-top: 6px; }
+.pd-tagline { color: var(--muted); margin-top: 4px; }
+.pd-price { font-family: var(--display); font-weight: 700; font-size: 1.8rem; color: var(--accent-lt); margin: 16px 0; }
+.pd-price span { font-family: var(--font); font-size: .8rem; font-weight: 400; color: var(--faint); }
+.pd-desc { color: var(--muted); font-size: .96rem; line-height: 1.6; }
+.pd-high { display: flex; flex-direction: column; gap: 8px; margin: 18px 0; }
+.pd-high li { position: relative; padding-left: 22px; color: var(--text); font-size: .95rem; }
+.pd-high li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.pd-specs { border-top: 1px solid var(--border); margin: 18px 0; }
+.pd-row { display: flex; justify-content: space-between; gap: 20px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.pd-row span { color: var(--faint); text-transform: uppercase; font-size: .7rem; letter-spacing: .06em; font-family: var(--mono); }
+.pd-row b { color: var(--text); font-weight: 500; font-size: .9rem; text-align: right; }
+
+@media (max-width: 720px) {
+  .pd-panel { grid-template-columns: 1fr; }
+  .pd-media { border-right: none; border-bottom: 1px solid var(--border); }
+  .pd-info { padding: 22px; }
+}
+
+.region-modal { position: fixed; inset: 0; z-index: 600; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(4,6,10,.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.region-modal.open { display: flex; }
+.region-card { width: min(460px, 100%); background: var(--bg-2); border: 1px solid var(--border-h); border-radius: 22px; padding: 30px 28px; text-align: center; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+.region-brand { font-family: var(--display); font-weight: 700; font-size: 1.4rem; letter-spacing: .04em; }
+.region-brand span { color: var(--accent); }
+.region-card h2 { font-family: var(--display); font-weight: 600; font-size: 1.5rem; margin: 16px 0 8px; }
+.region-card > p { color: var(--muted); font-size: .92rem; margin-bottom: 20px; }
+.region-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.region-grid button { padding: 13px; border-radius: 12px; border: 1px solid var(--border-h); background: var(--card); color: var(--text); font-family: var(--display); font-weight: 500; font-size: .95rem; cursor: pointer; transition: border-color .2s, background .2s; }
+.region-grid button:hover { border-color: var(--accent); background: rgba(56,189,248,.08); }
+.region-lang { display: flex; flex-direction: column; gap: 6px; margin-top: 18px; text-align: left; font-size: .8rem; color: var(--muted); }
+.region-lang select { background: var(--bg); border: 1px solid var(--border-h); border-radius: 10px; padding: 12px; color: var(--text); font-family: var(--font); font-size: max(16px,.9rem); }

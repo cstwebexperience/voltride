@@ -24,6 +24,33 @@
   </head>
   <body>
 
+    <!-- ─── Region / language welcome ─── -->
+    <div class="region-modal" data-region-modal>
+      <div class="region-card">
+        <span class="region-brand">ZEPH<span>RIDE</span></span>
+        <h2>Where are we shipping to?</h2>
+        <p>We ship across Europe &amp; worldwide. Choose your region and language to get started.</p>
+        <div class="region-grid">
+          <button data-region="eu-de">Germany</button>
+          <button data-region="eu-fr">France</button>
+          <button data-region="eu-it">Italy</button>
+          <button data-region="eu-es">Spain</button>
+          <button data-region="eu-other">Other EU</button>
+          <button data-region="world">Worldwide</button>
+        </div>
+        <label class="region-lang">Language
+          <select data-lang>
+            <option value="en">English</option>
+            <option value="de">Deutsch</option>
+            <option value="fr">Français</option>
+            <option value="it">Italiano</option>
+            <option value="es">Español</option>
+            <option value="ro">Română</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
     <!-- ─── HEADER (floating glass pill) ─── -->
     <header class="header" data-header>
       <div class="header-inner">
@@ -108,7 +135,7 @@
             </div>
           </div>
 
-          <a class="hv-cta btn btn-primary" href="#bike">Explore the bikes
+          <a class="hv-cta btn btn-primary" href="#bikes">Explore the bikes
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
 
@@ -134,6 +161,22 @@
           <span>EN 15194 CERTIFIED</span><span class="dot">•</span>
           <span>FREE WORLDWIDE SHIPPING</span><span class="dot">•</span>
         </div>
+      </div>
+
+      <!-- ─── PRODUCT CATALOG ─── -->
+      <section class="catalog" id="bikes">
+        <div class="section-head" data-reveal>
+          <span class="section-label">The Range</span>
+          <h2>Pick your <span class="grad">machine.</span></h2>
+          <p class="section-lead">Five all-terrain electric bikes — same DNA, different attitude. Fat tyres, full suspension, street-legal. Tap any model for the full spec.</p>
+        </div>
+        <div class="catalog-grid" data-catalog></div>
+      </section>
+
+      <!-- product detail modal -->
+      <div class="pd-modal" data-pd-modal aria-hidden="true">
+        <div class="pd-backdrop" data-pd-close></div>
+        <div class="pd-panel" data-pd-panel></div>
       </div>
 
       <!-- ─── 3D — EXAMINE ─── -->
