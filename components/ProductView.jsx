@@ -63,7 +63,7 @@ export default function ProductView({ product: p }) {
           </button>
           <ul className="pp-trust">
             <li>No payment now — pay cash or card on confirmation</li>
-            <li>14-day return right</li>
+            <li>All sales final — no returns accepted</li>
             <li>2-year EU warranty</li>
             <li>CE · EN 15194 street-legal</li>
           </ul>

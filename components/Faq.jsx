@@ -7,7 +7,7 @@ const FAQS = [
   { q: "How much does shipping cost?", a: "Nothing. Shipping is free to all 22 countries we serve, and inside the EU there are no customs fees or surprise charges." },
   { q: "When do I pay?", a: "Not at checkout. You place the order, we confirm stock and delivery within 24 hours, and only then you pay — cash on delivery or by secure card link." },
   { q: "How long does delivery take?", a: "Bikes ship from our EU warehouse partners. Typical delivery is 7–14 working days depending on your country — we confirm the exact window with your order." },
-  { q: "What about warranty and returns?", a: "You get the full 2-year EU warranty and the 14-day right of return. If something's wrong, you write to us and we fix it — a real human answers." },
+  { q: "What about warranty and returns?", a: "Every bike comes with a full 2-year warranty — if something's wrong, you write to us and we fix it. Please note all sales are final: returns are not accepted, so check the specs and ask us anything before ordering." },
   { q: "Is the battery removable?", a: "Yes. The battery slides out with a key, so you can charge it at your desk while the bike stays outside. A full charge takes from around 3 hours." },
 ];
 
