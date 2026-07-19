@@ -55,7 +55,7 @@ export default function Header() {
         <Link href="/#bikes">The bikes</Link>
         <Link href="/#shop">Quick shop</Link>
         <Link href="/cart">Cart</Link>
-        <a href="mailto:cstwebexperience@gmail.com">Contact</a>
+        <Link href="/#faq">FAQ</Link>
         {country && (
           <button className="country-pill country-pill-mobile" type="button" onClick={() => { setMenuOpen(false); setPickerOpen(true); }}>
             <img src={flagUrl(country.code)} alt="" width={20} height={15} /><span>{country.name}</span>

@@ -76,7 +76,7 @@ export default function CartView() {
       setDone(ref);
       window.scrollTo({ top: 0 });
     } catch {
-      showToast("Couldn't send right now — email us at cstwebexperience@gmail.com", "error");
+      showToast("Couldn't send right now — please try again in a moment.", "error");
     } finally {
       setSending(false);
     }

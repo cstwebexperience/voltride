@@ -20,10 +20,6 @@ export default function Footer() {
           <Link href="/bikes/x80pro">X80 Pro</Link>
           <Link href="/bikes/x80ultra">X80 Ultra</Link>
         </div>
-        <div className="footer-links">
-          <span className="footer-links-title">Contact</span>
-          <a href="mailto:cstwebexperience@gmail.com">cstwebexperience@gmail.com</a>
-        </div>
       </div>
       <div className="footer-bottom">
         <p>© 2026 ZEPHRIDE. All rights reserved.</p>
