@@ -1,14 +1,15 @@
-// Order requests → email via Resend (server-side, no client keys).
-// Requires RESEND_API_KEY set in Vercel → Project → Settings → Environment Variables.
-export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
-
+// Order requests → email via Resend (server-side).
+// Requires RESEND_API_KEY in Vercel → Project → Settings → Environment Variables.
+export async function POST(req) {
   const key = process.env.RESEND_API_KEY;
-  if (!key) return res.status(500).json({ error: "Email not configured" });
+  if (!key) return Response.json({ error: "Email not configured" }, { status: 500 });
 
-  const { ref, items, total, payment, name, email, phone, country, city, address, zip } = req.body || {};
+  let body;
+  try { body = await req.json(); } catch { return Response.json({ error: "Bad request" }, { status: 400 }); }
+
+  const { ref, items, total, payment, name, email, phone, country, city, address, zip } = body || {};
   if (!name || !email || !country || !Array.isArray(items) || !items.length) {
-    return res.status(400).json({ error: "Missing fields" });
+    return Response.json({ error: "Missing fields" }, { status: 400 });
   }
 
   const esc = (s) => String(s ?? "").replace(/[<>&"]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }[c]));
@@ -40,8 +41,8 @@ export default async function handler(req, res) {
       }),
     });
     if (!r.ok) throw new Error(await r.text());
-    return res.status(200).json({ ok: true });
-  } catch (e) {
-    return res.status(502).json({ error: "Send failed" });
+    return Response.json({ ok: true });
+  } catch {
+    return Response.json({ error: "Send failed" }, { status: 502 });
   }
 }
