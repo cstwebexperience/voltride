@@ -8,7 +8,7 @@ import Link from "next/link";
 const ANNOS = [
   { // 0 · city side view
     tall: [
-      { t: "Full rear suspension", x: 40, y: 52, lx: 50, ly: 32 },
+      { t: "Full rear suspension", x: 40, y: 57, lx: 50, ly: 32 },
       { t: "Hydraulic disc brakes", x: 24, y: 62, lx: 50, ly: 80 },
     ],
     wide: [
@@ -18,7 +18,7 @@ const ANNOS = [
   },
   { // 1 · city three-quarter (headlight + battery)
     tall: [
-      { t: "LED headlight", x: 63, y: 43, lx: 38, ly: 26 },
+      { t: "LED headlight", x: 74, y: 33, lx: 38, ly: 24 },
       { t: "48 V removable battery", x: 48, y: 54, lx: 50, ly: 78 },
     ],
     wide: [
@@ -28,12 +28,12 @@ const ANNOS = [
   },
   { // 2 · mountain
     tall: [
-      { t: "Hub motor · 70 Nm", x: 44, y: 61, lx: 50, ly: 80 },
-      { t: "20×4.0 fat tyres", x: 66, y: 57, lx: 60, ly: 30 },
+      { t: "Hub motor · 70 Nm", x: 18, y: 56, lx: 50, ly: 80 },
+      { t: "20×4.0 fat tyres", x: 78, y: 64, lx: 60, ly: 30 },
     ],
     wide: [
-      { t: "Hub motor · 70 Nm", x: 33, y: 62, lx: 55, ly: 84 },
-      { t: "20×4.0 fat tyres", x: 67, y: 58, lx: 48, ly: 30 },
+      { t: "Hub motor · 70 Nm", x: 24, y: 65, lx: 55, ly: 84 },
+      { t: "20×4.0 fat tyres", x: 76, y: 62, lx: 48, ly: 30 },
     ],
   },
   { // 3 · beach side
@@ -49,7 +49,7 @@ const ANNOS = [
   { // 4 · POV on the pier
     tall: [
       { t: "Live LCD dashboard", x: 47, y: 50, lx: 52, ly: 74 },
-      { t: "7-speed thumb shifter", x: 86, y: 46, lx: 58, ly: 28 },
+      { t: "7-speed thumb shifter", x: 93, y: 44, lx: 58, ly: 28 },
     ],
     wide: [
       { t: "Live LCD dashboard", x: 26, y: 51, lx: 14, ly: 76 },

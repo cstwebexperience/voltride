@@ -127,23 +127,23 @@ ul { list-style: none; }
 /* biology-notebook leader-line annotations */
 .anno { position: absolute; inset: 0; pointer-events: none; }
 .anno-dot {
-  position: absolute; left: var(--x); top: var(--y); width: 11px; height: 11px;
+  position: absolute; left: var(--x); top: var(--y); width: 7px; height: 7px;
   transform: translate(-50%, -50%); border-radius: 50%;
-  background: var(--accent); box-shadow: 0 0 0 3.5px rgba(56,189,248,.28), 0 0 16px var(--glow);
+  background: #fff; box-shadow: 0 0 0 3px rgba(255,255,255,.22), 0 0 8px rgba(255,255,255,.6);
   animation: anno-pop .4s var(--ease) both;
 }
 .anno-v {
-  position: absolute; left: var(--x); top: min(var(--y), var(--ly)); width: 3px;
+  position: absolute; left: var(--x); top: min(var(--y), var(--ly)); width: 1.4px;
   height: calc(max(var(--y), var(--ly)) - min(var(--y), var(--ly)));
-  transform: translateX(-50%); border-radius: 3px;
-  background: var(--accent); box-shadow: 0 0 10px rgba(56,189,248,.5);
+  transform: translateX(-50%);
+  background: rgba(255,255,255,.85); box-shadow: 0 0 5px rgba(255,255,255,.4);
   transform-origin: top; animation: anno-grow-v .45s var(--ease) .12s both;
 }
 .anno-h {
-  position: absolute; top: var(--ly); left: min(var(--x), var(--lx)); height: 3px;
+  position: absolute; top: var(--ly); left: min(var(--x), var(--lx)); height: 1.4px;
   width: calc(max(var(--x), var(--lx)) - min(var(--x), var(--lx)));
-  transform: translateY(-50%); border-radius: 3px;
-  background: var(--accent); box-shadow: 0 0 10px rgba(56,189,248,.5);
+  transform: translateY(-50%);
+  background: rgba(255,255,255,.85); box-shadow: 0 0 5px rgba(255,255,255,.4);
   animation: anno-grow-h .45s var(--ease) .34s both;
 }
 .anno-left .anno-h { transform-origin: right; }
