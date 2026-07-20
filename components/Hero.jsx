@@ -39,7 +39,7 @@ const ANNOS = [
   { // 3 · beach side
     tall: [
       { t: "Weather-sealed build", x: 50, y: 50, lx: 50, ly: 30 },
-      { t: "50–80 km range", x: 34, y: 62, lx: 50, ly: 80 },
+      { t: "50–80 km range", x: 44, y: 58, lx: 50, ly: 80 },
     ],
     wide: [
       { t: "Weather-sealed build", x: 67, y: 50, lx: 44, ly: 28 },
@@ -49,7 +49,7 @@ const ANNOS = [
   { // 4 · POV on the pier
     tall: [
       { t: "Live LCD dashboard", x: 47, y: 50, lx: 52, ly: 74 },
-      { t: "7-speed thumb shifter", x: 93, y: 44, lx: 58, ly: 28 },
+      { t: "Front suspension fork", x: 63, y: 78, lx: 58, ly: 30 },
     ],
     wide: [
       { t: "Live LCD dashboard", x: 26, y: 51, lx: 14, ly: 76 },

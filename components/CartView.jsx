@@ -165,7 +165,11 @@ export default function CartView() {
             <button className="btn btn-primary btn-block" type="submit" disabled={sending}>
               {sending ? "Placing order…" : `Place order · ${euro(cartTotal)}`}
             </button>
-            <p className="form-note">No charge yet — we confirm stock &amp; delivery within 24h before anything is paid.</p>
+            <p className="form-note">
+              No charge yet — we confirm stock &amp; delivery within 24h before anything is paid.
+              By ordering you agree to our <Link href="/terms">Terms &amp; Conditions</Link>, including
+              our <Link href="/terms#returns">no-returns policy</Link>.
+            </p>
           </form>
         </aside>
       </div>

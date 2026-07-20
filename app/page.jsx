@@ -4,6 +4,7 @@ import Showroom from "@/components/Showroom";
 import WhyUs from "@/components/WhyUs";
 import ShopGrid from "@/components/ShopGrid";
 import Faq from "@/components/Faq";
+import Certificates from "@/components/Certificates";
 import FinalCta from "@/components/FinalCta";
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
       <ShopGrid />
       <WhyUs />
       <Faq />
+      <Certificates />
       <FinalCta />
     </main>
   );

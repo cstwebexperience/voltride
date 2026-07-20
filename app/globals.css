@@ -253,6 +253,32 @@ ul { list-style: none; }
 .faq-a p { overflow: hidden; color: var(--muted); font-size: .92rem; line-height: 1.65; padding: 0 20px; }
 .faq-item.open .faq-a p { padding-bottom: 18px; }
 
+/* ─── Certificates ─── */
+.certs { max-width: var(--maxw); margin: 0 auto; padding: clamp(50px, 8vw, 100px) 24px; }
+.certs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.cert-card { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; transition: border-color .25s, transform .25s; }
+.cert-card:hover { border-color: rgba(56,189,248,.35); transform: translateY(-2px); }
+.cert-code { flex: none; display: flex; align-items: center; justify-content: center; min-width: 44px; height: 44px; padding: 0 6px; border-radius: 11px; background: rgba(56,189,248,.1); border: 1px solid rgba(56,189,248,.25); color: var(--accent-lt); font-family: var(--mono); font-size: .62rem; font-weight: 700; letter-spacing: .02em; text-align: center; }
+.cert-card b { display: block; font-family: var(--display); font-weight: 700; font-size: .9rem; }
+.cert-card small { display: block; color: var(--faint); font-size: .74rem; margin-top: 2px; }
+
+/* ─── Legal (Terms & Conditions) ─── */
+.legal { max-width: 820px; margin: 0 auto; padding: 130px 24px clamp(70px, 9vw, 110px); }
+.legal-head { margin-bottom: 34px; }
+.legal-head h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2.1rem, 5vw, 3.2rem); letter-spacing: -.02em; margin-top: 10px; }
+.legal-updated { color: var(--faint); font-size: .82rem; margin-top: 10px; font-family: var(--mono); letter-spacing: .04em; }
+.legal-intro { color: var(--muted); font-size: 1.02rem; line-height: 1.7; padding-bottom: 26px; margin-bottom: 8px; border-bottom: 1px solid var(--border); }
+.legal-body h2 { font-family: var(--display); font-weight: 700; font-size: 1.28rem; letter-spacing: -.01em; margin: 34px 0 12px; scroll-margin-top: 100px; }
+.legal-body p { color: var(--muted); font-size: .96rem; line-height: 1.75; }
+.legal-body strong { color: var(--text); }
+.legal-body em { color: var(--accent-lt); font-style: normal; }
+.legal-highlight { background: rgba(56,189,248,.08); border: 1px solid rgba(56,189,248,.3); border-radius: 16px; padding: 18px 20px; color: var(--text) !important; }
+.legal-footnote { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--faint) !important; font-size: .84rem !important; }
+
+@media (max-width: 640px) {
+  .certs-grid { grid-template-columns: 1fr 1fr; }
+}
+
 /* ─── Final CTA ─── */
 .final-cta { padding: clamp(60px, 9vw, 120px) 24px; text-align: center; position: relative; overflow: hidden; }
 .final-cta::before { content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 720px; height: 420px; background: radial-gradient(ellipse at center, rgba(56,189,248,.14), transparent 70%); pointer-events: none; }

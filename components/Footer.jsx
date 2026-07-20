@@ -20,10 +20,15 @@ export default function Footer() {
           <Link href="/bikes/x80pro">X80 Pro</Link>
           <Link href="/bikes/x80ultra">X80 Ultra</Link>
         </div>
+        <div className="footer-links">
+          <span className="footer-links-title">Legal</span>
+          <Link href="/terms">Terms &amp; Conditions</Link>
+          <Link href="/terms#returns">Returns policy</Link>
+        </div>
       </div>
       <div className="footer-bottom">
         <p>© 2026 ZEPHRIDE. All rights reserved.</p>
-        <p>Specifications are indicative and may vary by configuration.</p>
+        <p>All sales are final — see our <Link href="/terms">Terms &amp; Conditions</Link>.</p>
       </div>
     </footer>
   );
