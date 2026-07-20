@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 const FAQS = [
-  { q: "Do I need a license, plates or insurance?", a: "No. Every ZEPHRIDE is limited to 250 W / 25 km/h and certified to EN 15194 — in the eyes of EU law it's a bicycle. Unbox it, and ride." },
+  { q: "Does it arrive assembled?", a: "About 90% assembled. You fit the handlebar, pedals and front wheel with the included tools — around 20 minutes, no workshop needed, and the manual walks you through every step." },
   { q: "How much does shipping cost?", a: "Nothing. Shipping is free to all 22 countries we serve, and inside the EU there are no customs fees or surprise charges." },
   { q: "When do I pay?", a: "Not at checkout. You place the order, we confirm stock and delivery within 24 hours, and only then you pay — cash on delivery or by secure card link." },
   { q: "How long does delivery take?", a: "Bikes ship from our EU warehouse partners. Typical delivery is 7–14 working days depending on your country — we confirm the exact window with your order." },

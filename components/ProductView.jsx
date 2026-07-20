@@ -65,7 +65,7 @@ export default function ProductView({ product: p }) {
             <li>No payment now — pay cash or card on confirmation</li>
             <li>All sales final — no returns accepted</li>
             <li>2-year EU warranty</li>
-            <li>CE · EN 15194 street-legal</li>
+            <li>CE · EN 15194 certified</li>
           </ul>
         </aside>
       </div>

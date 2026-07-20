@@ -1,5 +1,5 @@
 const POINTS = [
-  { n: "01", t: "Street-legal everywhere", d: "250 W, 25 km/h, EN 15194 & CE certified. Legally a bicycle in the whole EU — no license, no plates, no insurance." },
+  { n: "01", t: "Certified, tested hardware", d: "Every bike carries genuine CE and EN 15194 certification — real, documented testing, not marketing stickers." },
   { n: "02", t: "Nothing paid up front", d: "Order now, pay when we confirm — cash to the courier or a secure card link. Your money never moves before your bike does." },
   { n: "03", t: "Free shipping, no customs", d: "Delivered to 22 European countries with zero shipping cost and zero customs surprises inside the EU." },
   { n: "04", t: "2-year warranty", d: "Every bike is covered by a full 2-year warranty, and a real human answers within 24 hours. All sales are final — no returns." },

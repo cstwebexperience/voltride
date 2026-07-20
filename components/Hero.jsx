@@ -3,23 +3,71 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-const NOTES = [
-  { k: "In the city", items: ["Street-legal — no license", "Silent electric drive", "Instant torque"] },
-  { k: "Everyday build", items: ["20×4.0 fat all-terrain tyres", "Full suspension", "Hydraulic disc brakes"] },
-  { k: "Off the grid", items: ["70 Nm climbing torque", "Fat tyres grip anything", "Goes where roads end"] },
-  { k: "All-weather", items: ["Weather-sealed build", "Long-range battery", "Free shipping across Europe"] },
-  { k: "Just ride", items: ["Live LCD dashboard", "Street-legal everywhere", "5 models to choose from"] },
+/* Biology-notebook annotations — one set per chapter, per orientation.
+   x/y = the part being pointed at, lx/ly = where the label sits (viewport %). */
+const ANNOS = [
+  { // 0 · city side view
+    tall: [
+      { t: "Full rear suspension", x: 40, y: 52, lx: 50, ly: 32 },
+      { t: "Hydraulic disc brakes", x: 24, y: 62, lx: 50, ly: 80 },
+    ],
+    wide: [
+      { t: "Full rear suspension", x: 39, y: 52, lx: 16, ly: 28 },
+      { t: "Hydraulic disc brakes", x: 32, y: 66, lx: 58, ly: 84 },
+    ],
+  },
+  { // 1 · city three-quarter (headlight + battery)
+    tall: [
+      { t: "LED headlight", x: 63, y: 43, lx: 38, ly: 26 },
+      { t: "48 V removable battery", x: 48, y: 54, lx: 50, ly: 78 },
+    ],
+    wide: [
+      { t: "Adjustable LED headlight", x: 72, y: 42, lx: 46, ly: 24 },
+      { t: "48 V removable battery", x: 62, y: 54, lx: 40, ly: 80 },
+    ],
+  },
+  { // 2 · mountain
+    tall: [
+      { t: "Hub motor · 70 Nm", x: 44, y: 61, lx: 50, ly: 80 },
+      { t: "20×4.0 fat tyres", x: 66, y: 57, lx: 60, ly: 30 },
+    ],
+    wide: [
+      { t: "Hub motor · 70 Nm", x: 33, y: 62, lx: 55, ly: 84 },
+      { t: "20×4.0 fat tyres", x: 67, y: 58, lx: 48, ly: 30 },
+    ],
+  },
+  { // 3 · beach side
+    tall: [
+      { t: "Weather-sealed build", x: 50, y: 50, lx: 50, ly: 30 },
+      { t: "50–80 km range", x: 34, y: 62, lx: 50, ly: 80 },
+    ],
+    wide: [
+      { t: "Weather-sealed build", x: 67, y: 50, lx: 44, ly: 28 },
+      { t: "50–80 km range", x: 61, y: 62, lx: 42, ly: 80 },
+    ],
+  },
+  { // 4 · POV on the pier
+    tall: [
+      { t: "Live LCD dashboard", x: 47, y: 50, lx: 52, ly: 74 },
+      { t: "7-speed thumb shifter", x: 86, y: 46, lx: 58, ly: 28 },
+    ],
+    wide: [
+      { t: "Live LCD dashboard", x: 26, y: 51, lx: 14, ly: 76 },
+      { t: "7-speed thumb shifter", x: 84, y: 44, lx: 56, ly: 28 },
+    ],
+  },
 ];
 
 const KF = [0.02, 0.29, 0.55, 0.80, 0.97];
 const N = KF.length;
-const CH_VH = 76;
+const CH_VH = 150; // long holds between transitions
 
 export default function Hero() {
   const sectionRef = useRef(null);
   const stickyRef = useRef(null);
   const videoRef = useRef(null);
-  const [activeNote, setActiveNote] = useState(0);
+  const [chapter, setChapter] = useState(0);   // -1 while a transition plays
+  const [tall, setTall] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,10 +77,11 @@ export default function Hero() {
     let dur = 0, isTall = null, settled = 0, primed = false, rafId = null, inView = true, alive = true;
 
     const pickSrc = () => {
-      const tall = window.innerWidth < window.innerHeight;
-      if (tall === isTall) return;
-      isTall = tall; primed = false;
-      video.src = tall ? "/assets/video/hero-9x16.mp4" : "/assets/video/hero-16x9.mp4";
+      const t = window.innerWidth < window.innerHeight;
+      if (t === isTall) return;
+      isTall = t; primed = false;
+      setTall(t);
+      video.src = t ? "/assets/video/hero-9x16.mp4" : "/assets/video/hero-16x9.mp4";
       video.load();
     };
     const play = () => { const q = video.play(); if (q && q.catch) q.catch(() => {}); };
@@ -75,8 +124,7 @@ export default function Hero() {
             try { video.currentTime = KF[settled] * dur; } catch {}
           }
         }
-        if (target === settled) setActiveNote(settled);
-        else setActiveNote(-1);
+        setChapter(target === settled ? settled : -1);
       }
       rafId = inView ? requestAnimationFrame(frame) : null;
     };
@@ -109,20 +157,29 @@ export default function Hero() {
     };
   }, []);
 
+  const annos = chapter >= 0 && tall !== null ? ANNOS[chapter][tall ? "tall" : "wide"] : [];
+
   return (
     <section className="hv" data-hero ref={sectionRef} style={{ height: `${N * CH_VH}vh` }}>
       <div className="hv-sticky" ref={stickyRef}>
         <video className="hv-video" ref={videoRef} muted playsInline preload="auto" disablePictureInPicture />
         <div className="hv-scrim" aria-hidden="true" />
 
-        <div className="hv-notes">
-          {NOTES.map((n, i) => (
-            <div className={`hv-note ${activeNote === i ? "is-on" : ""}`} key={n.k} aria-hidden={activeNote !== i}>
-              <span className="hv-note-k">{n.k}</span>
-              <ul>{n.items.map((it) => <li key={it}>{it}</li>)}</ul>
+        {annos.map((a) => {
+          const side = a.lx < a.x ? "left" : "right";
+          return (
+            <div
+              className={`anno anno-${side}`}
+              key={`${chapter}-${a.t}`}
+              style={{ "--x": `${a.x}%`, "--y": `${a.y}%`, "--lx": `${a.lx}%`, "--ly": `${a.ly}%` }}
+            >
+              <span className="anno-dot" />
+              <span className="anno-v" />
+              <span className="anno-h" />
+              <span className="anno-label">{a.t}</span>
             </div>
-          ))}
-        </div>
+          );
+        })}
 
         <Link className="hv-cta btn btn-primary" href="/#bikes">
           Explore the bikes
