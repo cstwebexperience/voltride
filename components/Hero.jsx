@@ -5,38 +5,37 @@ import Link from "next/link";
 
 /* Biology-notebook annotations — one set per chapter, per orientation.
    x/y = the part being pointed at, lx/ly = where the label sits (viewport %). */
+/* Positions verified against real extracted frames (10% grid overlay), not guessed. */
 const ANNOS = [
-  { // 0 · city side view
+  { // 0 · city, wide static shot — orange coil rear suspension
     tall: [
-      { t: "Full rear suspension", x: 40, y: 57, lx: 50, ly: 32 },
-      { t: "Hydraulic disc brakes", x: 24, y: 62, lx: 50, ly: 80 },
+      { t: "Full rear suspension", x: 46, y: 53, lx: 50, ly: 30 },
     ],
     wide: [
-      { t: "Full rear suspension", x: 39, y: 52, lx: 16, ly: 28 },
-      { t: "Hydraulic disc brakes", x: 32, y: 66, lx: 58, ly: 84 },
+      { t: "Full rear suspension", x: 35, y: 51, lx: 16, ly: 26 },
     ],
   },
-  { // 1 · city three-quarter (headlight + battery)
+  { // 1 · city close-up — headlight (front, under handlebar) + battery (under seat)
     tall: [
-      { t: "LED headlight", x: 74, y: 33, lx: 38, ly: 24 },
-      { t: "48 V removable battery", x: 48, y: 54, lx: 50, ly: 78 },
+      { t: "LED headlight", x: 68, y: 40, lx: 36, ly: 22 },
+      { t: "48 V removable battery", x: 45, y: 51, lx: 50, ly: 78 },
     ],
     wide: [
-      { t: "Adjustable LED headlight", x: 72, y: 42, lx: 46, ly: 24 },
-      { t: "48 V removable battery", x: 62, y: 54, lx: 40, ly: 80 },
+      { t: "LED headlight", x: 51, y: 22, lx: 26, ly: 10 },
+      { t: "48 V removable battery", x: 48, y: 45, lx: 40, ly: 80 },
     ],
   },
-  { // 2 · mountain
+  { // 2 · mountain — rear hub motor (below seat) + hydraulic disc brake (front wheel)
     tall: [
-      { t: "Hub motor · 70 Nm", x: 18, y: 56, lx: 50, ly: 80 },
-      { t: "20×4.0 fat tyres", x: 78, y: 64, lx: 60, ly: 30 },
+      { t: "Rear hub motor", x: 48, y: 53, lx: 50, ly: 80 },
+      { t: "Hydraulic disc brakes", x: 62, y: 66, lx: 62, ly: 30 },
     ],
     wide: [
-      { t: "Hub motor · 70 Nm", x: 24, y: 65, lx: 55, ly: 84 },
-      { t: "20×4.0 fat tyres", x: 76, y: 62, lx: 48, ly: 30 },
+      { t: "Rear hub motor", x: 44, y: 57, lx: 55, ly: 84 },
+      { t: "Hydraulic disc brakes", x: 64, y: 64, lx: 48, ly: 28 },
     ],
   },
-  { // 3 · beach side
+  { // 3 · beach, static
     tall: [
       { t: "Weather-sealed build", x: 50, y: 50, lx: 50, ly: 30 },
       { t: "50–80 km range", x: 44, y: 58, lx: 50, ly: 80 },
@@ -46,13 +45,13 @@ const ANNOS = [
       { t: "50–80 km range", x: 61, y: 62, lx: 42, ly: 80 },
     ],
   },
-  { // 4 · POV on the pier
+  { // 4 · POV on the pier — LCD showing "10" + front fork
     tall: [
-      { t: "Live LCD dashboard", x: 47, y: 50, lx: 52, ly: 74 },
-      { t: "Front suspension fork", x: 63, y: 78, lx: 58, ly: 30 },
+      { t: "Live LCD dashboard", x: 48, y: 50, lx: 52, ly: 74 },
+      { t: "Front suspension fork", x: 48, y: 66, lx: 58, ly: 30 },
     ],
     wide: [
-      { t: "Live LCD dashboard", x: 26, y: 51, lx: 14, ly: 76 },
+      { t: "Live LCD dashboard", x: 50, y: 48, lx: 14, ly: 76 },
       { t: "7-speed thumb shifter", x: 84, y: 44, lx: 56, ly: 28 },
     ],
   },
