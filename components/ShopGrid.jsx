@@ -18,32 +18,41 @@ export default function ShopGrid() {
       </div>
 
       <div className="shop-grid">
-        {PRODUCTS.map((p) => (
-          <article className="scard" key={p.id}>
-            <Link className="scard-media" href={`/bikes/${p.id}`} aria-label={`ZEPHRIDE ${p.name}`}>
-              {p.badge && <span className="pcard-badge">{p.badge}</span>}
-              <Image src={p.images[0]} alt={`ZEPHRIDE ${p.name}`} fill sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 20vw" />
-            </Link>
-            <div className="scard-body">
-              <Link className="scard-name" href={`/bikes/${p.id}`}>ZEPHRIDE {p.name}</Link>
-              <ul className="scard-specs">
-                <li>{p.specs.Motor}</li>
-                <li>{p.specs.Range} range</li>
-                <li>{p.specs.Battery}</li>
-              </ul>
-              <span className="scard-stock">In stock · free shipping</span>
-              <div className="scard-price">{euro(price(p))}</div>
-              <div className="scard-actions">
-                <button className="btn btn-primary" type="button"
-                  onClick={() => { addToCart(p.id); showToast(`${p.name} added to cart.`, "success"); }}>
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                  Add to cart
-                </button>
-                <Link className="scard-view" href={`/bikes/${p.id}`}>View details →</Link>
+        {PRODUCTS.map((p) => {
+          const hasPhoto = p.images.length > 0;
+          return (
+            <article className="scard" key={p.id}>
+              <Link className="scard-media" href={`/bikes/${p.id}`} aria-label={`ZEPHRIDE ${p.name}`}>
+                {p.badge && <span className="pcard-badge">{p.badge}</span>}
+                {hasPhoto
+                  ? <Image src={p.images[0]} alt={`ZEPHRIDE ${p.name}`} fill sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 20vw" />
+                  : <span className="scard-ph">ZEPHRIDE {p.name}<br />Photos coming soon</span>}
+              </Link>
+              <div className="scard-body">
+                <Link className="scard-name" href={`/bikes/${p.id}`}>ZEPHRIDE {p.name}</Link>
+                <ul className="scard-specs">
+                  <li>{p.specs.Motor}</li>
+                  <li>{p.specs.Range} range</li>
+                  <li>{p.specs.Battery}</li>
+                </ul>
+                <span className={`scard-stock ${hasPhoto ? "" : "soon"}`}>{hasPhoto ? "In stock · free shipping" : "Coming soon"}</span>
+                <div className="scard-price">{euro(price(p))}</div>
+                <div className="scard-actions">
+                  {hasPhoto ? (
+                    <button className="btn btn-primary" type="button"
+                      onClick={() => { addToCart(p.id); showToast(`${p.name} added to cart.`, "success"); }}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                      Add to cart
+                    </button>
+                  ) : (
+                    <button className="btn btn-ghost" type="button" disabled>Coming soon</button>
+                  )}
+                  <Link className="scard-view" href={`/bikes/${p.id}`}>View details →</Link>
+                </div>
               </div>
-            </div>
-          </article>
-        ))}
+            </article>
+          );
+        })}
       </div>
     </section>
   );

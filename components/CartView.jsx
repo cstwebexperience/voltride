@@ -97,7 +97,7 @@ export default function CartView() {
             return (
               <div className="cart-item" key={p.id}>
                 <Link className="cart-item-img" href={`/bikes/${p.id}`}>
-                  <Image src={p.images[0]} alt={p.name} width={116} height={88} />
+                  {p.images.length > 0 && <Image src={p.images[0]} alt={p.name} width={96} height={96} />}
                 </Link>
                 <div className="cart-item-info">
                   <Link className="cart-item-name" href={`/bikes/${p.id}`}>ZEPHRIDE {p.name}</Link>
