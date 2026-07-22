@@ -30,6 +30,26 @@ export function StoreProvider({ children }) {
     setCountryCode(code);
     setPickerOpen(false);
     try { localStorage.setItem("zr_country", code); } catch {}
+
+    // Offer the page in the country's language via Google Translate.
+    // Source content stays English; a googtrans cookie drives the on-page
+    // translation and we reload only when the target language changes.
+    try {
+      const lang = (COUNTRIES.find((c) => c.code === code) || {}).lang || "en";
+      const m = document.cookie.match(/googtrans=\/en\/([a-z-]+)/);
+      const current = m ? m[1] : "en";
+      if (lang === current) return;
+      const host = location.hostname;
+      const kill = "expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      if (lang === "en") {
+        document.cookie = `googtrans=;path=/;${kill}`;
+        document.cookie = `googtrans=;path=/;domain=.${host};${kill}`;
+      } else {
+        document.cookie = `googtrans=/en/${lang};path=/`;
+        document.cookie = `googtrans=/en/${lang};path=/;domain=.${host}`;
+      }
+      location.reload();
+    } catch {}
   }, []);
 
   const persist = (next) => {

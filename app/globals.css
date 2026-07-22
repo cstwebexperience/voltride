@@ -114,8 +114,11 @@ ul { list-style: none; }
    common pattern (Apple, Rivian) even on light-mode sites. */
 .hv { position: relative; }
 .hv-sticky {
-  /* dvh tracks the iOS/Android toolbar as it collapses — no black band below the video */
-  position: sticky; top: 0; height: 100vh; height: 100dvh;
+  /* lvh = largest viewport (toolbar hidden). Sizing to it up front means the
+     hero is already full height on load, so the first scroll isn't "eaten" by
+     the mobile toolbar collapsing/resizing — and object-fit:cover fills it, so
+     no black band appears while the toolbar is still shown. */
+  position: sticky; top: 0; height: 100vh; height: 100lvh;
   overflow: hidden; background: #050507;
 }
 .hv-video {
@@ -218,7 +221,7 @@ ul { list-style: none; }
 
 /* ─── Quick shop (eMAG-style product cards) — full 1:1 photo, details below ─── */
 .shop { max-width: var(--maxw); margin: 0 auto; padding: clamp(50px, 8vw, 100px) 24px; }
-.shop-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 760px; margin: 0 auto; }
 .scard { display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: transform .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease); }
 .scard:hover { transform: translateY(-5px); border-color: rgba(184,99,42,.4); box-shadow: 0 22px 44px rgba(20,17,15,.14); }
 .scard-media { position: relative; aspect-ratio: 1 / 1; display: block; background: #f0ebe1; }
@@ -256,8 +259,10 @@ ul { list-style: none; }
 /* ─── Certificates ─── */
 .certs { max-width: var(--maxw); margin: 0 auto; padding: clamp(50px, 8vw, 100px) 24px; }
 .certs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.cert-card { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; transition: border-color .25s, transform .25s; }
+.cert-card { display: flex; align-items: center; gap: 12px; min-width: 0; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; transition: border-color .25s, transform .25s; }
 .cert-card:hover { border-color: rgba(184,99,42,.35); transform: translateY(-2px); }
+.cert-card > div { min-width: 0; }
+.cert-card b { overflow-wrap: anywhere; }
 .cert-mark { flex: none; display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 12px; background: #fff; border: 1px solid var(--border); overflow: hidden; }
 .cert-mark img { width: 44px; height: 44px; object-fit: contain; display: block; }
 .cert-card b { display: block; font-family: var(--display); font-weight: 700; font-size: .9rem; }
@@ -277,7 +282,8 @@ ul { list-style: none; }
 .legal-footnote { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--faint) !important; font-size: .84rem !important; }
 
 @media (max-width: 640px) {
-  .certs-grid { grid-template-columns: 1fr 1fr; }
+  .certs-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+  .cert-card { flex-direction: column; align-items: flex-start; text-align: left; gap: 8px; padding: 12px; }
 }
 
 /* ─── Final CTA ─── */
@@ -432,12 +438,8 @@ ul { list-style: none; }
 /* ─── Responsive ─── */
 @media (max-width: 1000px) {
   .whyus-grid { grid-template-columns: repeat(2, 1fr); }
-  .shop-grid { grid-template-columns: repeat(3, 1fr); }
 }
-@media (max-width: 760px) {
-  .shop-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 520px) {
+@media (max-width: 560px) {
   .shop-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 880px) {
@@ -467,3 +469,11 @@ ul { list-style: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+/* ─── Google Translate widget cleanup (hide its banner, keep our layout) ─── */
+.goog-te-banner-frame, .skiptranslate.goog-te-banner-frame { display: none !important; }
+body { top: 0 !important; }
+.goog-te-gadget { height: 0; overflow: hidden; }
+#google_translate_element { position: absolute; width: 0; height: 0; overflow: hidden; }
+.goog-text-highlight { background: none !important; box-shadow: none !important; }
+font { background: transparent !important; box-shadow: none !important; }

@@ -69,6 +69,7 @@ export default function CartView() {
           ref, items, total: euro(cartTotal), payment: data.payment,
           name: data.name, email: data.email, phone: data.phone,
           country: data.country, city: data.city, address: data.address, zip: data.zip,
+          company: data.company || "",
         }),
       });
       if (!res.ok) throw new Error("send failed");
@@ -125,6 +126,8 @@ export default function CartView() {
           </div>
 
           <form className="cart-form" onSubmit={onSubmit} noValidate>
+            <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true"
+              style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }} />
             <h2>Delivery address</h2>
             <div className="form-row-2">
               <div className={`form-group ${invalid.name ? "invalid" : ""}`}><label>Full name *</label><input type="text" name="name" placeholder="John Rider" autoComplete="name" /></div>

@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CountryModal from "@/components/CountryModal";
 import Toast from "@/components/Toast";
+import TranslateBridge from "@/components/TranslateBridge";
 
 const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display", weight: ["400", "500", "600", "700", "800"] });
 const mono = Space_Mono({ subsets: ["latin"], variable: "--font-mono", weight: ["400", "700"] });
@@ -24,7 +25,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#08080a",
+  themeColor: "#f3efe7",
 };
 
 export default function RootLayout({ children }) {
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${display.variable} ${mono.variable}`}>
       <body>
         <StoreProvider>
+          <TranslateBridge />
           <CountryModal />
           <Header />
           {children}
