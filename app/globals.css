@@ -258,7 +258,8 @@ ul { list-style: none; }
 .certs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 .cert-card { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; transition: border-color .25s, transform .25s; }
 .cert-card:hover { border-color: rgba(184,99,42,.35); transform: translateY(-2px); }
-.cert-code { flex: none; display: flex; align-items: center; justify-content: center; min-width: 44px; height: 44px; padding: 0 6px; border-radius: 11px; background: rgba(184,99,42,.1); border: 1px solid rgba(184,99,42,.25); color: var(--accent-lt); font-family: var(--mono); font-size: .62rem; font-weight: 700; letter-spacing: .02em; text-align: center; }
+.cert-mark { flex: none; display: flex; align-items: center; justify-content: center; width: 52px; height: 52px; padding: 9px; border-radius: 12px; background: #fff; border: 1px solid var(--border); color: var(--text); }
+.cert-mark svg { width: 100%; height: 100%; display: block; }
 .cert-card b { display: block; font-family: var(--display); font-weight: 700; font-size: .9rem; }
 .cert-card small { display: block; color: var(--faint); font-size: .74rem; margin-top: 2px; }
 
