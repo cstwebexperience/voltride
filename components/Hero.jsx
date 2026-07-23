@@ -9,10 +9,10 @@ import Link from "next/link";
 const ANNOS = [
   { // 0 · city, wide static shot — orange coil rear suspension
     tall: [
-      { t: "Full rear suspension", x: 46, y: 53, lx: 50, ly: 30 },
+      { t: "Full rear suspension", x: 29, y: 55, lx: 50, ly: 30 },
     ],
     wide: [
-      { t: "Full rear suspension", x: 35, y: 51, lx: 16, ly: 26 },
+      { t: "Full rear suspension", x: 33, y: 53, lx: 16, ly: 26 },
     ],
   },
   { // 1 · city close-up — headlight (front, under handlebar) + battery (under seat)
