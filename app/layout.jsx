@@ -32,6 +32,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${display.variable} ${mono.variable}`}>
       <body>
+        <a className="skip-link" href="#main">Skip to content</a>
+        <div className="grain" aria-hidden="true" />
         <StoreProvider>
           <TranslateBridge />
           <CountryModal />

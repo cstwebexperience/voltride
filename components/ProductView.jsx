@@ -14,7 +14,7 @@ export default function ProductView({ product: p }) {
   const hasPhoto = p.images.length > 0;
 
   return (
-    <main className="pp">
+    <main className="pp" id="main">
       <nav className="pp-crumbs" aria-label="Breadcrumb">
         <Link href="/">Home</Link><span>/</span>
         <Link href="/#bikes">Electric bikes</Link><span>/</span>

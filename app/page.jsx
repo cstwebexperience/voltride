@@ -9,7 +9,7 @@ import FinalCta from "@/components/FinalCta";
 
 export default function Home() {
   return (
-    <main>
+    <main id="main">
       <Hero />
       <Ticker />
       <div id="bikes" />

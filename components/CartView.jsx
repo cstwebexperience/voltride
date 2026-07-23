@@ -16,7 +16,7 @@ export default function CartView() {
 
   if (done) {
     return (
-      <main className="cart-page">
+      <main className="cart-page" id="main">
         <div className="cart-empty cart-done in">
           <div className="cart-done-check">✓</div>
           <h1>Order received!</h1>
@@ -29,7 +29,7 @@ export default function CartView() {
 
   if (!cart.length) {
     return (
-      <main className="cart-page">
+      <main className="cart-page" id="main">
         <div className="cart-empty in">
           <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           <h1>Your cart is empty</h1>
@@ -84,7 +84,7 @@ export default function CartView() {
   }
 
   return (
-    <main className="cart-page">
+    <main className="cart-page" id="main">
       <div className="cart-head">
         <h1>Your <span className="grad">cart.</span></h1>
         <p>{cartCount} item{cartCount > 1 ? "s" : ""} · free shipping{country ? ` to ${country.name}` : ""}</p>
