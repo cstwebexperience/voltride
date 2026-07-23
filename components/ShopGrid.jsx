@@ -25,7 +25,7 @@ export default function ShopGrid() {
               <Link className="scard-media" href={`/bikes/${p.id}`} aria-label={`ZEPHRIDE ${p.name}`}>
                 {p.badge && <span className="pcard-badge">{p.badge}</span>}
                 {hasPhoto
-                  ? <Image src={p.images[0]} alt={`ZEPHRIDE ${p.name}`} fill sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 20vw" />
+                  ? <Image src={p.images[0]} alt={`ZEPHRIDE ${p.name}`} fill quality={90} sizes="(max-width: 560px) 92vw, 400px" />
                   : <span className="scard-ph">ZEPHRIDE {p.name}<br />Photos coming soon</span>}
               </Link>
               <div className="scard-body">

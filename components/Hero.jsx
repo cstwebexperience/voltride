@@ -25,34 +25,34 @@ const ANNOS = [
       { t: "48 V removable battery", x: 48, y: 45, lx: 40, ly: 80 },
     ],
   },
-  { // 2 · mountain — rear hub motor (below seat) + hydraulic disc brake (front wheel)
+  { // 2 · mountain — rear hub motor (under seat) + front disc brake (front wheel)
     tall: [
-      { t: "Rear hub motor", x: 48, y: 53, lx: 50, ly: 80 },
-      { t: "Hydraulic disc brakes", x: 62, y: 66, lx: 62, ly: 30 },
+      { t: "Rear hub motor", x: 48, y: 53, lx: 50, ly: 82 },
+      { t: "Hydraulic disc brakes", x: 77, y: 61, lx: 60, ly: 27 },
     ],
     wide: [
       { t: "Rear hub motor", x: 44, y: 57, lx: 55, ly: 84 },
-      { t: "Hydraulic disc brakes", x: 64, y: 64, lx: 48, ly: 28 },
+      { t: "Hydraulic disc brakes", x: 64, y: 66, lx: 48, ly: 27 },
     ],
   },
-  { // 3 · beach, static
+  { // 3 · beach static side — weather-sealed build + front suspension fork
     tall: [
-      { t: "Weather-sealed build", x: 50, y: 50, lx: 50, ly: 30 },
-      { t: "50–80 km range", x: 44, y: 58, lx: 50, ly: 80 },
+      { t: "Weather-sealed build", x: 46, y: 50, lx: 34, ly: 30 },
+      { t: "Front suspension fork", x: 69, y: 47, lx: 58, ly: 80 },
     ],
     wide: [
-      { t: "Weather-sealed build", x: 67, y: 50, lx: 44, ly: 28 },
-      { t: "50–80 km range", x: 61, y: 62, lx: 42, ly: 80 },
+      { t: "Weather-sealed build", x: 40, y: 48, lx: 26, ly: 26 },
+      { t: "Front suspension fork", x: 58, y: 40, lx: 48, ly: 82 },
     ],
   },
-  { // 4 · POV on the pier — LCD showing "10" + front fork
+  { // 4 · POV on the pier — LCD showing "10" + range spec
     tall: [
       { t: "Live LCD dashboard", x: 48, y: 50, lx: 52, ly: 74 },
-      { t: "Front suspension fork", x: 48, y: 66, lx: 58, ly: 30 },
+      { t: "50–80 km range", x: 48, y: 66, lx: 58, ly: 30 },
     ],
     wide: [
-      { t: "Live LCD dashboard", x: 50, y: 48, lx: 14, ly: 76 },
-      { t: "7-speed thumb shifter", x: 84, y: 44, lx: 56, ly: 28 },
+      { t: "Live LCD dashboard", x: 26, y: 51, lx: 14, ly: 76 },
+      { t: "50–80 km range", x: 50, y: 62, lx: 56, ly: 27 },
     ],
   },
 ];
