@@ -7,12 +7,12 @@ import Link from "next/link";
    x/y = the part being pointed at, lx/ly = where the label sits (viewport %). */
 /* Positions verified against real extracted frames (10% grid overlay), not guessed. */
 const ANNOS = [
-  { // 0 · city, wide static shot — orange coil rear suspension
+  { // 0 · city, wide static shot — red coil rear suspension
     tall: [
-      { t: "Full rear suspension", x: 29, y: 55, lx: 50, ly: 30 },
+      { t: "Full rear suspension", x: 44, y: 47, lx: 50, ly: 24 },
     ],
     wide: [
-      { t: "Full rear suspension", x: 33, y: 53, lx: 16, ly: 26 },
+      { t: "Full rear suspension", x: 37, y: 51, lx: 16, ly: 26 },
     ],
   },
   { // 1 · city close-up — headlight (front, under handlebar) + battery (under seat)
@@ -21,7 +21,7 @@ const ANNOS = [
       { t: "48 V removable battery", x: 45, y: 51, lx: 50, ly: 78 },
     ],
     wide: [
-      { t: "LED headlight", x: 51, y: 22, lx: 26, ly: 10 },
+      { t: "LED headlight", x: 58, y: 45, lx: 30, ly: 24 },
       { t: "48 V removable battery", x: 48, y: 45, lx: 40, ly: 80 },
     ],
   },
@@ -45,14 +45,14 @@ const ANNOS = [
       { t: "Front suspension fork", x: 58, y: 40, lx: 48, ly: 82 },
     ],
   },
-  { // 4 · POV on the pier — LCD showing "10" + range spec
+  { // 4 · POV on the pier — both callouts converge on the same LCD screen
     tall: [
-      { t: "Live LCD dashboard", x: 48, y: 50, lx: 52, ly: 74 },
-      { t: "50–80 km range", x: 48, y: 66, lx: 58, ly: 30 },
+      { t: "Live LCD dashboard", x: 47, y: 46, lx: 28, ly: 74 },
+      { t: "50–80 km range", x: 47, y: 46, lx: 68, ly: 74 },
     ],
     wide: [
-      { t: "Live LCD dashboard", x: 26, y: 51, lx: 14, ly: 76 },
-      { t: "50–80 km range", x: 50, y: 62, lx: 56, ly: 27 },
+      { t: "Live LCD dashboard", x: 51, y: 46, lx: 16, ly: 78 },
+      { t: "50–80 km range", x: 51, y: 46, lx: 82, ly: 78 },
     ],
   },
 ];

@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import CountryModal from "@/components/CountryModal";
 import Toast from "@/components/Toast";
 import TranslateBridge from "@/components/TranslateBridge";
+import SupportChat from "@/components/SupportChat";
 
 const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display", weight: ["400", "500", "600", "700", "800"] });
 const mono = Space_Mono({ subsets: ["latin"], variable: "--font-mono", weight: ["400", "700"] });
@@ -41,6 +42,7 @@ export default function RootLayout({ children }) {
           {children}
           <Footer />
           <Toast />
+          <SupportChat />
         </StoreProvider>
       </body>
     </html>
