@@ -61,6 +61,29 @@ const KF = [0.02, 0.29, 0.55, 0.80, 0.97];
 const N = KF.length;
 const CH_VH = 150; // long holds between transitions
 
+// Native source dimensions of each video — required to undo object-fit:cover's
+// crop. ANNOS x/y are measured on these raw frames; without this correction
+// they only land correctly when the viewport happens to share the video's
+// aspect ratio, and drift everywhere else (this was the actual bug: dots
+// looked fine on a 16:9-ish test window but missed on other window shapes).
+const NATIVE = { wide: { w: 1920, h: 1080 }, tall: { w: 720, h: 1280 } };
+
+// Maps a point measured on the raw video frame (0-100) to where object-fit:cover
+// actually renders it inside a `boxW x boxH` container.
+function coverMap(x0, y0, boxW, boxH, videoW, videoH) {
+  const boxA = boxW / boxH, videoA = videoW / videoH;
+  if (boxA > videoA) {
+    // container is relatively wider than the video → video fills width, top/bottom cropped
+    const scaledH = boxW / videoA;
+    const cropFrac = ((scaledH - boxH) / 2) / scaledH; // fraction cropped off top (and bottom)
+    return { x: x0, y: ((y0 - cropFrac * 100) / (100 - 2 * cropFrac * 100)) * 100 };
+  }
+  // container is relatively taller/narrower → video fills height, left/right cropped
+  const scaledW = boxH * videoA;
+  const cropFrac = ((scaledW - boxW) / 2) / scaledW; // fraction cropped off left (and right)
+  return { x: ((x0 - cropFrac * 100) / (100 - 2 * cropFrac * 100)) * 100, y: y0 };
+}
+
 export default function Hero() {
   const sectionRef = useRef(null);
   const stickyRef = useRef(null);
@@ -68,6 +91,7 @@ export default function Hero() {
   const [chapter, setChapter] = useState(0);   // -1 while a transition plays
   const [tall, setTall] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [box, setBox] = useState({ w: 0, h: 0 });
 
   useEffect(() => {
     const section = sectionRef.current, sticky = stickyRef.current, video = videoRef.current;
@@ -134,14 +158,16 @@ export default function Hero() {
       : null;
     if (io) io.observe(section);
 
-    const onResize = () => pickSrc();
-    const onRotate = () => setTimeout(pickSrc, 300);
+    const measure = () => setBox({ w: sticky.clientWidth, h: sticky.clientHeight });
+    const onResize = () => { pickSrc(); measure(); };
+    const onRotate = () => setTimeout(() => { pickSrc(); measure(); }, 300);
     const onVis = () => { if (!document.hidden) startLoop(); };
     window.addEventListener("scroll", startLoop, { passive: true });
     window.addEventListener("resize", onResize);
     window.addEventListener("orientationchange", onRotate);
     document.addEventListener("visibilitychange", onVis);
     startLoop();
+    measure();
 
     return () => {
       alive = false;
@@ -157,6 +183,8 @@ export default function Hero() {
   }, []);
 
   const annos = chapter >= 0 && tall !== null ? ANNOS[chapter][tall ? "tall" : "wide"] : [];
+  const native = tall ? NATIVE.tall : NATIVE.wide;
+  const canMap = box.w > 0 && box.h > 0;
 
   return (
     <section className="hv" data-hero ref={sectionRef} style={{ height: `${N * CH_VH}vh` }}>
@@ -164,13 +192,14 @@ export default function Hero() {
         <video className="hv-video" ref={videoRef} muted playsInline preload="auto" disablePictureInPicture />
         <div className="hv-scrim" aria-hidden="true" />
 
-        {annos.map((a) => {
+        {canMap && annos.map((a) => {
           const side = a.lx < a.x ? "left" : "right";
+          const { x, y } = coverMap(a.x, a.y, box.w, box.h, native.w, native.h);
           return (
             <div
               className={`anno anno-${side}`}
               key={`${chapter}-${a.t}`}
-              style={{ "--x": `${a.x}%`, "--y": `${a.y}%`, "--lx": `${a.lx}%`, "--ly": `${a.ly}%` }}
+              style={{ "--x": `${x}%`, "--y": `${y}%`, "--lx": `${a.lx}%`, "--ly": `${a.ly}%` }}
             >
               <span className="anno-dot" />
               <span className="anno-v" />
