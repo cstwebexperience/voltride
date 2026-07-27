@@ -33,14 +33,18 @@ const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [{ protocol: "https", hostname: "flagcdn.com" }],
-    minimumCacheTTL: 2592000,
+    minimumCacheTTL: 3600,
   },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
       {
+        // These files (video, product photos, cert marks) get overwritten in
+        // place under the same filename as we iterate — "immutable" caching
+        // here means browsers keep serving stale content forever after an
+        // update. Short cache + must-revalidate so edits actually show up.
         source: "/assets/:path*",
-        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+        headers: [{ key: "Cache-Control", value: "public, max-age=300, must-revalidate" }],
       },
     ];
   },
