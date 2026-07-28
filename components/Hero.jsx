@@ -70,15 +70,18 @@ const NATIVE = { wide: { w: 1920, h: 1080 }, tall: { w: 720, h: 1280 } };
 
 // Maps a point measured on the raw video frame (0-100) to where object-fit:cover
 // actually renders it inside a `boxW x boxH` container.
-function coverMap(x0, y0, boxW, boxH, videoW, videoH) {
+function coverMap(x0, y0, boxW, boxH, videoW, videoH, alignTop) {
   const boxA = boxW / boxH, videoA = videoW / videoH;
   if (boxA > videoA) {
     // container is relatively wider than the video → video fills width, overflow
-    // cropped off the bottom only (object-position: center top keeps the top —
-    // titles/annotations — intact instead of clipping it along with the bottom).
+    // cropped top/bottom. On the desktop cut (alignTop) object-position is
+    // "center top", so the crop comes off the bottom only, keeping the chapter
+    // titles intact; the portrait cut keeps the original symmetric crop.
     const scaledH = boxW / videoA;
     const cropFrac = ((scaledH - boxH) / 2) / scaledH;
-    return { x: x0, y: (y0 / (100 - 2 * cropFrac * 100)) * 100 };
+    return alignTop
+      ? { x: x0, y: (y0 / (100 - 2 * cropFrac * 100)) * 100 }
+      : { x: x0, y: ((y0 - cropFrac * 100) / (100 - 2 * cropFrac * 100)) * 100 };
   }
   // container is relatively taller/narrower → video fills height, left/right cropped
   const scaledW = boxH * videoA;
@@ -191,12 +194,12 @@ export default function Hero() {
   return (
     <section className="hv" ref={sectionRef} style={{ height: `${N * CH_VH}vh` }}>
       <div className="hv-sticky" ref={stickyRef}>
-        <video className="hv-video" ref={videoRef} muted playsInline preload="auto" disablePictureInPicture />
+        <video className={`hv-video ${tall ? "" : "hv-video-top"}`} ref={videoRef} muted playsInline preload="auto" disablePictureInPicture />
         <div className="hv-scrim" aria-hidden="true" />
 
         {canMap && annos.map((a) => {
           const side = a.lx < a.x ? "left" : "right";
-          const { x, y } = coverMap(a.x, a.y, box.w, box.h, native.w, native.h);
+          const { x, y } = coverMap(a.x, a.y, box.w, box.h, native.w, native.h, !tall);
           return (
             <div
               className={`anno anno-${side}`}
