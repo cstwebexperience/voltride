@@ -5,6 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useStore } from "@/lib/store";
+import { CERTS } from "@/components/Certificates";
+
+const KEY_CERTS = ["doc", "en15194", "rohs", "ukca"];
 
 export default function ProductView({ product: p }) {
   const { country, price, euro, addToCart, showToast } = useStore();
@@ -75,6 +78,12 @@ export default function ProductView({ product: p }) {
           <li>2-year EU warranty</li>
           <li>CE · EN 15194 certified</li>
         </ul>
+        <div className="pp-cert-strip">
+          {CERTS.filter((c) => KEY_CERTS.includes(c.img)).map((c) => (
+            <img key={c.img} src={`/assets/certs/${c.img}.png`} alt={`${c.name} mark`} width={28} height={28} title={c.name} />
+          ))}
+          <Link href="/#certs" className="pp-cert-link">Full compliance list →</Link>
+        </div>
       </aside>
 
       <div className="pp-details">

@@ -371,6 +371,10 @@ p { text-wrap: pretty; }
 .pp-trust { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
 .pp-trust li { display: flex; gap: 10px; align-items: flex-start; color: var(--muted); font-size: .84rem; }
 .pp-trust li::before { content: "✓"; color: var(--accent); font-weight: 800; }
+.pp-cert-strip { display: flex; align-items: center; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.pp-cert-strip img { width: 28px; height: 28px; object-fit: contain; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 3px; }
+.pp-cert-link { font-size: .76rem; color: var(--muted); font-weight: 600; margin-left: auto; }
+.pp-cert-link:hover { color: var(--accent-lt); }
 
 .pp-details { margin-top: clamp(40px, 6vw, 70px); display: flex; flex-direction: column; gap: clamp(28px, 4vw, 44px); }
 .pp-details h2 { font-family: var(--display); font-weight: 700; font-size: 1.45rem; letter-spacing: -.01em; margin-bottom: 14px; }

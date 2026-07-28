@@ -1,5 +1,5 @@
 /* Real compliance marks cropped from the supplier's certificate sheet. */
-const CERTS = [
+export const CERTS = [
   { img: "doc", name: "Declaration of Conformity", note: "CE certified" },
   { img: "lvd", name: "LVD", note: "Electrical safety compliant" },
   { img: "emc", name: "EMC", note: "Electromagnetic compliant" },
@@ -16,7 +16,7 @@ const CERTS = [
 
 export default function Certificates() {
   return (
-    <section className="certs">
+    <section className="certs" id="certs">
       <div className="section-head">
         <span className="section-label">Compliance</span>
         <h2>Certificates <span className="grad">on file.</span></h2>

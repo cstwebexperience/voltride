@@ -1,6 +1,7 @@
 export const metadata = {
   title: "Terms & Conditions",
   description: "ZEPHRIDE Terms & Conditions — orders, payment, shipping, warranty and our all-sales-final policy.",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {
