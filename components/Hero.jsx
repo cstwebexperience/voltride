@@ -73,10 +73,12 @@ const NATIVE = { wide: { w: 1920, h: 1080 }, tall: { w: 720, h: 1280 } };
 function coverMap(x0, y0, boxW, boxH, videoW, videoH) {
   const boxA = boxW / boxH, videoA = videoW / videoH;
   if (boxA > videoA) {
-    // container is relatively wider than the video → video fills width, top/bottom cropped
+    // container is relatively wider than the video → video fills width, overflow
+    // cropped off the bottom only (object-position: center top keeps the top —
+    // titles/annotations — intact instead of clipping it along with the bottom).
     const scaledH = boxW / videoA;
-    const cropFrac = ((scaledH - boxH) / 2) / scaledH; // fraction cropped off top (and bottom)
-    return { x: x0, y: ((y0 - cropFrac * 100) / (100 - 2 * cropFrac * 100)) * 100 };
+    const cropFrac = ((scaledH - boxH) / 2) / scaledH;
+    return { x: x0, y: (y0 / (100 - 2 * cropFrac * 100)) * 100 };
   }
   // container is relatively taller/narrower → video fills height, left/right cropped
   const scaledW = boxH * videoA;
