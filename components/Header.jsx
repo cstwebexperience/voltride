@@ -9,26 +9,13 @@ import { flagUrl } from "@/lib/data";
 export default function Header() {
   const { country, setPickerOpen, cartCount } = useStore();
   const pathname = usePathname();
-  const isHome = pathname === "/";
-  const [scrolled, setScrolled] = useState(!isHome);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    if (!isHome) { setScrolled(true); return; }
-    const onScroll = () => {
-      const hero = document.querySelector("[data-hero]");
-      setScrolled(hero ? hero.getBoundingClientRect().bottom <= 72 : window.scrollY > 20);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [isHome]);
 
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
   return (
     <>
-      <header className={`header ${scrolled ? "scrolled" : ""}`}>
+      <header className="header">
         <div className="header-inner">
           <Link className="logo" href="/" aria-label="ZEPHRIDE">
             <span className="logo-text">ZEPH<span>RIDE</span></span>

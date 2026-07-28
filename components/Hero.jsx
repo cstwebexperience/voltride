@@ -187,7 +187,7 @@ export default function Hero() {
   const canMap = box.w > 0 && box.h > 0;
 
   return (
-    <section className="hv" data-hero ref={sectionRef} style={{ height: `${N * CH_VH}vh` }}>
+    <section className="hv" ref={sectionRef} style={{ height: `${N * CH_VH}vh` }}>
       <div className="hv-sticky" ref={stickyRef}>
         <video className="hv-video" ref={videoRef} muted playsInline preload="auto" disablePictureInPicture />
         <div className="hv-scrim" aria-hidden="true" />

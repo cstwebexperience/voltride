@@ -16,6 +16,7 @@
   --border-h:  rgba(20,17,15,.17);
   --card:      #ffffff;
   --maxw:      1200px;
+  --header-h:  76px;
   --ease:      cubic-bezier(.16,1,.3,1);
   --display:   var(--font-display), sans-serif;
   --mono:      var(--font-mono), ui-monospace, monospace;
@@ -90,11 +91,8 @@ p { text-wrap: pretty; }
 .header-inner {
   display: flex; align-items: center; justify-content: space-between; gap: 14px;
   max-width: var(--maxw); height: 60px; margin: 0 auto; padding: 0 12px 0 20px;
-  border-radius: 100px; border: 1px solid transparent;
-  transition: background .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease), backdrop-filter .35s var(--ease);
-}
-.header.scrolled .header-inner {
-  background: rgba(255,255,255,.78); border-color: var(--border-h);
+  border-radius: 100px; border: 1px solid var(--border-h);
+  background: rgba(255,255,255,.78);
   backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
   box-shadow: 0 14px 34px rgba(20,17,15,.1), inset 0 1px 0 rgba(255,255,255,.7);
 }
@@ -136,13 +134,15 @@ p { text-wrap: pretty; }
 /* ─── HERO (chaptered video — full-bleed on EVERY device) ───
    Kept as its own dark cinematic zone regardless of site theme —
    common pattern (Apple, Rivian) even on light-mode sites. */
-.hv { position: relative; }
+.hv { position: relative; margin-top: var(--header-h); }
 .hv-sticky {
   /* lvh = largest viewport (toolbar hidden). Sizing to it up front means the
      hero is already full height on load, so the first scroll isn't "eaten" by
      the mobile toolbar collapsing/resizing — and object-fit:cover fills it, so
-     no black band appears while the toolbar is still shown. */
-  position: sticky; top: 0; height: 100vh; height: 100lvh;
+     no black band appears while the toolbar is still shown. Sticks right below
+     the (always-solid) fixed header instead of under it. */
+  position: sticky; top: var(--header-h);
+  height: calc(100vh - var(--header-h)); height: calc(100lvh - var(--header-h));
   overflow: hidden; background: #050507;
 }
 .hv-video {
