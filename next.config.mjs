@@ -36,6 +36,10 @@ const nextConfig = {
     minimumCacheTTL: 3600,
   },
   async headers() {
+    // Skip the strict CSP in dev: it blocks 'unsafe-eval', which Next's
+    // dev-mode React Refresh runtime needs — without this, the whole
+    // client bundle throws on load and the page never hydrates.
+    if (process.env.NODE_ENV !== "production") return [];
     return [
       { source: "/:path*", headers: securityHeaders },
       {

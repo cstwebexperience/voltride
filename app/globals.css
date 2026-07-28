@@ -246,7 +246,7 @@ p { text-wrap: pretty; }
 
 /* ─── Quick shop (eMAG-style product cards) — full 1:1 photo, details below ─── */
 .shop { max-width: var(--maxw); margin: 0 auto; padding: clamp(50px, 8vw, 100px) 24px; }
-.shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 760px; margin: 0 auto; }
+.shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
 .scard { display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: transform .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease); }
 .scard:hover { transform: translateY(-5px); border-color: rgba(184,99,42,.4); box-shadow: 0 22px 44px rgba(20,17,15,.14); }
 .scard-media { position: relative; aspect-ratio: 1 / 1; display: block; background: #f0ebe1; }

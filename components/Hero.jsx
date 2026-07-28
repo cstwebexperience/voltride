@@ -12,7 +12,7 @@ const ANNOS = [
       { t: "Full rear suspension", x: 44, y: 47, lx: 50, ly: 24 },
     ],
     wide: [
-      { t: "Full rear suspension", x: 37, y: 51, lx: 16, ly: 26 },
+      { t: "Full rear suspension", x: 43, y: 51, lx: 16, ly: 26 },
     ],
   },
   { // 1 · city close-up — headlight (front, under handlebar) + battery (under seat)
@@ -21,8 +21,8 @@ const ANNOS = [
       { t: "48 V removable battery", x: 45, y: 51, lx: 50, ly: 78 },
     ],
     wide: [
-      { t: "LED headlight", x: 58, y: 45, lx: 30, ly: 24 },
-      { t: "48 V removable battery", x: 48, y: 45, lx: 40, ly: 80 },
+      { t: "LED headlight", x: 58, y: 29, lx: 30, ly: 24 },
+      { t: "48 V removable battery", x: 48, y: 50, lx: 40, ly: 80 },
     ],
   },
   { // 2 · mountain — rear hub motor (under seat) + front disc brake (front wheel)
@@ -31,7 +31,7 @@ const ANNOS = [
       { t: "Hydraulic disc brakes", x: 77, y: 61, lx: 60, ly: 27 },
     ],
     wide: [
-      { t: "Rear hub motor", x: 44, y: 57, lx: 55, ly: 84 },
+      { t: "Rear hub motor", x: 34, y: 58, lx: 55, ly: 84 },
       { t: "Hydraulic disc brakes", x: 64, y: 66, lx: 48, ly: 27 },
     ],
   },
